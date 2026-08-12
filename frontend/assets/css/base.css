@@ -933,3 +933,8 @@ details[open] .faq__summary::before{
 .page__text{
   margin-bottom:var(--space-sm);
 }
+
+.results__footer{
+  text-align:center;
+  margin-top:var(--space-lg);
+}
