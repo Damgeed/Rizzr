@@ -804,3 +804,103 @@ input,textarea{font-family:inherit;font-size:inherit}
   color:var(--clr-accent);
   transform:scale(1.05);
 }
+
+/* ==========================================
+   PRICING PAGE
+   ========================================== */
+.pricing__hero{
+  text-align:center;
+  padding:var(--space-lg) 0 var(--space-md);
+}
+.pricing__hero .hero__title{font-size:2.25rem}
+
+.pricing__card{
+  border-radius:var(--radius-xl);
+  padding:var(--space-lg);
+  margin-bottom:var(--space-md);
+  background:var(--clr-card-bg);
+  border:1px solid var(--clr-card-border);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.pricing__card--free{opacity:.7}
+.pricing__card--pro{
+  border:2px solid var(--clr-accent);
+  position:relative;
+}
+.pricing__badge{
+  position:absolute;top:-12px;left:50%;
+  transform:translateX(-50%);
+  background:var(--clr-accent-gradient);
+  color:var(--clr-cta-text);
+  font-size:.6875rem;font-weight:700;
+  padding:4px 16px;
+  border-radius:var(--radius-full);
+  white-space:nowrap;
+}
+.pricing__plan-name{
+  font-size:.8125rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  color:var(--clr-text-secondary);
+  margin-bottom:var(--space-xs);
+}
+.pricing__plan-name--accent{color:var(--clr-accent)}
+.pricing__price{
+  font-size:2rem;font-weight:800;
+  font-family:var(--font-heading);
+}
+.pricing__price--free{color:var(--clr-text-secondary)}
+.pricing__price-unit{
+  font-size:1rem;font-weight:400;
+  color:var(--clr-text-secondary);
+}
+.pricing__period{
+  font-size:.75rem;
+  color:var(--clr-text-tertiary);
+}
+.pricing__features{
+  list-style:none;padding:0;
+  margin:var(--space-md) 0;
+  font-size:.875rem;
+  line-height:2;
+}
+.pricing__feature--off{opacity:.5}
+.pricing__secure{
+  text-align:center;
+  font-size:.6875rem;
+  color:var(--clr-text-tertiary);
+  margin-top:var(--space-sm);
+}
+
+/* FAQ */
+.pricing__faq{margin-top:var(--space-xl)}
+.pricing__faq-title{
+  font-family:var(--font-heading);
+  font-size:1.125rem;font-weight:700;
+  margin-bottom:var(--space-md);
+}
+.faq__item{
+  border-bottom:1px solid var(--clr-border);
+  padding:var(--space-sm) 0;
+}
+.faq__summary{
+  font-weight:600;cursor:pointer;
+  font-size:.875rem;
+  list-style:none;
+}
+.faq__summary::-webkit-details-marker{display:none}
+.faq__summary::before{
+  content:'▸';margin-right:var(--space-xs);
+  color:var(--clr-accent);
+  transition:transform .2s var(--ease);
+  display:inline-block;
+}
+details[open] .faq__summary::before{
+  transform:rotate(90deg);
+}
+.faq__answer{
+  font-size:.8125rem;
+  color:var(--clr-text-secondary);
+  margin-top:var(--space-sm);
+  line-height:1.5;
+}
