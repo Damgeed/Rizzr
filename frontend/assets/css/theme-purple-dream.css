@@ -1,6 +1,6 @@
 /* ==========================================
    THEME: PURPLE DREAM
-   Lavender bg, purple→pink gradient accents
+   Lavender bg, purple→pink gradient accents, glassmorphism
    ========================================== */
 
 :root{
@@ -45,6 +45,35 @@
   --clr-success:#10B981;
 }
 
+/* Decorative organic blobs */
+body{
+  background:#FAF6FF;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  top:-8%;right:-5%;
+  width:280px;height:280px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.12),transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+body::after{
+  content:'';
+  position:fixed;
+  bottom:-5%;left:-8%;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(236,72,153,.08),transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+.navbar,.main,.free-tag,.mobile-menu,.toast{position:relative;z-index:1}
+
+/* Logo gradient text */
 .navbar__logo{
   background:linear-gradient(135deg,#7C3AED,#EC4899);
   -webkit-background-clip:text;
@@ -57,16 +86,69 @@
   -webkit-text-fill-color:transparent;
   background-clip:text;
 }
+
+/* Record button — conic gradient ring */
 .record__ring{
   background:conic-gradient(from 0deg,#7C3AED,#EC4899,#10B981,#7C3AED);
-  padding:3px;
+  padding:4px;
 }
 .record__ring::after{
-  content:'';position:absolute;inset:3px;border-radius:50%;
-  background:var(--clr-bg-solid);
+  content:'';position:absolute;inset:4px;border-radius:50%;
+  background:#FAF6FF;
 }
 .record__pulse{border-color:rgba(124,58,237,.15)}
-/* Theme preview for settings */
+
+/* Record button */
+.record__btn{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  box-shadow:0 8px 24px rgba(124,58,237,.25),0 0 0 4px rgba(124,58,237,.08);
+  width:72px;height:72px;
+}
+
+/* Pills */
+.pill-btn{
+  background:#fff;
+  box-shadow:0 2px 8px rgba(124,58,237,.06);
+}
+
+/* Navbar glass */
+.navbar{
+  background:rgba(255,255,255,.5);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(124,58,237,.06);
+}
+
+/* CTA */
+.cta-btn{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:#fff;
+  box-shadow:0 8px 24px rgba(124,58,237,.2);
+}
+
+/* Free tag */
+.free-tag{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:#fff;
+  box-shadow:0 4px 16px rgba(124,58,237,.2);
+}
+
+/* Cards */
+.card,.reply{
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 4px 16px rgba(124,58,237,.04);
+}
+
+/* Reply play */
+.reply__play{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(124,58,237,.15);
+}
+
+/* Theme preview */
 .theme-purple-dream-preview{
   background:linear-gradient(135deg,#7C3AED,#EC4899);
 }

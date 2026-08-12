@@ -1,6 +1,6 @@
 /* ==========================================
    THEME: NEON NIGHTS
-   Dark bg + grid, cyan + hot pink neon
+   Dark bg + grid, cyan + hot pink neon glow
    ========================================== */
 
 :root{
@@ -51,40 +51,110 @@ body{
   background-image:
     linear-gradient(rgba(0,240,255,.03) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,240,255,.03) 1px,transparent 1px);
-  background-size:30px 30px;
+  background-size:32px 32px;
   position:relative;
+  overflow-x:hidden;
 }
+
+/* Glow orbs */
 body::before{
   content:'';position:fixed;top:-10%;right:-10%;
-  width:300px;height:300px;border-radius:50%;
-  background:#00F0FF;filter:blur(80px);opacity:.08;
+  width:320px;height:320px;border-radius:50%;
+  background:#00F0FF;filter:blur(80px);opacity:.07;
   pointer-events:none;z-index:0;
 }
 body::after{
   content:'';position:fixed;bottom:-10%;left:-10%;
-  width:250px;height:250px;border-radius:50%;
-  background:#FF006E;filter:blur(70px);opacity:.06;
+  width:280px;height:280px;border-radius:50%;
+  background:#FF006E;filter:blur(70px);opacity:.05;
   pointer-events:none;z-index:0;
 }
-.navbar__logo{text-shadow:0 0 12px rgba(0,240,255,.4)}
+.navbar,.main,.free-tag,.mobile-menu,.toast{position:relative;z-index:1}
+
+/* Logo with neon glow */
+.navbar__logo{
+  color:#00F0FF;
+  text-shadow:0 0 12px rgba(0,240,255,.4);
+}
+
+/* Hero highlight */
 .hero__title-highlight{
   color:#00F0FF;
   text-shadow:0 0 16px rgba(0,240,255,.3);
 }
-.record__btn{box-shadow:0 0 30px rgba(0,240,255,.3),0 0 60px rgba(255,0,110,.15)}
-.record__ring{border:2px solid rgba(0,240,255,.15)}
-.record__pulse{border-color:rgba(0,240,255,.15)}
+
+/* Record button — neon glow */
+.record__btn{
+  background:linear-gradient(135deg,#00F0FF,#FF006E);
+  box-shadow:0 0 30px rgba(0,240,255,.3),0 0 60px rgba(255,0,110,.15),0 0 0 4px rgba(0,240,255,.08);
+  width:72px;height:72px;
+}
+
+/* Ring */
+.record__ring{
+  border:2px solid rgba(0,240,255,.12);
+}
+.record__ring::before{
+  content:'';position:absolute;inset:5px;border-radius:50%;
+  border:1px solid rgba(255,0,110,.08);
+}
+.record__ring::after{
+  content:'';position:absolute;inset:12px;border-radius:50%;
+  border:1px dashed rgba(0,240,255,.06);
+}
+.record__pulse{border-color:rgba(0,240,255,.12)}
+
+/* Pills — glass */
+.pill-btn{
+  background:rgba(0,240,255,.04);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(0,240,255,.15);
+}
+
+/* Navbar — dark glass */
+.navbar{
+  background:rgba(8,8,18,.7);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,240,255,.06);
+}
+
+/* CTA — neon gradient */
+.cta-btn{
+  background:linear-gradient(135deg,#00F0FF,#FF006E);
+  color:#080812;
+  font-weight:800;
+  box-shadow:0 0 24px rgba(0,240,255,.2);
+}
+
+/* Free tag — neon outline */
 .free-tag{
-  border:1px solid rgba(0,240,255,.3);
   background:rgba(0,240,255,.08);
   color:#00F0FF;
   backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(0,240,255,.2);
+  box-shadow:0 0 16px rgba(0,240,255,.08);
 }
-.pill-btn{
-  background:rgba(0,240,255,.04);
-  backdrop-filter:blur(5px);
+
+/* Cards — dark glass */
+.card,.reply{
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(0,240,255,.08);
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
 }
-/* Theme preview for settings */
+
+/* Reply play — neon */
+.reply__play{
+  background:linear-gradient(135deg,#00F0FF,#FF006E);
+  color:#080812;
+  box-shadow:0 0 12px rgba(0,240,255,.15);
+}
+
+/* Theme preview */
 .theme-neon-nights-preview{
   background:linear-gradient(135deg,#080812,#1a1a2e);
   position:relative;
