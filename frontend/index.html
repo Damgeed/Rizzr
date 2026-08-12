@@ -72,8 +72,16 @@
     <section class="process hidden" data-process>
       <div class="process__spinner">
         <svg viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="spinnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--clr-accent)"/>
+              <stop offset="100%" stop-color="var(--clr-flirty)"/>
+            </linearGradient>
+          </defs>
           <circle class="track" cx="50" cy="50" r="40"/>
-          <circle class="progress" cx="50" cy="50" r="40" stroke-dasharray="251" stroke-dashoffset="75"/>
+          <circle class="progress" cx="50" cy="50" r="40" stroke-dasharray="251" stroke-dashoffset="75">
+            <animate attributeName="stroke-dashoffset" values="251;0;251" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
         </svg>
       </div>
       <h2>Decoding the vibe...</h2>
@@ -120,6 +128,17 @@
 
   <!-- ====== FREE TAG ====== -->
   <div class="free-tag">✨ <span data-free-count>3</span> free replies today</div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="footer__links">
+      <a href="/" style="color:var(--clr-text-secondary)">Home</a>
+      <a href="/pricing.html" style="color:var(--clr-text-secondary)">Pricing</a>
+      <a href="/settings.html" style="color:var(--clr-text-secondary)">Settings</a>
+      <a href="/privacy.html" style="color:var(--clr-text-secondary)">Privacy</a>
+    </div>
+    <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
+  </footer>
 
   <!-- ====== MOBILE MENU ====== -->
   <div class="mobile-menu" data-mobile-menu>

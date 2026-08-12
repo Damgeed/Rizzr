@@ -16,6 +16,10 @@ const RIZZR_TITLES = [
   "Voice notes decoded. Replies delivered.",
   "Got a voice note? We got you.",
   "Don't think. Just Rizzr it. periodt.",
+  "Can't think of a reply? We got you.",
+  "Voice notes? Rizzr handles those.",
+  "Too stunned to reply? Not anymore.",
+  "From voice note to perfect reply.",
 ];
 
 const RIZZR_SUBTITLES = [
@@ -27,6 +31,9 @@ const RIZZR_SUBTITLES = [
   "From voice note to perfect reply in 7 seconds.",
   "Flirty, witty, or chill — pick your vibe.",
   "The AI that turns voice notes into perfect replies.",
+  "Voice notes in, smooth replies out.",
+  "Your voice-note wingman. Always ready.",
+  "Three replies. Zero effort. Pure rizz.",
 ];
 
 const RIZZR_TRUST = [
