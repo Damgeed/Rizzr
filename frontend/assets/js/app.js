@@ -19,6 +19,7 @@
   const heroSection = document.querySelector('[data-hero]');
   const processSection = document.querySelector('[data-process]');
   const resultsSection = document.querySelector('[data-results]');
+  const errorSection = document.querySelector('[data-error]');
   const transcriptEl = document.querySelector('[data-transcript]');
   const repliesEl = document.querySelector('[data-replies]');
   const freeCountEl = document.querySelector('[data-free-count]');
@@ -174,8 +175,14 @@
 
     } catch (err) {
       console.error('Processing error:', err);
-      showToast(`❌ ${err.message}`);
-      showScreen('hero');
+      const msg = err.message || 'Something went wrong';
+      if (msg.includes('402') || msg.includes('429')) {
+        showError('Rate limit reached', 'You used all 3 free replies today. Upgrade for unlimited.');
+      } else if (msg.includes('permission') || msg.includes('microphone')) {
+        showError('Microphone blocked', 'Allow microphone access in your browser settings.');
+      } else {
+        showError('Something went wrong', msg);
+      }
     } finally {
       isProcessing = false;
     }
@@ -296,6 +303,17 @@
     heroSection?.classList.toggle('hidden', screen !== 'hero');
     processSection?.classList.toggle('hidden', screen !== 'process');
     resultsSection?.classList.toggle('hidden', screen !== 'results');
+    errorSection?.classList.toggle('hidden', screen !== 'error');
+  }
+
+  function showError(title, msg) {
+    const titleEl = document.querySelector('[data-error-title]');
+    const msgEl = document.querySelector('[data-error-msg]');
+    const iconEl = document.querySelector('[data-error-icon]');
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = msg;
+    if (iconEl) iconEl.textContent = msg.includes('permission') || msg.includes('microphone') ? '🎤' : '⚠️';
+    showScreen('error');
   }
 
   function updateProcessStep(step, state) {
@@ -347,6 +365,11 @@
       updateProcessStep(step, 'pending');
     });
     // Show hero
+    showScreen('hero');
+  });
+
+  // Error retry button
+  document.querySelector('[data-error-retry]')?.addEventListener('click', () => {
     showScreen('hero');
   });
 
