@@ -31,10 +31,7 @@
       <a href="/pricing.html" class="navbar__link">Pricing</a>
       <a href="/settings.html" class="navbar__link">Settings</a>
     </div>
-    <div class="navbar__hamburger" data-hamburger>
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+    <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
   </nav>
 
   <!-- ====== MAIN ====== -->
@@ -106,18 +103,18 @@
     </section>
 
     <!-- ====== RESULTS ====== -->
-    <section class="hidden" data-results>
+    <section class="hidden slide-up" data-results>
       <!-- Transcript -->
-      <div class="card" style="margin-bottom:20px">
-        <div style="font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--clr-accent);margin-bottom:8px">💬 Their voice note</div>
-        <div style="font-size:.875rem;font-style:italic;line-height:1.5" data-transcript></div>
+      <div class="card results__transcript">
+        <div class="results__transcript-label">💬 Their voice note</div>
+        <div class="results__transcript-text" data-transcript></div>
       </div>
 
       <!-- Replies header -->
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-        <div style="width:6px;height:6px;border-radius:50%;background:var(--clr-accent)"></div>
-        <span style="font-size:.8125rem;font-weight:700;color:var(--clr-text-secondary)">3 AI-crafted replies</span>
-        <span style="margin-left:auto;font-size:.6875rem;color:var(--clr-text-tertiary)">⚡ streamed</span>
+      <div class="results__header">
+        <div class="results__header-dot"></div>
+        <span class="results__header-title">3 AI-crafted replies</span>
+        <span class="results__header-badge">⚡ streamed</span>
       </div>
 
       <!-- Reply cards -->
@@ -132,10 +129,10 @@
   <!-- ====== FOOTER ====== -->
   <footer class="footer">
     <div class="footer__links">
-      <a href="/" style="color:var(--clr-text-secondary)">Home</a>
-      <a href="/pricing.html" style="color:var(--clr-text-secondary)">Pricing</a>
-      <a href="/settings.html" style="color:var(--clr-text-secondary)">Settings</a>
-      <a href="/privacy.html" style="color:var(--clr-text-secondary)">Privacy</a>
+      <a href="/" class="footer__link">Home</a>
+      <a href="/pricing.html" class="footer__link">Pricing</a>
+      <a href="/settings.html" class="footer__link">Settings</a>
+      <a href="/privacy.html" class="footer__link">Privacy</a>
     </div>
     <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
   </footer>
