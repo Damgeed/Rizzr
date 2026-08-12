@@ -21,29 +21,36 @@
       <a href="/settings.html" class="navbar__link navbar__link--active">Settings</a>
     </div>
     <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
-    </div>
   </nav>
 
-  <main class="main">
-
-    <h1 style="font-family:var(--font-heading);font-size:1.75rem;font-weight:800;margin-bottom:var(--space-lg)">Settings</h1>
+  <main class="main slide-up">
+    <h1 class="settings__heading">Settings</h1>
 
     <!-- THEME -->
     <div class="settings__section">
       <div class="settings__title">🎨 Theme</div>
-      <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-bottom:var(--space-sm)">Choose your vibe. Saved automatically.</p>
+      <p class="settings__hint">Choose your vibe. Saved automatically.</p>
       <div class="theme-grid">
         <div class="theme-card" data-theme-card="sunset">
           <div class="theme-card__preview theme-sunset-preview"></div>
-          <div class="theme-card__label">Sunset</div>
+          <div class="theme-card__label">
+            <span>Sunset</span>
+            <span class="theme-card__check" data-check>✓</span>
+          </div>
         </div>
         <div class="theme-card" data-theme-card="purple-dream">
           <div class="theme-card__preview theme-purple-dream-preview"></div>
-          <div class="theme-card__label">Purple Dream</div>
+          <div class="theme-card__label">
+            <span>Purple Dream</span>
+            <span class="theme-card__check" data-check>✓</span>
+          </div>
         </div>
         <div class="theme-card" data-theme-card="neon-nights">
           <div class="theme-card__preview theme-neon-nights-preview"></div>
-          <div class="theme-card__label">Neon Nights</div>
+          <div class="theme-card__label">
+            <span>Neon Nights</span>
+            <span class="theme-card__check" data-check>✓</span>
+          </div>
         </div>
       </div>
     </div>
@@ -53,15 +60,15 @@
       <div class="settings__title">🔒 Privacy</div>
       <div class="settings__row">
         <span>Audio auto-deleted after processing</span>
-        <span style="color:var(--clr-success)">✓ Always on</span>
+        <span class="settings__badge settings__badge--on">✓ Always on</span>
       </div>
       <div class="settings__row">
         <span>No conversation history stored</span>
-        <span style="color:var(--clr-success)">✓ Always on</span>
+        <span class="settings__badge settings__badge--on">✓ Always on</span>
       </div>
       <div class="settings__row">
         <span>Zero data sold to third parties</span>
-        <span style="color:var(--clr-success)">✓ Always on</span>
+        <span class="settings__badge settings__badge--on">✓ Always on</span>
       </div>
     </div>
 
@@ -70,13 +77,13 @@
       <div class="settings__title">👤 Account</div>
       <div class="settings__row">
         <span>Plan</span>
-        <span style="color:var(--clr-text-secondary)">Free (3/day)</span>
+        <span class="settings__value">Free (3/day)</span>
       </div>
       <div class="settings__row">
         <span>Replies used today</span>
-        <span style="color:var(--clr-text-secondary)" data-free-count>0 / 3</span>
+        <span class="settings__value" data-free-count>0 / 3</span>
       </div>
-      <a href="/pricing.html" style="display:block;margin-top:var(--space-sm)">
+      <a href="/pricing.html" class="settings__upgrade">
         <button class="cta-btn">Upgrade to Pro →</button>
       </a>
     </div>
@@ -86,15 +93,25 @@
       <div class="settings__title">ℹ️ About</div>
       <div class="settings__row">
         <span>Version</span>
-        <span style="color:var(--clr-text-secondary)">1.0.0</span>
+        <span class="settings__value">1.0.0</span>
       </div>
       <div class="settings__row">
-        <a href="/privacy.html" style="color:var(--clr-text-secondary)">Privacy Policy</a>
-        <span>→</span>
+        <a href="/privacy.html" class="settings__link">Privacy Policy</a>
+        <span class="settings__arrow">→</span>
       </div>
     </div>
 
   </main>
+
+  <footer class="footer">
+    <div class="footer__links">
+      <a href="/" class="footer__link">Home</a>
+      <a href="/pricing.html" class="footer__link">Pricing</a>
+      <a href="/settings.html" class="footer__link">Settings</a>
+      <a href="/privacy.html" class="footer__link">Privacy</a>
+    </div>
+    <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
+  </footer>
 
   <div class="mobile-menu" data-mobile-menu>
     <button class="mobile-menu__close" data-mobile-menu-close>✕</button>

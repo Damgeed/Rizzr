@@ -42,7 +42,7 @@ function setTheme(themeId) {
 
   // Update theme cards in settings
   document.querySelectorAll('[data-theme-card]').forEach(card => {
-    card.classList.toggle('theme-card--active', card.dataset.themeCard === themeId);
+    card.classList.toggle('active', card.dataset.themeCard === themeId);
   });
 
   // Dispatch event for other scripts
