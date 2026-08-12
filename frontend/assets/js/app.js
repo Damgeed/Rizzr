@@ -127,6 +127,8 @@
 
     // Show processing screen
     showScreen('process');
+    processSection?.classList.remove('hidden');
+    processSection?.classList.add('slide-up');
     updateProcessStep('upload', 'done');
     updateProcessStep('transcribe', 'active');
 
@@ -240,13 +242,13 @@
       card.innerHTML = `
         <div class="reply__header">
           <span class="reply__badge reply__badge--${style}">${style}</span>
-          <button class="reply__play" data-play-btn="${index}" disabled>⏳</button>
         </div>
         <div class="reply__text" data-reply-text="${index}"></div>
-        <div class="reply__actions" style="${isComplete ? '' : 'display:none'}">
-          <button class="reply__action" data-copy="${index}">📋 Copy</button>
-          <button class="reply__action" data-download="${index}">📥 Save voice</button>
-          <button class="reply__action" data-remix="${index}">🔄 Remix</button>
+        <div class="reply__actions${isComplete ? '' : ' hidden'}">
+          <button class="reply__play" data-play-btn="${index}" disabled title="Play">⏳</button>
+          <button class="reply__copy" data-copy="${index}" title="Copy">📋</button>
+          <button class="reply__download" data-download="${index}" title="Download voice">📥</button>
+          <button class="reply__regen" data-remix="${index}">Remix</button>
         </div>
       `;
       repliesEl.appendChild(card);
@@ -256,6 +258,25 @@
         navigator.clipboard.writeText(text);
         showToast('📋 Copied!');
       });
+
+      card.querySelector(`[data-download="${index}"]`)?.addEventListener('click', async () => {
+        const playBtn = card.querySelector(`[data-play-btn="${index}"]`);
+        const audioUrl = playBtn?.dataset.audioUrl;
+        if (!audioUrl) {
+          showToast('⏳ Voice still generating...');
+          return;
+        }
+        const a = document.createElement('a');
+        a.href = audioUrl;
+        a.download = `rizzr-reply-${style}.mp3`;
+        a.click();
+        showToast('📥 Downloaded!');
+      });
+
+      card.querySelector(`[data-remix="${index}"]`)?.addEventListener('click', async () => {
+        showToast('🔄 Remixing...');
+        // TODO: call API to regenerate this reply with higher temperature
+      });
     }
 
     // Update text
@@ -264,7 +285,7 @@
 
     if (isComplete) {
       const actions = card.querySelector('.reply__actions');
-      if (actions) actions.style.display = '';
+      if (actions) actions.classList.remove('hidden');
     }
   }
 
@@ -315,6 +336,18 @@
     link.addEventListener('click', () => {
       mobileMenu?.classList.remove('mobile-menu--open');
     });
+  });
+
+  // Start over button
+  document.querySelector('[data-start-over]')?.addEventListener('click', () => {
+    // Clear replies
+    if (repliesEl) repliesEl.innerHTML = '';
+    // Reset process steps
+    ['upload', 'transcribe', 'generate', 'tts'].forEach(step => {
+      updateProcessStep(step, 'pending');
+    });
+    // Show hero
+    showScreen('hero');
   });
 
 })();
