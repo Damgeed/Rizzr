@@ -447,6 +447,25 @@ input,textarea{font-family:inherit;font-size:inherit}
 
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
+/* Animated gradient text shimmer */
+@keyframes textShimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+
+/* Gentle floating */
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Slow blob drift for decorative background orbs */
+@keyframes blobDrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-15px) scale(1.05)}66%{transform:translate(-15px,10px) scale(.95)}}
+
+/* Record hint text */
+.record__hint{
+  text-align:center;
+  font-size:.75rem;font-weight:500;
+  color:var(--clr-text-tertiary);
+  margin-top:var(--space-xs);
+  margin-bottom:var(--space-md);
+  letter-spacing:.02em;
+}
+
 /* ==========================================
    MOBILE SAFE AREA
    ========================================== */
@@ -612,7 +631,7 @@ input,textarea{font-family:inherit;font-size:inherit}
 .process__step--active .process__step-icon{
   border-color:var(--clr-accent);
   color:var(--clr-accent);
-  animation:pulse 1s ease-in-out infinite;
+  animation:stepPulse 1s ease-in-out infinite;
 }
 .process__step--done{color:var(--clr-text-secondary)}
 .process__step--done .process__step-icon{
@@ -624,7 +643,7 @@ input,textarea{font-family:inherit;font-size:inherit}
   content:'✓';color:#fff;font-size:.6875rem;
 }
 .process__step--pending{opacity:.5}
-@keyframes pulse{
+@keyframes stepPulse{
   0%,100%{transform:scale(1);opacity:1}
   50%{transform:scale(1.15);opacity:.7}
 }

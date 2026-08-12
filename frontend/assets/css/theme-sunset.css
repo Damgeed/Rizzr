@@ -63,6 +63,7 @@ body::before{
   background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);
   pointer-events:none;
   z-index:0;
+  animation:blobDrift 20s ease-in-out infinite;
 }
 body::after{
   content:'';
@@ -73,6 +74,7 @@ body::after{
   background:radial-gradient(circle,rgba(255,215,0,.1),transparent 70%);
   pointer-events:none;
   z-index:0;
+  animation:blobDrift 25s ease-in-out infinite reverse;
 }
 
 /* All content above blobs */
@@ -84,11 +86,28 @@ body::after{
   line-height:1.1;
 }
 
-/* Record button — white pill on sunset */
+/* Animated gradient on highlighted "Rizzr" word */
+.hero__title-highlight{
+  background:linear-gradient(90deg,#FFD700,#FF6B6B,#FF8E53,#FFD700);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  animation:textShimmer 3s linear infinite;
+  font-weight:800;
+}
+
+/* Floating record area */
+.record{
+  animation:floatY 4s ease-in-out infinite;
+}
+
+/* Record button — white pill on sunset with warm glow */
 .record__btn{
   background:#fff;
   color:#FF6B6B;
-  box-shadow:0 8px 24px rgba(0,0,0,.15),0 0 0 4px rgba(255,255,255,.15);
+  box-shadow:0 8px 24px rgba(0,0,0,.15),0 0 0 4px rgba(255,255,255,.15),0 0 40px rgba(255,215,0,.25);
   width:76px;height:76px;
   font-size:1.875rem;
 }
