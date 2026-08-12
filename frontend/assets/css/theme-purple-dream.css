@@ -1,0 +1,72 @@
+/* ==========================================
+   THEME: PURPLE DREAM
+   Lavender bg, purple→pink gradient accents
+   ========================================== */
+
+:root{
+  --font-heading:'Plus Jakarta Sans',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+
+  /* Backgrounds */
+  --clr-bg:#FAF6FF;
+  --clr-bg-solid:#FAF6FF;
+  --clr-nav-bg:rgba(255,255,255,.6);
+  --clr-card-bg:rgba(255,255,255,.85);
+  --clr-card-border:rgba(124,58,237,.1);
+  --clr-hover:rgba(124,58,237,.05);
+  --clr-pill-bg:#fff;
+  --clr-pill-border:rgba(124,58,237,.2);
+  --clr-mobile-menu-bg:#FAF6FF;
+
+  /* Text */
+  --clr-text:#1a0b2e;
+  --clr-text-secondary:#6B5B95;
+  --clr-text-tertiary:#9B8BC4;
+  --clr-logo:transparent;
+  --clr-free-text:#fff;
+  --clr-cta-text:#fff;
+
+  /* Accents */
+  --clr-accent:#7C3AED;
+  --clr-accent-gradient:linear-gradient(135deg,#7C3AED,#EC4899);
+  --clr-record-btn:linear-gradient(135deg,#7C3AED,#EC4899);
+  --clr-border:rgba(124,58,237,.06);
+  --clr-spinner-track:rgba(124,58,237,.1);
+
+  /* Style colors */
+  --clr-flirty:#EC4899;
+  --clr-flirty-bg:rgba(236,72,153,.12);
+  --clr-witty:#7C3AED;
+  --clr-witty-bg:rgba(124,58,237,.12);
+  --clr-chill:#10B981;
+  --clr-chill-bg:rgba(16,185,129,.12);
+
+  /* Misc */
+  --clr-success:#10B981;
+}
+
+.navbar__logo{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero__title-highlight{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.record__ring{
+  background:conic-gradient(from 0deg,#7C3AED,#EC4899,#10B981,#7C3AED);
+  padding:3px;
+}
+.record__ring::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;
+  background:var(--clr-bg-solid);
+}
+.record__pulse{border-color:rgba(124,58,237,.15)}
+/* Theme preview for settings */
+.theme-purple-dream-preview{
+  background:linear-gradient(135deg,#7C3AED,#EC4899);
+}

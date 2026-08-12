@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#FF6B6B">
+  <meta name="description" content="Rizzr — AI voice-note reply coach. Got a voice note? Rizzr it. Get 3 perfect replies in seconds.">
+  <title>Rizzr — AI Voice-Note Reply Coach</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="navbar">
+    <a href="/" class="navbar__logo">Rizzr</a>
+    <div class="navbar__links navbar__links--desktop">
+      <a href="/" class="navbar__link navbar__link--active">Home</a>
+      <a href="/pricing.html" class="navbar__link">Pricing</a>
+      <a href="/settings.html" class="navbar__link">Settings</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <!-- Theme dots -->
+      <span class="navbar__theme-dot" data-theme-dot="sunset" style="background:linear-gradient(135deg,#FF6B6B,#FFD700)" title="Sunset"></span>
+      <span class="navbar__theme-dot" data-theme-dot="purple-dream" style="background:linear-gradient(135deg,#7C3AED,#EC4899)" title="Purple Dream"></span>
+      <span class="navbar__theme-dot" data-theme-dot="neon-nights" style="background:linear-gradient(135deg,#00F0FF,#FF006E)" title="Neon Nights"></span>
+      <div class="navbar__hamburger" data-hamburger>
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+
+    <!-- ====== HERO / LANDING ====== -->
+    <section class="hero" data-hero>
+      <h1 class="hero__title" data-hero-title>Got a voice note? Rizzr it.</h1>
+      <p class="hero__subtitle" data-hero-subtitle>AI voice-note reply coach. Get 3 perfect replies in seconds.</p>
+
+      <!-- Record button -->
+      <div class="record">
+        <div class="record__ring" data-record-ring></div>
+        <div class="record__pulse"></div>
+        <div class="record__pulse record__pulse--2"></div>
+        <button class="record__btn" data-record-btn aria-label="Record">🎤</button>
+      </div>
+
+      <!-- Upload / paste -->
+      <div class="pill-row">
+        <button class="pill-btn" data-upload-btn>📁 Upload audio</button>
+        <button class="pill-btn" data-paste-btn>🔗 Paste link</button>
+        <input type="file" data-file-input accept="audio/*" style="display:none">
+      </div>
+
+      <!-- Trust badges -->
+      <div class="trust" data-trust>
+        <span class="trust__item">🔒 No signup</span>
+        <span class="trust__item">⚡ ~7s results</span>
+        <span class="trust__item">🌍 Any language</span>
+      </div>
+    </section>
+
+    <!-- ====== PROCESSING ====== -->
+    <section class="process hidden" data-process>
+      <div class="process__spinner">
+        <svg viewBox="0 0 100 100">
+          <circle class="track" cx="50" cy="50" r="40"/>
+          <circle class="progress" cx="50" cy="50" r="40" stroke-dasharray="251" stroke-dashoffset="75"/>
+        </svg>
+      </div>
+      <h2>Decoding the vibe...</h2>
+      <div class="process__steps">
+        <div class="process__step process__step--active" data-process-step="upload">
+          <div class="process__step-icon">✦</div>
+          <div>Audio received & encrypted</div>
+        </div>
+        <div class="process__step process__step--pending" data-process-step="transcribe">
+          <div class="process__step-icon">○</div>
+          <div>Transcribed with Whisper AI</div>
+        </div>
+        <div class="process__step process__step--pending" data-process-step="generate">
+          <div class="process__step-icon">○</div>
+          <div>Crafting 3 reply styles...</div>
+        </div>
+        <div class="process__step process__step--pending" data-process-step="tts">
+          <div class="process__step-icon">○</div>
+          <div>Rendering voice previews</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== RESULTS ====== -->
+    <section class="hidden" data-results>
+      <!-- Transcript -->
+      <div class="card" style="margin-bottom:20px">
+        <div style="font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--clr-accent);margin-bottom:8px">💬 Their voice note</div>
+        <div style="font-size:.875rem;font-style:italic;line-height:1.5" data-transcript></div>
+      </div>
+
+      <!-- Replies header -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--clr-accent)"></div>
+        <span style="font-size:.8125rem;font-weight:700;color:var(--clr-text-secondary)">3 AI-crafted replies</span>
+        <span style="margin-left:auto;font-size:.6875rem;color:var(--clr-text-tertiary)">⚡ streamed</span>
+      </div>
+
+      <!-- Reply cards -->
+      <div data-replies></div>
+    </section>
+
+  </main>
+
+  <!-- ====== FREE TAG ====== -->
+  <div class="free-tag">✨ <span data-free-count>3</span> free replies today</div>
+
+  <!-- ====== MOBILE MENU ====== -->
+  <div class="mobile-menu" data-mobile-menu>
+    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
+    <a href="/" class="mobile-menu__link">Home</a>
+    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
+    <a href="/settings.html" class="mobile-menu__link">Settings</a>
+    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
+  </div>
+
+  <!-- ====== TOAST ====== -->
+  <div class="toast" data-toast></div>
+
+  <!-- ====== JS ====== -->
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/recorder.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

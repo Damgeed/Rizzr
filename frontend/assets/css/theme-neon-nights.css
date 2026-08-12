@@ -1,0 +1,96 @@
+/* ==========================================
+   THEME: NEON NIGHTS
+   Dark bg + grid, cyan + hot pink neon
+   ========================================== */
+
+:root{
+  --font-heading:'Space Grotesk',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+
+  /* Backgrounds */
+  --clr-bg:#080812;
+  --clr-bg-solid:#080812;
+  --clr-nav-bg:rgba(8,8,18,.8);
+  --clr-card-bg:rgba(255,255,255,.04);
+  --clr-card-border:rgba(0,240,255,.1);
+  --clr-hover:rgba(0,240,255,.05);
+  --clr-pill-bg:rgba(0,240,255,.04);
+  --clr-pill-border:rgba(0,240,255,.2);
+  --clr-mobile-menu-bg:#080812;
+
+  /* Text */
+  --clr-text:#fff;
+  --clr-text-secondary:rgba(255,255,255,.6);
+  --clr-text-tertiary:rgba(255,255,255,.4);
+  --clr-logo:#00F0FF;
+  --clr-free-text:#080812;
+  --clr-cta-text:#080812;
+
+  /* Accents */
+  --clr-accent:#00F0FF;
+  --clr-accent-gradient:linear-gradient(135deg,#00F0FF,#FF006E);
+  --clr-record-btn:linear-gradient(135deg,#00F0FF,#FF006E);
+  --clr-border:rgba(0,240,255,.08);
+  --clr-spinner-track:rgba(0,240,255,.1);
+
+  /* Style colors */
+  --clr-flirty:#FF006E;
+  --clr-flirty-bg:rgba(255,0,110,.12);
+  --clr-witty:#00F0FF;
+  --clr-witty-bg:rgba(0,240,255,.12);
+  --clr-chill:#00FF88;
+  --clr-chill-bg:rgba(0,255,136,.12);
+
+  /* Misc */
+  --clr-success:#00FF88;
+}
+
+/* Neon grid background */
+body{
+  background-color:#080812;
+  background-image:
+    linear-gradient(rgba(0,240,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,240,255,.03) 1px,transparent 1px);
+  background-size:30px 30px;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;top:-10%;right:-10%;
+  width:300px;height:300px;border-radius:50%;
+  background:#00F0FF;filter:blur(80px);opacity:.08;
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;bottom:-10%;left:-10%;
+  width:250px;height:250px;border-radius:50%;
+  background:#FF006E;filter:blur(70px);opacity:.06;
+  pointer-events:none;z-index:0;
+}
+.navbar__logo{text-shadow:0 0 12px rgba(0,240,255,.4)}
+.hero__title-highlight{
+  color:#00F0FF;
+  text-shadow:0 0 16px rgba(0,240,255,.3);
+}
+.record__btn{box-shadow:0 0 30px rgba(0,240,255,.3),0 0 60px rgba(255,0,110,.15)}
+.record__ring{border:2px solid rgba(0,240,255,.15)}
+.record__pulse{border-color:rgba(0,240,255,.15)}
+.free-tag{
+  border:1px solid rgba(0,240,255,.3);
+  background:rgba(0,240,255,.08);
+  color:#00F0FF;
+  backdrop-filter:blur(10px);
+}
+.pill-btn{
+  background:rgba(0,240,255,.04);
+  backdrop-filter:blur(5px);
+}
+/* Theme preview for settings */
+.theme-neon-nights-preview{
+  background:linear-gradient(135deg,#080812,#1a1a2e);
+  position:relative;
+}
+.theme-neon-nights-preview::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,#00F0FF 0%,transparent 40%,#FF006E 100%);
+  opacity:.3;
+}

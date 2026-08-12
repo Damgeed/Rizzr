@@ -1,0 +1,87 @@
+/* ==========================================
+   THEME: SUNSET (default)
+   Full-bleed warm gradient, white text
+   ========================================== */
+
+:root{
+  --font-heading:'Outfit',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+
+  /* Backgrounds */
+  --clr-bg:linear-gradient(180deg,#FF6B6B 0%,#FF8E53 25%,#FFB347 55%,#FFD700 100%);
+  --clr-bg-solid:#FF8E53;
+  --clr-nav-bg:rgba(255,255,255,.12);
+  --clr-card-bg:rgba(255,255,255,.15);
+  --clr-card-border:rgba(255,255,255,.2);
+  --clr-hover:rgba(255,255,255,.1);
+  --clr-pill-bg:rgba(255,255,255,.12);
+  --clr-pill-border:rgba(255,255,255,.3);
+  --clr-mobile-menu-bg:rgba(255,255,255,.95);
+
+  /* Text */
+  --clr-text:#fff;
+  --clr-text-secondary:rgba(255,255,255,.85);
+  --clr-text-tertiary:rgba(255,255,255,.65);
+  --clr-logo:#fff;
+  --clr-free-text:#FF6B6B;
+  --clr-cta-text:#FF6B6B;
+
+  /* Accents */
+  --clr-accent:#FFD700;
+  --clr-accent-gradient:linear-gradient(135deg,#FFD700,#FF6B6B);
+  --clr-record-btn:linear-gradient(135deg,#FFD700,#FF6B6B);
+  --clr-border:rgba(255,255,255,.15);
+  --clr-spinner-track:rgba(255,255,255,.15);
+
+  /* Style colors */
+  --clr-flirty:#FF1744;
+  --clr-flirty-bg:rgba(255,23,68,.15);
+  --clr-witty:#FFD700;
+  --clr-witty-bg:rgba(255,215,0,.15);
+  --clr-chill:#00E676;
+  --clr-chill-bg:rgba(0,230,118,.15);
+
+  /* Misc */
+  --clr-success:#00E676;
+}
+
+/* Sunset-specific overrides */
+body{
+  background:var(--clr-bg);
+  background-attachment:fixed;
+  text-shadow:0 1px 8px rgba(0,0,0,.1);
+}
+.hero__title{text-shadow:0 2px 16px rgba(0,0,0,.12)}
+.record__btn{
+  background:#fff;
+  color:#FF6B6B;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+.record__ring{
+  border:3px solid rgba(255,255,255,.3);
+}
+.record__ring::before{
+  content:'';position:absolute;inset:6px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+}
+.pill-btn{
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.navbar{
+  background:rgba(255,255,255,.08);
+}
+.cta-btn{
+  background:#fff;
+  color:#FF6B6B;
+}
+.free-tag{
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);
+}
+/* Theme preview for settings */
+.theme-sunset-preview{
+  background:linear-gradient(180deg,#FF6B6B,#FF8E53,#FFB347,#FFD700);
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF6B6B">
+  <title>Settings — Rizzr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/" class="navbar__logo">Rizzr</a>
+    <div class="navbar__links navbar__links--desktop">
+      <a href="/" class="navbar__link">Home</a>
+      <a href="/pricing.html" class="navbar__link">Pricing</a>
+      <a href="/settings.html" class="navbar__link navbar__link--active">Settings</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="navbar__theme-dot" data-theme-dot="sunset" style="background:linear-gradient(135deg,#FF6B6B,#FFD700)" title="Sunset"></span>
+      <span class="navbar__theme-dot" data-theme-dot="purple-dream" style="background:linear-gradient(135deg,#7C3AED,#EC4899)" title="Purple Dream"></span>
+      <span class="navbar__theme-dot" data-theme-dot="neon-nights" style="background:linear-gradient(135deg,#00F0FF,#FF006E)" title="Neon Nights"></span>
+      <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <h1 style="font-family:var(--font-heading);font-size:1.75rem;font-weight:800;margin-bottom:var(--space-lg)">Settings</h1>
+
+    <!-- THEME -->
+    <div class="settings__section">
+      <div class="settings__title">🎨 Theme</div>
+      <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-bottom:var(--space-sm)">Choose your vibe. Saved automatically.</p>
+      <div class="theme-grid">
+        <div class="theme-card" data-theme-card="sunset">
+          <div class="theme-card__preview theme-sunset-preview"></div>
+          <div class="theme-card__label">Sunset</div>
+        </div>
+        <div class="theme-card" data-theme-card="purple-dream">
+          <div class="theme-card__preview theme-purple-dream-preview"></div>
+          <div class="theme-card__label">Purple Dream</div>
+        </div>
+        <div class="theme-card" data-theme-card="neon-nights">
+          <div class="theme-card__preview theme-neon-nights-preview"></div>
+          <div class="theme-card__label">Neon Nights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIVACY -->
+    <div class="settings__section">
+      <div class="settings__title">🔒 Privacy</div>
+      <div class="settings__row">
+        <span>Audio auto-deleted after processing</span>
+        <span style="color:var(--clr-success)">✓ Always on</span>
+      </div>
+      <div class="settings__row">
+        <span>No conversation history stored</span>
+        <span style="color:var(--clr-success)">✓ Always on</span>
+      </div>
+      <div class="settings__row">
+        <span>Zero data sold to third parties</span>
+        <span style="color:var(--clr-success)">✓ Always on</span>
+      </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="settings__section">
+      <div class="settings__title">👤 Account</div>
+      <div class="settings__row">
+        <span>Plan</span>
+        <span style="color:var(--clr-text-secondary)">Free (3/day)</span>
+      </div>
+      <div class="settings__row">
+        <span>Replies used today</span>
+        <span style="color:var(--clr-text-secondary)" data-free-count>0 / 3</span>
+      </div>
+      <a href="/pricing.html" style="display:block;margin-top:var(--space-sm)">
+        <button class="cta-btn">Upgrade to Pro →</button>
+      </a>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="settings__section">
+      <div class="settings__title">ℹ️ About</div>
+      <div class="settings__row">
+        <span>Version</span>
+        <span style="color:var(--clr-text-secondary)">1.0.0</span>
+      </div>
+      <div class="settings__row">
+        <a href="/privacy.html" style="color:var(--clr-text-secondary)">Privacy Policy</a>
+        <span>→</span>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
+    <a href="/" class="mobile-menu__link">Home</a>
+    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
+    <a href="/settings.html" class="mobile-menu__link">Settings</a>
+    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
+  </div>
+
+  <div class="toast" data-toast></div>
+
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

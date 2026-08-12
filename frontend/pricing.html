@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF6B6B">
+  <title>Pricing — Rizzr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/" class="navbar__logo">Rizzr</a>
+    <div class="navbar__links navbar__links--desktop">
+      <a href="/" class="navbar__link">Home</a>
+      <a href="/pricing.html" class="navbar__link navbar__link--active">Pricing</a>
+      <a href="/settings.html" class="navbar__link">Settings</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="navbar__theme-dot" data-theme-dot="sunset" style="background:linear-gradient(135deg,#FF6B6B,#FFD700)" title="Sunset"></span>
+      <span class="navbar__theme-dot" data-theme-dot="purple-dream" style="background:linear-gradient(135deg,#7C3AED,#EC4899)" title="Purple Dream"></span>
+      <span class="navbar__theme-dot" data-theme-dot="neon-nights" style="background:linear-gradient(135deg,#00F0FF,#FF006E)" title="Neon Nights"></span>
+      <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <div style="text-align:center;padding:var(--space-lg) 0 var(--space-md)">
+      <h1 class="hero__title" style="font-size:2.25rem">Ready for unlimited rizz?</h1>
+      <p class="hero__subtitle">Pick a plan. Cancel anytime. No questions asked.</p>
+    </div>
+
+    <!-- FREE -->
+    <div class="pricing__card" style="opacity:.7">
+      <div style="font-size:.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--clr-text-secondary);margin-bottom:8px">Free</div>
+      <div class="pricing__price" style="font-size:1.75rem;color:var(--clr-text-secondary)">$0</div>
+      <div style="font-size:.75rem;color:var(--clr-text-tertiary)">forever</div>
+      <ul class="pricing__features">
+        <li>✅ 3 replies per day</li>
+        <li>✅ All 3 reply styles</li>
+        <li>✅ Text + TTS preview</li>
+        <li>❌ Unlimited usage</li>
+        <li>❌ Voice cloning</li>
+      </ul>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing__card" style="border:2px solid var(--clr-accent);position:relative">
+      <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--clr-accent-gradient);color:var(--clr-cta-text);font-size:.6875rem;font-weight:700;padding:4px 16px;border-radius:var(--radius-full);white-space:nowrap">🔥 MOST POPULAR</div>
+      <div style="font-size:.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--clr-accent);margin-bottom:8px">Pro</div>
+      <div class="pricing__price">$9.99<span style="font-size:1rem;font-weight:400;color:var(--clr-text-secondary)">/mo</span></div>
+      <ul class="pricing__features">
+        <li>✅ Unlimited replies</li>
+        <li>✅ All 3 reply styles</li>
+        <li>✅ Text + TTS preview</li>
+        <li>✅ Priority processing</li>
+        <li>✅ Early access to new features</li>
+        <li>✅ Voice cloning (coming v2)</li>
+      </ul>
+      <button class="cta-btn" id="checkoutBtn">🚀 Get Pro — $9.99/mo</button>
+      <p style="text-align:center;font-size:.6875rem;color:var(--clr-text-tertiary);margin-top:var(--space-sm)">Secured by Stripe. Cancel anytime.</p>
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-top:var(--space-xl)">
+      <h2 style="font-size:1.125rem;font-weight:700;margin-bottom:var(--space-md)">FAQ</h2>
+      <details style="border-bottom:1px solid var(--clr-border);padding:var(--space-sm) 0">
+        <summary style="font-weight:600;cursor:pointer;font-size:.875rem">Is my audio stored?</summary>
+        <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-top:var(--space-sm)">No. Audio is processed in memory and deleted immediately after transcription. Zero persistence.</p>
+      </details>
+      <details style="border-bottom:1px solid var(--clr-border);padding:var(--space-sm) 0">
+        <summary style="font-weight:600;cursor:pointer;font-size:.875rem">Can I cancel anytime?</summary>
+        <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-top:var(--space-sm)">Yes. Cancel from Settings → Account. You keep Pro until the end of your billing period.</p>
+      </details>
+      <details style="border-bottom:1px solid var(--clr-border);padding:var(--space-sm) 0">
+        <summary style="font-weight:600;cursor:pointer;font-size:.875rem">What languages are supported?</summary>
+        <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-top:var(--space-sm)">Whisper auto-detects 50+ languages. Replies match the detected language automatically.</p>
+      </details>
+      <details style="padding:var(--space-sm) 0">
+        <summary style="font-weight:600;cursor:pointer;font-size:.875rem">Do I need to install anything?</summary>
+        <p style="font-size:.8125rem;color:var(--clr-text-secondary);margin-top:var(--space-sm)">No. Rizzr is a PWA — works in your browser. Add to home screen for the app experience.</p>
+      </details>
+    </div>
+
+  </main>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
+    <a href="/" class="mobile-menu__link">Home</a>
+    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
+    <a href="/settings.html" class="mobile-menu__link">Settings</a>
+    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
+  </div>
+
+  <div class="toast" data-toast></div>
+
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
+      try {
+        const url = await window.rizzrAPI.createCheckout();
+        window.location.href = url;
+      } catch (e) {
+        console.error('Checkout error:', e);
+      }
+    });
+  </script>
+</body>
+</html>
