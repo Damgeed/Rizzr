@@ -904,3 +904,32 @@ details[open] .faq__summary::before{
   margin-top:var(--space-sm);
   line-height:1.5;
 }
+
+/* ==========================================
+   STATIC CONTENT PAGES (privacy, etc.)
+   ========================================== */
+.page__title{
+  font-family:var(--font-heading);
+  font-size:1.75rem;font-weight:800;
+  margin-bottom:var(--space-xs);
+}
+.page__date{
+  font-size:.75rem;
+  color:var(--clr-text-tertiary);
+  margin-bottom:var(--space-lg);
+}
+.page__content{
+  font-size:.875rem;
+  line-height:1.6;
+  color:var(--clr-text-secondary);
+  max-width:560px;
+}
+.page__heading{
+  font-family:var(--font-heading);
+  font-size:1rem;font-weight:700;
+  color:var(--clr-text);
+  margin:var(--space-lg) 0 var(--space-sm);
+}
+.page__text{
+  margin-bottom:var(--space-sm);
+}
