@@ -400,3 +400,81 @@ input,textarea{font-family:inherit;font-size:inherit}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fade-in{animation:fadeIn var(--dur-med) var(--ease)}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+.hidden{display:none!important}
+
+/* ==========================================
+   RECORDING STATE
+   ========================================== */
+.record__btn.recording{
+  background:var(--clr-record-btn);
+  animation:recordPulse 1s ease-in-out infinite;
+  transform:scale(1.1);
+}
+.record__btn.recording::after{
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:2px solid var(--clr-accent);
+  opacity:.4;
+  animation:recordPulse 1s ease-in-out infinite;
+}
+@keyframes recordPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,.4)}
+  50%{box-shadow:0 0 0 16px rgba(255,107,107,0)}
+}
+.record__ring.recording{
+  border-color:var(--clr-accent);
+  animation:ringRotate 3s linear infinite;
+}
+@keyframes ringRotate{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+/* ==========================================
+   SLIDE-IN ANIMATIONS
+   ========================================== */
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.slide-up{animation:slideUp .4s var(--ease)}
+
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+.slide-in-left{animation:slideInLeft .3s var(--ease)}
+
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* ==========================================
+   MOBILE SAFE AREA
+   ========================================== */
+@supports(padding:max(0px)){
+  .navbar{padding-left:max(var(--space-md),env(safe-area-inset-left));padding-right:max(var(--space-md),env(safe-area-inset-right))}
+  .free-tag{bottom:max(var(--space-md),env(safe-area-inset-bottom))}
+  .main{padding-left:max(var(--space-md),env(safe-area-inset-left));padding-right:max(var(--space-md),env(safe-area-inset-right))}
+}
+
+/* ==========================================
+   FOCUS STATES (accessibility)
+   ========================================== */
+*:focus-visible{
+  outline:2px solid var(--clr-accent);
+  outline-offset:2px;
+}
+.reply__play:focus-visible,.pill-btn:focus-visible,.cta-btn:focus-visible{
+  outline:2px solid var(--clr-accent);
+  outline-offset:2px;
+}
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
