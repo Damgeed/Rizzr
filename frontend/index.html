@@ -213,7 +213,10 @@
       font-size: 2.1rem; font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
       background: linear-gradient(to bottom right, #fff, #a1a1aa);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 2.4rem; max-width: 16ch;
+      margin-bottom: 2.4rem; max-width: 20ch; white-space: nowrap;
+    }
+    @media (max-width: 520px) {
+      .section-title { font-size: clamp(1.05rem, 4.7vw, 1.6rem); white-space: nowrap; }
     }
     /* Steps: stacked on mobile, 3-across on desktop */
     .steps { display: flex; flex-direction: column; gap: 1.4rem; text-align: left; }
@@ -261,6 +264,73 @@
     @media (min-width: 860px) {
       .v2-grid { gap: 1rem; }
       .v2-card { padding: 1.4rem 1.4rem; }
+    }
+
+    /* ==========================================
+       V2 FEATURED — Fake-call bailout (the hook)
+       ========================================== */
+    .v2-featured {
+      display: flex; flex-direction: column; align-items: center; gap: 1.6rem; text-align: center;
+      background: linear-gradient(160deg, rgba(255,106,92,.10), rgba(255,193,94,.06));
+      border: 1px solid rgba(255,106,92,.35);
+      border-radius: 20px; padding: 2rem 1.5rem 2.2rem; margin-bottom: 1.6rem;
+      position: relative; overflow: hidden; backdrop-filter: blur(20px);
+    }
+    .v2-featured::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 340px; height: 340px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,106,92,.22), transparent 70%);
+      pointer-events: none;
+    }
+    .v2-featured-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #FFC15E; padding: 0.3rem 0.8rem; border-radius: 999px;
+      border: 1px solid rgba(255,193,94,.3); background: rgba(255,193,94,.08);
+    }
+    .v2-featured h3 { font-size: 1.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .v2-featured h3 em { font-style: italic; font-weight: 700; background: linear-gradient(135deg,#FF6A5C,#FFC15E); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .v2-featured p { color: var(--text-muted); font-size: 0.98rem; line-height: 1.55; max-width: 46ch; }
+    .v2-featured .phone-cta { font-size: 0.75rem; font-weight: 600; color: #a1a1aa; margin-top: 0.4rem; }
+    @media (min-width: 860px) {
+      .v2-featured { flex-direction: row; text-align: left; justify-content: space-between; gap: 2rem; padding: 2.2rem 2.4rem; }
+      .v2-featured .copy { flex: 1; }
+      .v2-featured p { max-width: 52ch; }
+    }
+    .v2-featured-phone { flex-shrink: 0; }
+    /* Mini ringing phone mockup */
+    .mini-phone {
+      position: relative; width: 120px; height: 218px; margin: 0 auto;
+      background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.16); border-radius: 26px; padding: 8px;
+      box-shadow: 0 18px 44px -18px rgba(0,0,0,.7);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .mini-phone .call-pill {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: #FFC15E; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid rgba(255,193,94,.35);
+    }
+    .mini-phone .caller {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .mini-phone .avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg,#FF6A5C,#FFC15E);
+      display: flex; align-items: center; justify-content: center; color: #170D16;
+      box-shadow: 0 0 24px -6px rgba(255,106,92,.6);
+    }
+    .mini-phone .caller-name { font-size: 0.72rem; font-weight: 700; }
+    .mini-phone .caller-num { font-size: 0.6rem; color: #a1a1aa; }
+    .mini-phone .inc-ring { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; }
+    .mini-phone .ring-bar { width: 4px; height: 20px; background: linear-gradient(to top,#FF6A5C,#FFC15E); border-radius: 99px; animation: ringeq .7s ease-in-out infinite alternate; }
+    .mini-phone .ring-bar:nth-child(2) { animation-delay: .15s; }
+    .mini-phone .ring-bar:nth-child(3) { animation-delay: .3s; }
+    .mini-phone .ring-bar:nth-child(4) { animation-delay: .45s; }
+    @keyframes ringeq { 0% { transform: scaleY(.35); opacity: .6; } 100% { transform: scaleY(1); opacity: 1; } }
+    .mini-phone .inner-chat {
+      width: 88%; height: 60px; background: rgba(0,0,0,.25); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; color: #a1a1aa; margin-top: 6px; letter-spacing: .03em;
     }
   </style>
 </head>
@@ -454,12 +524,30 @@
   <section class="section" id="v2">
     <p class="section-eyebrow">Coming in v2</p>
     <h2 class="section-title">Rizzr grows with you</h2>
-    <div class="v2-grid">
-      <div class="v2-card">
-        <div class="v2-ic" style="background:linear-gradient(135deg,#FF6A5C,#FFC15E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></div>
-        <div><h3>Fake-call bailout<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
-          <p>Stuck in an awkward chat? One tap fakes an incoming call with a believable contact — a graceful exit, no explanations needed.</p></div>
+
+    <!-- FEATURED: Fake-call bailout (the viral hook) -->
+    <div class="v2-featured">
+      <div class="copy">
+        <span class="v2-featured-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7L12 2Z"/></svg>The one you'll tell your friends about</span>
+        <h3>One tap. A phone <em>rings</em>. You're free.</h3>
+        <p>Stuck in a conversation that's going nowhere? Fake-call bailout rings in with a believable contact at just the right moment — so you can exit with zero awkwardness and zero explanations.</p>
+        <p class="phone-cta">• Believability built in: pretend it's your ride, your mother, or "the office"</p>
       </div>
+      <div class="v2-featured-phone" aria-hidden="true">
+        <div class="mini-phone">
+          <span class="call-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>Incoming</span>
+          <div class="caller">
+            <div class="avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6v1H4v-1Z"/></svg></div>
+            <div class="caller-name">Mom</div>
+            <div class="caller-num">Emergency. Pick up.</div>
+          </div>
+          <div class="inc-ring"><span class="ring-bar"></span><span class="ring-bar"></span><span class="ring-bar"></span><span class="ring-bar"></span></div>
+          <div class="inner-chat">"Sorry, I have to take this"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="v2-grid">
       <div class="v2-card">
         <div class="v2-ic" style="background:linear-gradient(135deg,#9FE3C4,#FFC15E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path d="M19 4l3 3"/></svg></div>
         <div><h3>Ghost mode<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
