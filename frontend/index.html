@@ -8,9 +8,9 @@
   <title>Rizzr | AI Voice-Note Reply Coach</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
-  <link rel="apple-touch-icon" href="assets/img/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=2">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png?v=2">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -25,19 +25,19 @@
       flex: 1; display: flex; align-items: center; justify-content: center;
       padding: 1rem 1.5rem 2rem; position: relative; z-index: 10;
     }
-    .layout { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; }
+    .layout { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2.2rem; }
 
-    /* Left: hero copy */
-    .hero-copy { flex: 1 1 44%; text-align: center; }
+    /* Left: hero copy — centered above the phone */
+    .hero-copy { width: 100%; max-width: 720px; text-align: center; }
     .hero-copy-title {
       font-size: 3.2rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.04em;
       background: linear-gradient(to bottom right, #fff, #a1a1aa);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .hero-copy .subtext { color: var(--text-muted); font-size: 1.125rem; line-height: 1.5; max-width: 34ch; margin: 1.1rem auto 0; }
+    .hero-copy .subtext { color: var(--text-muted); font-size: 1.125rem; line-height: 1.5; max-width: 52ch; margin: 1.1rem auto 0; }
 
-    /* Right: phone demo (sonnet5 placement) */
-    .demo { flex: 1 1 56%; display: flex; flex-direction: column; align-items: center; }
+    /* Right: phone demo (hero — below the copy) */
+    .demo { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .state-tabs {
       display: inline-flex; gap: 4px; background: var(--glass-bg); border: 1px solid var(--glass-border);
       padding: 4px; border-radius: 999px; margin-bottom: 22px; backdrop-filter: blur(20px);
@@ -51,7 +51,7 @@
     .state-tabs button:not(.active):hover { color: var(--text-main); }
 
     .phone {
-      position: relative; width: min(320px, 80vw); aspect-ratio: 9 / 18; border-radius: 46px; padding: 12px;
+      position: relative; width: min(340px, 82vw); aspect-ratio: 9 / 18; border-radius: 46px; padding: 12px;
       background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
       border: 1px solid var(--glass-border);
       box-shadow: 0 20px 60px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
@@ -142,19 +142,21 @@
     .reset-btn:hover { opacity: 1; color: white; }
     svg { flex-shrink: 0; }
 
-    /* Desktop hero copy alignment */
+    /* Responsive title scaling */
     @media (min-width: 860px) {
-      .hero-copy { text-align: left; }
-      .hero-copy .subtext { margin: 1.1rem 0 0; }
+      .hero-copy-title { font-size: 3.6rem; }
     }
-    /* Mobile stacking */
+    /* Mobile: keep column stack, shrink title */
     @media (max-width: 859px) {
       main { padding: 0.5rem 0 2rem; }
-      .layout { flex-direction: column; gap: 0.5rem; }
-      /* Hide the standalone hero copy on mobile — the phone demo already
-         carries the title, description, and trust badges inside it. */
-      .hero-copy { display: none; }
+      .layout { gap: 1.5rem; }
+      .hero-copy-title { font-size: 2.4rem; }
+      .hero-copy .subtext { font-size: 1rem; }
       .demo { width: 100%; }
+    }
+    /* Very small phones */
+    @media (max-width: 380px) {
+      .hero-copy-title { font-size: 2rem; }
     }
   </style>
 </head>
@@ -238,11 +240,6 @@
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   Link
                 </button>
-              </div>
-              <div class="phone-trust">
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🔒 No Signup</span>
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">⚡ ~7s Results</span>
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🌍 Any Language</span>
               </div>
             </section>
 
