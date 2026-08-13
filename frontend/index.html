@@ -45,13 +45,14 @@
     .hero-copy .hero-cta .btn-primary {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.85rem 1.6rem; font-size: 1rem; font-weight: 600;
+      border-radius: 16px;
     }
     .hero-copy .btn-pill-cta {
       display: inline-flex; align-items: center; gap: 0.5rem;
       font-family: var(--font); font-size: 1rem; font-weight: 600;
       color: var(--text-main);
       background: var(--glass-bg); border: 1px solid var(--glass-border);
-      padding: 0.85rem 1.6rem; border-radius: var(--radius-pill);
+      padding: 0.85rem 1.6rem; border-radius: 16px;
       cursor: pointer; transition: var(--transition);
     }
     .hero-copy .btn-pill-cta:hover {
@@ -193,6 +194,72 @@
     .reset-btn { color: var(--text-muted); background: transparent; border: none; font-family: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: 0.8; transition: opacity 0.2s; }
     .reset-btn:hover { opacity: 1; color: white; }
     svg { flex-shrink: 0; }
+
+    /* ==========================================
+       HOW IT WORKS — 3 steps (merged from zip)
+       ========================================== */
+    .section {
+      width: 100%; max-width: 1080px; margin: 0 auto;
+      padding: 4.5rem 1.5rem 2.5rem; position: relative; z-index: 10;
+    }
+    .section-eyebrow {
+      display: inline-block; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.9rem;
+    }
+    .section-title {
+      font-size: 2.1rem; font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
+      background: linear-gradient(to bottom right, #fff, #a1a1aa);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 2.4rem; max-width: 16ch;
+    }
+    /* Steps: stacked on mobile, 3-across on desktop */
+    .steps { display: flex; flex-direction: column; gap: 1.4rem; text-align: left; }
+    .step {
+      position: relative; padding-left: 70px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); padding: 1.6rem 1.5rem 1.6rem 78px;
+      backdrop-filter: blur(20px); transition: var(--transition);
+    }
+    .step:hover { background: var(--glass-hover); transform: translateY(-3px); }
+    .step-num {
+      position: absolute; left: 20px; top: 20px;
+      font-family: var(--font); font-weight: 700; font-size: 1.5rem; font-style: italic;
+      color: transparent; -webkit-text-stroke: 1.5px var(--orb-1); width: 34px;
+    }
+    .step h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.45rem; }
+    .step p { color: var(--text-muted); font-size: 0.93rem; line-height: 1.5; max-width: 44ch; }
+    @media (min-width: 860px) {
+      .steps { flex-direction: row; gap: 1.2rem; }
+      .step { flex: 1; padding: 2rem 1.6rem 1.8rem 1.6rem; padding-left: 1.6rem; text-align: left; }
+      .step-num { position: static; display: block; margin-bottom: 0.8rem; font-size: 1.9rem; }
+    }
+
+    /* ==========================================
+       V2 FEATURES — MVP + v2 story
+       ========================================== */
+    .v2-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .v2-card {
+      display: flex; gap: 1rem; align-items: flex-start; text-align: left;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); padding: 1.4rem 1.4rem;
+      backdrop-filter: blur(20px); transition: var(--transition);
+    }
+    .v2-card:hover { background: var(--glass-hover); transform: translateY(-3px); border-color: rgba(255,255,255,0.16); }
+    .v2-ic {
+      flex-shrink: 0; width: 46px; height: 46px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5);
+    }
+    .v2-card h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .v2-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.45; }
+    .v2-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.2rem 0.5rem; border-radius: 999px; margin-left: 0.4rem; vertical-align: middle; }
+    @media (min-width: 860px) {
+      .v2-grid { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -358,6 +425,57 @@
     </div>
   </main>
 
+  <!-- ============ HOW IT WORKS — 3 steps ============ -->
+  <section class="section" id="how-it-works">
+    <p class="section-eyebrow">The flow</p>
+    <h2 class="section-title">Three steps. No overthinking.</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="step-num">01</span>
+        <h3>Record or drop it in</h3>
+        <p>Hold the mic, upload a file, or paste a link to the voice note you got.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">02</span>
+        <h3>Rizzr listens</h3>
+        <p>We transcribe it and read the tone — what they said and how they said it.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">03</span>
+        <h3>Pick your reply</h3>
+        <p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ V2 FEATURES — MVP + v2 story ============ -->
+  <section class="section" id="v2">
+    <p class="section-eyebrow">Coming in v2</p>
+    <h2 class="section-title">Rizzr grows with you</h2>
+    <div class="v2-grid">
+      <div class="v2-card">
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FF6A5C,#FFC15E)">📲</div>
+        <div><h3>Fake-call bailout<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
+          <p>Stuck in an awkward chat? One tap fakes an incoming call with a believable contact — a graceful exit, no explanations needed.</p></div>
+      </div>
+      <div class="v2-card">
+        <div class="v2-ic" style="background:linear-gradient(135deg,#9FE3C4,#FFC15E)">👻</div>
+        <div><h3>Ghost mode<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
+          <p>Fade out on your terms — replies spaced further apart until you gently drift out. No drama, no ghosting.</p></div>
+      </div>
+      <div class="v2-card">
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)">🎙️</div>
+        <div><h3>Your voice, cloned<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
+          <p>Replies are read aloud in your own voice — not a generic robot — so the audio sounds like you sent it.</p></div>
+      </div>
+      <div class="v2-card">
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)">🧠</div>
+        <div><h3>Emotion radar<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
+          <p>It reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p></div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer__links">
       <a href="/" class="footer__link">Home</a>
@@ -401,6 +519,16 @@
       }
     }
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function() {});
+    // ---- Fixed nav: frosted glass on scroll ----
+    (function() {
+      var header = document.querySelector('.nav-header');
+      if (!header) return;
+      function onScroll() {
+        header.classList.toggle('is-scrolled', window.scrollY > 12);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
     // ---- Mobile hamburger nav toggle ----
     (function() {
       var toggle = document.getElementById('navToggle');

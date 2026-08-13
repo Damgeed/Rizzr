@@ -72,10 +72,20 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 30;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   gap: 1rem;
   flex-wrap: wrap;
+  transition: background .3s ease, box-shadow .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+  border-bottom: 1px solid transparent;
+}
+/* Fixed-nav scrolled state: frosted glass over content */
+.nav-header.is-scrolled {
+  background: rgba(5, 5, 8, 0.72);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: var(--glass-border);
+  box-shadow: 0 8px 30px -16px rgba(0, 0, 0, 0.6);
 }
 .logo {
   font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em;
