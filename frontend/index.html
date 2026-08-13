@@ -381,14 +381,14 @@
     .mode-track::-webkit-scrollbar { display: none; }
     .mode-panel {
       flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
-      min-height: 100vh; padding: 2.4rem 1.5rem 3rem;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 1rem 1.5rem 3rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
       width: 100%;
     }
     .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; padding-top: 2.5rem; }
-    /* Finesse: pull content up so the head sits snug under the nav (not dead-centered/pushed down).
-       Also drop the 100vh min-height so the panel only wraps its content — no dead space below
-       the phone before the dots (fixes "reply page gap too big" on mobile). */
+    /* All 4 mode labels anchor to the same top position so Finesse/Ghost/Echo/Vibe
+       heads sit at identical height (top-anchored, snug under the nav). */
+    .mode-panel { min-height: 0; }
     .mode-panel.finesse { justify-content: flex-start; padding-top: 1rem; min-height: 0; }
     .mode-panel.finesse .mode-panel__head { margin-top: 0; }
     .mode-panel__head {
@@ -532,10 +532,7 @@
       /* Smaller arrows on mobile */
       .mode-arrow { width: 34px; height: 34px; }
       .mode-arrow svg { width: 17px; height: 17px; }
-      /* Expose the mobile phone template at the TOP of each tab on mobile —
-         bring the phone above the descriptive text, steps fall below */
-      .mode-body .mode-phone { order: 1; }
-      .mode-body .mode-panel__text { order: 2; }
+      /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
       .panel-steps { margin-top: 2rem; }
     }
   </style>
