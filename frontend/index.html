@@ -525,6 +525,8 @@
       .mode-panel__text { align-items: flex-start; }
       .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
       .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
+      /* bullets moved after the phone in DOM; restack them on their own row below on desktop */
+      .mode-body .mode-list { order: 3; flex: 1 1 100%; max-width: 460px; margin: 0 auto 0 0; }
     }
     @media (max-width: 640px) {
       .mode-panel { padding: 1.6rem 1rem 2.4rem; }
@@ -730,11 +732,7 @@
           <div class="mode-panel__text">
             <h2 class="mode-title">I want a graceful out</h2>
             <p class="mode-desc">Fake-call bailout rings in with a believable contact at just the right moment — so you can exit an awkward talk with zero explanations.</p>
-            <ul class="mode-list">
-              <li>Fake-call bailout — a believable ring-in</li>
-              <li>Ghost fade — drift out on your own terms</li>
-              <li>One tap. No awkwardness. No follow-up texts.</li>
-            </ul>
+            
           </div>
           <div class="mode-phone">
             <div class="mode-phone__screen">
@@ -753,7 +751,13 @@
           </div>
         </div>
       </div>
-      <div class="panel-steps">
+      
+<ul class="mode-list">
+              <li>Fake-call bailout — a believable ring-in</li>
+              <li>Ghost fade — drift out on your own terms</li>
+              <li>One tap. No awkwardness. No follow-up texts.</li>
+            </ul>
+<div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
             <li class="step"><span class="step-num">02</span><h3>It rings in</h3><p>A natural call screen appears at the perfect moment — real sounding, on cue.</p></li>
@@ -770,11 +774,7 @@
           <div class="mode-panel__text">
             <h2 class="mode-title">Sound like me, not a robot</h2>
             <p class="mode-desc">Audio replies read in YOUR voice — cloned and tuned to you, not a generic text-to-speech voice.</p>
-            <ul class="mode-list">
-              <li>Voice clone tuned to how you talk</li>
-              <li>Audio replies that sound like you sent them</li>
-              <li>Vault — your saved replies &amp; favorites live here</li>
-            </ul>
+            
           </div>
           <div class="mode-phone">
             <div class="mode-phone__screen">
@@ -788,7 +788,13 @@
             </div>
           </div>
         </div>
-      <div class="panel-steps">
+      
+<ul class="mode-list">
+              <li>Voice clone tuned to how you talk</li>
+              <li>Audio replies that sound like you sent them</li>
+              <li>Vault — your saved replies &amp; favorites live here</li>
+            </ul>
+<div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
             <li class="step"><span class="step-num">02</span><h3>Echo tunes your clone</h3><p>Your own voice is cloned and matched to the moment — not a robot reading text.</p></li>
@@ -805,11 +811,7 @@
           <div class="mode-panel__text">
             <h2 class="mode-title">How are they really feeling?</h2>
             <p class="mode-desc">Reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p>
-            <ul class="mode-list">
-              <li>Emotion detection on the original note</li>
-              <li>Replies tuned to the mood, not generic</li>
-              <li>Say the right thing, every time</li>
-            </ul>
+            
           </div>
           <div class="mode-phone">
             <div class="mode-phone__screen">
@@ -826,7 +828,13 @@
             </div>
           </div>
         </div>
-      <div class="panel-steps">
+      
+<ul class="mode-list">
+              <li>Emotion detection on the original note</li>
+              <li>Replies tuned to the mood, not generic</li>
+              <li>Say the right thing, every time</li>
+            </ul>
+<div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
             <li class="step"><span class="step-num">02</span><h3>Read the mood</h3><p>Vibe detects the emotion — cold, neutral, excited — from how they actually sound.</p></li>
