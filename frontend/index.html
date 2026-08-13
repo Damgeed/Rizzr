@@ -532,9 +532,9 @@
       .mode-panel__text { align-items: flex-start; }
       .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
       .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
-      /* bullets moved after the phone in DOM; flow horizontally on their own row below on desktop */
-      .mode-body .mode-list { order: 3; flex: 0 0 100%; width: 100%; max-width: none; margin: 2rem 0 0; flex-direction: row; flex-wrap: wrap; gap: 0.7rem; justify-content: flex-start; }
-      .mode-body .mode-list li { flex: 0 1 auto; }
+      /* bullets flow horizontally in a full-width row below the phone on desktop */
+      .mode-panel .mode-list { order: 3; flex: 0 0 100%; width: 100%; margin: 2.4rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.7rem; }
+      .mode-panel .mode-list li { flex: none; }
     }
     @media (max-width: 640px) {
       .mode-panel { padding: 1.6rem 1rem 2.4rem; }
