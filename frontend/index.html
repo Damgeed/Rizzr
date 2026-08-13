@@ -151,7 +151,9 @@
     @media (max-width: 859px) {
       main { padding: 0.5rem 0 2rem; }
       .layout { flex-direction: column; gap: 0.5rem; }
-      .hero-copy { max-width: 480px; }
+      /* Hide the standalone hero copy on mobile — the phone demo already
+         carries the title, description, and trust badges inside it. */
+      .hero-copy { display: none; }
       .demo { width: 100%; }
     }
   </style>
@@ -192,7 +194,7 @@
       <!-- LEFT: hero copy -->
       <div class="hero-copy">
         <h1 class="hero-copy-title" data-rotating-title>Don't think.<br>Just Rizzr it.</h1>
-        <p class="subtext">Send a voice note. Get 3 confident replies — flirty, witty, sweet — read aloud in seconds. Rizzr sounds like you, not a robot.</p>
+        <p class="subtext">Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.</p>
         <div class="trust-row">
           <span class="trust-item">🔒 No Signup</span>
           <span class="trust-item">⚡ ~7s Results</span>
@@ -215,7 +217,7 @@
             <!-- STATE 1: HERO -->
             <section id="view-hero" class="view-state active">
               <h2 class="phone-tagline" data-rotating-title>Don't think.<br>Just Rizzr it.</h2>
-              <p class="phone-subtext">Get 3 confident replies — flirty, witty, sweet — read aloud.</p>
+              <p class="phone-subtext">Confident, flirty, natural replies that sound like you — not a robot.</p>
               <div class="record-wrapper" onclick="switchState('recording')">
                 <div class="pulse-ring-1"></div>
                 <div class="pulse-ring-2"></div>
