@@ -2,86 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#FF6B6B">
-  <title>Pricing — Rizzr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Rizzr pricing — Free 3 replies/day, or Pro for unlimited AI voice-note replies. Cancel anytime.">
+  <title>Pricing | Rizzr</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css">
+  <style>
+    /* Pricing-specific */
+    .pricing-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; }
+    @media (min-width: 640px) { .pricing-grid { grid-template-columns: 1fr 1fr; } }
+    .pricing-plan { display: flex; flex-direction: column; position: relative; }
+    .plan-name { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .plan-price { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1rem; }
+    .plan-price .amount { font-size: 2.6rem; font-weight: 700; letter-spacing: -0.04em; background: linear-gradient(to bottom right, #fff, #a1a1aa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .plan-price .unit { color: var(--text-muted); font-size: 0.9rem; }
+    .plan-price .free-amount { color: #4ade80; -webkit-text-fill-color: #4ade80; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.5rem; flex: 1; }
+    .plan-features li { font-size: 0.875rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
+    .plan-features li.off { color: var(--text-muted); opacity: 0.6; }
+    .pro-card { border: 1px solid rgba(255,51,102,0.4); box-shadow: 0 0 40px -10px rgba(255,51,102,0.35); }
+    .pro-badge {
+      display: inline-block; background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); color: #fff;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.35rem 0.8rem; border-radius: var(--radius-pill);
+      position: absolute; top: -12px; left: 1.2rem;
+    }
+    .secure-text { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem; }
+
+    /* FAQ */
+    .faq-title { font-size: 1.6rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; }
+    .faq-item { border-bottom: 1px solid var(--glass-border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 0; cursor: pointer; list-style: none;
+      font-size: 0.95rem; font-weight: 600; color: var(--text-main); transition: var(--transition);
+    }
+    .faq-summary::-webkit-details-marker { display: none; }
+    .faq-summary::after { content: '+'; font-size: 1.3rem; color: var(--text-muted); transition: var(--transition); }
+    details[open] .faq-summary::after { transform: rotate(45deg); color: var(--orb-1); }
+    .faq-answer { padding: 0 0 1.1rem; color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
+  </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="/" class="navbar__logo">Rizzr</a>
-    <div class="navbar__links navbar__links--desktop">
-      <a href="/" class="navbar__link">Home</a>
-      <a href="/pricing.html" class="navbar__link navbar__link--active">Pricing</a>
-      <a href="/settings.html" class="navbar__link">Settings</a>
-    </div>
-    <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
-  </nav>
+  <!-- Background Layer -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
 
-  <main class="main slide-up">
+  <!-- Header -->
+  <header class="nav-header">
+    <a href="/" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/pricing.html" class="nav-link active">Pricing</a>
+      <a href="/settings.html" class="nav-link">Settings</a>
+      <a href="/privacy.html" class="nav-link">Privacy</a>
+    </nav>
+    <div class="freemium-badge"><span>✨</span> 3 Free Replies</div>
+  </header>
 
-    <div class="pricing__hero">
-      <h1 class="hero__title">Ready for unlimited rizz?</h1>
-      <p class="hero__subtitle">Pick a plan. Cancel anytime. No questions asked.</p>
-    </div>
+  <main class="page-container">
+    <h1 class="page-title">Ready for unlimited rizz?</h1>
+    <p class="page-sub">Pick a plan. Cancel anytime. No questions asked.</p>
 
-    <!-- FREE -->
-    <div class="pricing__card pricing__card--free">
-      <div class="pricing__plan-name">Free</div>
-      <div class="pricing__price pricing__price--free">$0</div>
-      <div class="pricing__period">forever</div>
-      <ul class="pricing__features">
-        <li>✅ 3 replies per day</li>
-        <li>✅ All 3 reply styles</li>
-        <li>✅ Text + TTS preview</li>
-        <li class="pricing__feature--off">❌ Unlimited usage</li>
-        <li class="pricing__feature--off">❌ Voice cloning</li>
-      </ul>
-    </div>
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="glass-card pricing-plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><span class="amount free-amount">$0</span><span class="unit">forever</span></div>
+        <ul class="plan-features">
+          <li><span>✅</span> 3 replies per day</li>
+          <li><span>✅</span> All 3 reply styles</li>
+          <li><span>✅</span> Text + TTS preview</li>
+          <li class="off"><span>❌</span> Unlimited usage</li>
+          <li class="off"><span>❌</span> Voice cloning</li>
+        </ul>
+      </div>
 
-    <!-- PRO -->
-    <div class="pricing__card pricing__card--pro">
-      <div class="pricing__badge">🔥 MOST POPULAR</div>
-      <div class="pricing__plan-name pricing__plan-name--accent">Pro</div>
-      <div class="pricing__price">$9.99<span class="pricing__price-unit">/mo</span></div>
-      <ul class="pricing__features">
-        <li>✅ Unlimited replies</li>
-        <li>✅ All 3 reply styles</li>
-        <li>✅ Text + TTS preview</li>
-        <li>✅ Priority processing</li>
-        <li>✅ Early access to new features</li>
-        <li>✅ Voice cloning (coming v2)</li>
-      </ul>
-      <button class="cta-btn" id="checkoutBtn">🚀 Get Pro — $9.99/mo</button>
-      <p class="pricing__secure">Secured by Stripe. Cancel anytime.</p>
+      <!-- PRO -->
+      <div class="glass-card pricing-plan pro-card">
+        <div class="pro-badge">🔥 Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><span class="amount">$9.99</span><span class="unit">/mo</span></div>
+        <ul class="plan-features">
+          <li><span>✅</span> Unlimited replies</li>
+          <li><span>✅</span> All 3 reply styles</li>
+          <li><span>✅</span> Text + TTS preview</li>
+          <li><span>✅</span> Priority processing</li>
+          <li><span>✅</span> Early access to new features</li>
+          <li><span>✅</span> Voice cloning (coming v2)</li>
+        </ul>
+        <button class="btn btn-primary btn-block" id="checkoutBtn">🚀 Get Pro — $9.99/mo</button>
+        <p class="secure-text">Secured by Stripe. Cancel anytime.</p>
+      </div>
     </div>
 
     <!-- FAQ -->
-    <div class="pricing__faq">
-      <h2 class="pricing__faq-title">FAQ</h2>
-      <details class="faq__item">
-        <summary class="faq__summary">Is my audio stored?</summary>
-        <p class="faq__answer">No. Audio is processed in memory and deleted immediately after transcription. Zero persistence.</p>
+    <h2 class="faq-title">FAQ</h2>
+    <div class="glass-card">
+      <details class="faq-item">
+        <summary class="faq-summary">Is my audio stored?</summary>
+        <p class="faq-answer">No. Audio is processed in memory and deleted immediately after transcription. Zero persistence.</p>
       </details>
-      <details class="faq__item">
-        <summary class="faq__summary">Can I cancel anytime?</summary>
-        <p class="faq__answer">Yes. Cancel from Settings → Account. You keep Pro until the end of your billing period.</p>
+      <details class="faq-item">
+        <summary class="faq-summary">Can I cancel anytime?</summary>
+        <p class="faq-answer">Yes. Cancel from Settings → Account. You keep Pro until the end of your billing period.</p>
       </details>
-      <details class="faq__item">
-        <summary class="faq__summary">What languages are supported?</summary>
-        <p class="faq__answer">Whisper auto-detects 50+ languages. Replies match the detected language automatically.</p>
+      <details class="faq-item">
+        <summary class="faq-summary">What languages are supported?</summary>
+        <p class="faq-answer">Whisper auto-detects 50+ languages. Replies match the detected language automatically.</p>
       </details>
-      <details class="faq__item">
-        <summary class="faq__summary">Do I need to install anything?</summary>
-        <p class="faq__answer">No. Rizzr is a PWA — works in your browser. Add to home screen for the app experience.</p>
+      <details class="faq-item">
+        <summary class="faq-summary">Do I need to install anything?</summary>
+        <p class="faq-answer">No. Rizzr is a PWA — works in your browser. Add to home screen for the app experience.</p>
       </details>
     </div>
-
   </main>
 
   <footer class="footer">
@@ -94,20 +146,7 @@
     <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
   </footer>
 
-  <div class="mobile-menu" data-mobile-menu>
-    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
-    <a href="/" class="mobile-menu__link">Home</a>
-    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
-    <a href="/settings.html" class="mobile-menu__link">Settings</a>
-    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
-  </div>
-
-  <div class="toast" data-toast></div>
-
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/theme.js"></script>
   <script src="assets/js/api.js"></script>
-  <script src="assets/js/app.js"></script>
   <script>
     document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
       try {
@@ -117,6 +156,7 @@
         console.error('Checkout error:', e);
       }
     });
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function() {});
   </script>
 </body>
 </html>

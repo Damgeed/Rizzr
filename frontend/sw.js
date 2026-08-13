@@ -1,20 +1,13 @@
 /* Rizzr Service Worker — PWA offline caching */
-const CACHE = 'rizzr-v1';
+const CACHE = 'rizzr-v2-midnight';
 const ASSETS = [
   '/',
   '/index.html',
   '/settings.html',
   '/pricing.html',
   '/privacy.html',
-  '/assets/css/base.css',
-  '/assets/css/theme-sunset.css',
-  '/assets/css/theme-purple-dream.css',
-  '/assets/css/theme-neon-nights.css',
-  '/assets/js/i18n.js',
-  '/assets/js/theme.js',
-  '/assets/js/recorder.js',
+  '/assets/css/midnight-aura.css',
   '/assets/js/api.js',
-  '/assets/js/app.js',
   '/manifest.json',
 ];
 

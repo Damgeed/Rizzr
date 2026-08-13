@@ -2,57 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#FF6B6B">
-  <title>Privacy — Rizzr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Rizzr privacy policy — zero data persistence, secure processing, no tracking.">
+  <title>Privacy Policy | Rizzr</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css">
+  <style>
+    /* Privacy-specific */
+    .page-date { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 2.5rem; }
+    .content-card { display: flex; flex-direction: column; gap: 1.25rem; }
+    .privacy-block { border-bottom: 1px solid var(--glass-border); padding-bottom: 1.25rem; }
+    .privacy-block:last-child { border-bottom: none; padding-bottom: 0; }
+    .privacy-heading { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.4rem; color: var(--text-main); }
+    .privacy-text { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
+  </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="/" class="navbar__logo">Rizzr</a>
-    <div class="navbar__links navbar__links--desktop">
-      <a href="/" class="navbar__link">Home</a>
-      <a href="/pricing.html" class="navbar__link">Pricing</a>
-      <a href="/settings.html" class="navbar__link">Settings</a>
-    </div>
-    <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
-  </nav>
+  <!-- Background Layer -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
 
-  <main class="main slide-up">
-    <h1 class="page__title">Privacy Policy</h1>
-    <p class="page__date">Last updated: August 2026</p>
+  <!-- Header -->
+  <header class="nav-header">
+    <a href="/" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/pricing.html" class="nav-link">Pricing</a>
+      <a href="/settings.html" class="nav-link">Settings</a>
+      <a href="/privacy.html" class="nav-link active">Privacy</a>
+    </nav>
+    <div class="freemium-badge"><span>✨</span> 3 Free Replies</div>
+  </header>
 
-    <div class="page__content">
+  <main class="page-container">
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="page-date">Last updated: August 2026</p>
 
-      <h2 class="page__heading">1. Zero Data Persistence</h2>
-      <p class="page__text">Rizzr does not store your audio recordings, transcripts, or generated replies. Audio is processed in memory and permanently deleted immediately after transcription. No conversation history is retained on our servers.</p>
-
-      <h2 class="page__heading">2. API Processing</h2>
-      <p class="page__text">Audio is sent to OpenAI Whisper API for transcription and ElevenLabs for voice synthesis. These providers process data in transit and do not retain it. All API keys are stored server-side only — never exposed to the frontend.</p>
-
-      <h2 class="page__heading">3. Rate Limiting</h2>
-      <p class="page__text">Free-tier users are limited to 3 reply generations per day, tracked by IP address. No personal identity is required. We do not collect names, emails, or phone numbers for free usage.</p>
-
-      <h2 class="page__heading">4. Payment Data</h2>
-      <p class="page__text">Pro subscriptions are processed via Stripe. Rizzr never sees or stores your credit card information. Stripe handles all payment data securely. We only receive confirmation of your subscription status.</p>
-
-      <h2 class="page__heading">5. Theme Preferences</h2>
-      <p class="page__text">Your selected theme is stored in your browser's localStorage. This data never leaves your device.</p>
-
-      <h2 class="page__heading">6. Cookies</h2>
-      <p class="page__text">Rizzr does not use tracking cookies, analytics cookies, or advertising cookies.</p>
-
-      <h2 class="page__heading">7. Third-Party Sharing</h2>
-      <p class="page__text">We do not sell, share, or transfer user data to any third party. Period.</p>
-
-      <h2 class="page__heading">8. Contact</h2>
-      <p class="page__text">Questions about privacy? Email privacy@rizzr.com</p>
-
+    <div class="glass-card content-card">
+      <div class="privacy-block">
+        <h2 class="privacy-heading">1. Zero Data Persistence</h2>
+        <p class="privacy-text">Rizzr does not store your audio recordings, transcripts, or generated replies. Audio is processed in memory and permanently deleted immediately after transcription. No conversation history is retained on our servers.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">2. API Processing</h2>
+        <p class="privacy-text">Audio is sent to OpenAI Whisper API for transcription and ElevenLabs for voice synthesis. These providers process data in transit and do not retain it. All API keys are stored server-side only — never exposed to the frontend.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">3. Rate Limiting</h2>
+        <p class="privacy-text">Free-tier users are limited to 3 reply generations per day, tracked by IP address. No personal identity is required. We do not collect names, emails, or phone numbers for free usage.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">4. Payment Data</h2>
+        <p class="privacy-text">Pro subscriptions are processed via Stripe. Rizzr never sees or stores your credit card information. Stripe handles all payment data securely. We only receive confirmation of your subscription status.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">5. Preference Storage</h2>
+        <p class="privacy-text">Your selected preferences are stored in your browser's localStorage. This data never leaves your device.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">6. Cookies</h2>
+        <p class="privacy-text">Rizzr does not use tracking cookies, analytics cookies, or advertising cookies.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">7. Third-Party Sharing</h2>
+        <p class="privacy-text">We do not sell, share, or transfer user data to any third party. Period.</p>
+      </div>
+      <div class="privacy-block">
+        <h2 class="privacy-heading">8. Contact</h2>
+        <p class="privacy-text">Questions about privacy? Email privacy@rizzr.com</p>
+      </div>
     </div>
   </main>
 
@@ -66,15 +101,8 @@
     <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
   </footer>
 
-  <div class="mobile-menu" data-mobile-menu>
-    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
-    <a href="/" class="mobile-menu__link">Home</a>
-    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
-    <a href="/settings.html" class="mobile-menu__link">Settings</a>
-    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
-  </div>
-
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/theme.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function() {});
+  </script>
 </body>
 </html>

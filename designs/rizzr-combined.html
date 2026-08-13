@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Rizzr | AI Voice-Note Reply Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Midnight Aura Palette (unmodified from rizzgeminiPRO) */
+      --bg-base: #050508;
+      --orb-1: #ff3366; /* Neon Coral */
+      --orb-2: #7000ff; /* Electric Violet */
+      --orb-3: #00d4ff; /* Cyan Edge */
+
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-pill: 999px;
+
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* --- Animated Background (unmodified from rizzgeminiPRO) --- */
+    .bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: var(--bg-base);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s infinite ease-in-out alternate;
+    }
+
+    .orb-1 {
+      width: 50vw; height: 50vw;
+      background: radial-gradient(circle, var(--orb-1) 0%, transparent 70%);
+      top: -10%; left: -10%;
+    }
+
+    .orb-2 {
+      width: 60vw; height: 60vw;
+      background: radial-gradient(circle, var(--orb-2) 0%, transparent 70%);
+      bottom: -20%; right: -10%;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 40vw; height: 40vw;
+      background: radial-gradient(circle, var(--orb-3) 0%, transparent 70%);
+      top: 40%; left: 40%;
+      animation-delay: -10s;
+      opacity: 0.3;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(5%, 10%) scale(1.1); }
+      100% { transform: translate(-5%, -5%) scale(0.9); }
+    }
+
+    /* --- Grain Texture Overlay (unmodified) --- */
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* --- Layout & Navigation (unmodified brand/nav) --- */
+    .nav-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .freemium-badge {
+      background: rgba(255, 51, 102, 0.1);
+      border: 1px solid rgba(255, 51, 102, 0.2);
+      color: #ff4d6d;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.1);
+    }
+
+    /* --- Desktop: hero in a row, phone demo on the right --- */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 1.5rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .layout {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* Left: hero copy */
+    .hero-copy {
+      flex: 1 1 44%;
+      text-align: center;
+    }
+    .hero-copy-title {
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      background: linear-gradient(to bottom right, #fff, #a1a1aa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-copy .subtext {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      line-height: 1.5;
+      max-width: 34ch;
+      margin: 1.1rem auto 0;
+    }
+
+    /* Right: phone demo (sonnet5 placement) */
+    .demo {
+      flex: 1 1 56%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .state-tabs {
+      display: inline-flex;
+      gap: 4px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 4px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(20px);
+    }
+    .state-tabs button {
+      appearance: none; border: none; background: transparent;
+      color: var(--text-muted);
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px; font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color .25s ease, background .25s ease;
+    }
+    .state-tabs button.active {
+      background: var(--orb-1);
+      color: #fff;
+      box-shadow: 0 6px 18px -6px rgba(255,51,102,0.6);
+    }
+    .state-tabs button:not(.active):hover { color: var(--text-main); }
+
+    .phone {
+      position: relative;
+      width: min(320px, 80vw);
+      aspect-ratio: 9 / 18;
+      border-radius: 46px;
+      padding: 12px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 60px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .phone__screen {
+      position: relative;
+      width: 100%; height: 100%;
+      border-radius: 36px;
+      overflow: hidden;
+      background: #07070d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone__notch {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 22px; background: rgba(0,0,0,0.6);
+      border-radius: 999px; z-index: 5;
+    }
+
+    /* --- View state toggling (rizzeminiPRO pattern) --- */
+    .view-state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      padding: 30px 20px 24px;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(10px);
+    }
+    .view-state.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    /* HERO inside phone */
+    .phone-tagline {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(to bottom right, #fff, #a1a1aa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .phone-subtext {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+      max-width: 90%;
+    }
+    .record-wrapper {
+      position: relative;
+      width: 116px; height: 116px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      cursor: pointer;
+    }
+    .pulse-ring-1, .pulse-ring-2 {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid var(--orb-1);
+      animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    .pulse-ring-2 { animation-delay: 1.25s; }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .btn-record {
+      position: relative;
+      z-index: 2;
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2));
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(255,51,102,0.4), inset 0 0 20px rgba(255,255,255,0.2);
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .record-wrapper:hover .btn-record { transform: scale(1.05); }
+    .record-wrapper:active .btn-record { transform: scale(0.95); }
+    .record-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .phone-actions {
+      display: flex;
+      gap: 0.6rem;
+      width: 100%;
+      margin-top: 1.2rem;
+    }
+    .btn-pill {
+      flex: 1;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      color: var(--text-main);
+      padding: 0.7rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-pill:hover {
+      background: var(--glass-hover);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    .phone-trust {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      width: 100%;
+      border-top: 1px solid var(--glass-border);
+      padding-top: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    /* RECORDING inside phone */
+    .phone-record-status {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .recording-dot {
+      width: 9px; height: 9px;
+      background: var(--orb-1);
+      border-radius: 50%;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0.3; } }
+    .visualizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 60px;
+      margin-bottom: 1.4rem;
+    }
+    .bar {
+      width: 5px;
+      background: linear-gradient(to top, var(--orb-2), var(--orb-1));
+      border-radius: 99px;
+      animation: eq 0.5s ease-in-out infinite alternate;
+    }
+    .bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
+    .bar:nth-child(2) { height: 60%; animation-delay: 0.2s; }
+    .bar:nth-child(3) { height: 100%; animation-delay: 0.3s; }
+    .bar:nth-child(4) { height: 50%; animation-delay: 0.4s; }
+    .bar:nth-child(5) { height: 80%; animation-delay: 0.5s; }
+    .bar:nth-child(6) { height: 40%; animation-delay: 0.6s; }
+    .bar:nth-child(7) { height: 90%; animation-delay: 0.7s; }
+    @keyframes eq { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }
+    .phone-timer {
+      font-variant-numeric: tabular-nums;
+      font-size: 1.9rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.6rem;
+    }
+    .btn-stop-scale {
+      width: 180px;
+      margin: 0 auto;
+      background: rgba(255,51,102,0.1);
+      border-color: var(--orb-1);
+      color: var(--orb-1);
+      padding: 0.85rem;
+      font-size: 0.875rem;
+    }
+
+    /* RESULTS inside phone */
+    .phone-results { justify-content: flex-start; padding-top: 40px; overflow-y: auto; }
+    .phone-results-header { margin-bottom: 1rem; text-align: center; width: 100%; }
+    .phone-results-header h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .phone-results-header p { font-size: 0.75rem; }
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      width: 100%;
+      margin-bottom: 1.2rem;
+    }
+    .reply-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1rem;
+      text-align: left;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .reply-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-color);
+      opacity: 0.8;
+    }
+    .reply-card.flirty { --card-color: var(--orb-1); }
+    .reply-card.witty { --card-color: var(--orb-2); }
+    .reply-card.sweet { --card-color: var(--orb-3); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .vibe-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--card-color);
+      background: color-mix(in srgb, var(--card-color) 15%, transparent);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+    .card-text {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 0.8rem;
+      color: #fff;
+    }
+    .card-actions { display: flex; gap: 0.4rem; }
+    .btn-play, .btn-copy {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      padding: 0.5rem 0.7rem;
+      border-radius: var(--radius-pill);
+      color: white;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-play { flex: 1; justify-content: center; }
+    .btn-play:hover {
+      background: color-mix(in srgb, var(--card-color) 20%, rgba(0,0,0,0.3));
+      border-color: var(--card-color);
+    }
+    .btn-copy:hover { background: rgba(255,255,255,0.1); }
+    .reset-btn {
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .reset-btn:hover { opacity: 1; color: white; }
+
+    /* Desktop hero copy alignment */
+    @media (min-width: 860px) {
+      .hero-copy { text-align: left; }
+      .hero-copy .subtext { margin: 1.1rem 0 0; }
+    }
+
+    /* Mobile stacking (match rizzgeminiPRO single-col feel) */
+    @media (max-width: 859px) {
+      main { padding: 0.5rem 0 2rem; }
+      .layout { flex-direction: column; gap: 0.5rem; }
+      .hero-copy { max-width: 480px; }
+      .demo { width: 100%; }
+    }
+
+    svg { flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layer (unmodified) -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
+
+  <!-- Header (unmodified nav) -->
+  <header class="nav-header">
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </div>
+    <div class="freemium-badge"><span>✨</span> 3 Free Replies</div>
+  </header>
+
+  <main>
+    <div class="layout">
+
+      <!-- LEFT: hero copy (rizzeminiPRO content preserved) -->
+      <div class="hero-copy">
+        <h1 class="hero-copy-title">Perfect replies,<br>zero panic.</h1>
+        <p class="subtext">AI-crafted voice replies for when you're left on read or lost for words.</p>
+      </div>
+
+      <!-- RIGHT: phone demo (sonnet5 placement, rizzgeminiPRO palette) -->
+      <div class="demo">
+        <div class="state-tabs" role="tablist" aria-label="Preview app states">
+          <button type="button" class="active" data-state="hero" onclick="switchState('hero')">Start</button>
+          <button type="button" data-state="recording" onclick="switchState('recording')">Recording</button>
+          <button type="button" data-state="results" onclick="switchState('results')">Results</button>
+        </div>
+
+        <div class="phone">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+
+            <!-- STATE 1: HERO -->
+            <section id="view-hero" class="view-state active">
+              <h2 class="phone-tagline">Perfect replies,<br>zero panic.</h2>
+              <p class="phone-subtext">AI-crafted voice replies for when you're left on read or lost for words.</p>
+              <div class="record-wrapper" onclick="switchState('recording')">
+                <div class="pulse-ring-1"></div>
+                <div class="pulse-ring-2"></div>
+                <button class="btn-record">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="record-hint">Tap to Record</p>
+              <div class="phone-actions">
+                <button class="btn-pill" onclick="switchState('results')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload
+                </button>
+                <button class="btn-pill" onclick="switchState('results')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  Link
+                </button>
+              </div>
+              <div class="phone-trust">
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🔒 No Signup</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">⚡ ~7s Results</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🌍 Any Language</span>
+              </div>
+            </section>
+
+            <!-- STATE 2: RECORDING -->
+            <section id="view-recording" class="view-state">
+              <div class="phone-record-status">
+                <div class="recording-dot"></div>
+                Listening to their message...
+              </div>
+              <div class="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+              </div>
+              <div class="phone-timer">00:04</div>
+              <button class="btn-pill btn-stop-scale" onclick="switchState('results')">Stop & Generate</button>
+            </section>
+
+            <!-- STATE 3: RESULTS -->
+            <section id="view-results" class="view-state phone-results">
+              <div class="phone-results-header">
+                <h2>Pick your vibe</h2>
+                <p class="subtext">Listen to the preview or copy the text directly.</p>
+              </div>
+              <div class="cards-container">
+                <div class="reply-card flirty">
+                  <div class="card-top"><span class="vibe-tag">🔥 Flirty</span></div>
+                  <p class="card-text">"You owe me a drink for that text. When are we making it happen?"</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+                <div class="reply-card witty">
+                  <div class="card-top"><span class="vibe-tag">🧠 Witty</span></div>
+                  <p class="card-text">"I'd reply with something clever, but I feel like my silence builds mystery."</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+                <div class="reply-card sweet">
+                  <div class="card-top"><span class="vibe-tag">🥺 Sweet</span></div>
+                  <p class="card-text">"That actually just made my whole day. Tell me more about it."</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <button class="reset-btn" onclick="switchState('hero')">← Start a new recording</button>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function switchState(targetId) {
+      document.querySelectorAll('.view-state').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      document.getElementById('view-' + targetId).classList.add('active');
+      document.querySelectorAll('.state-tabs button').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-state') === targetId);
+      });
+
+      if (targetId === 'recording') {
+        var timer = document.querySelector('.phone-timer');
+        var sec = 0;
+        timer.innerText = '00:00';
+        if (window.recInterval) clearInterval(window.recInterval);
+        window.recInterval = setInterval(function() {
+          sec++;
+          timer.innerText = (sec < 10 ? '00:0' : '00:') + sec;
+          if (sec >= 5) {
+            clearInterval(window.recInterval);
+            switchState('results');
+          }
+        }, 1000);
+      } else {
+        clearInterval(window.recInterval);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -2,105 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#FF6B6B">
-  <title>Settings — Rizzr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Rizzr settings — manage your account, privacy, and plan.">
+  <title>Settings | Rizzr</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/theme-sunset.css" data-theme-css>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css">
+  <style>
+    /* Settings-specific */
+    .settings-section { display: flex; flex-direction: column; }
+    .settings-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .settings-hint { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+    .settings-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--glass-border);
+      font-size: 0.9rem;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-value { color: var(--text-muted); font-size: 0.85rem; }
+    .settings-badge { font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); }
+    .settings-badge--on { background: rgba(74, 222, 128, 0.12); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.25); }
+    .settings-upgrade { margin-top: 1rem; }
+    .settings-link { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+    .settings-link:hover { color: var(--orb-1); }
+  </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="/" class="navbar__logo">Rizzr</a>
-    <div class="navbar__links navbar__links--desktop">
-      <a href="/" class="navbar__link">Home</a>
-      <a href="/pricing.html" class="navbar__link">Pricing</a>
-      <a href="/settings.html" class="navbar__link navbar__link--active">Settings</a>
-    </div>
-    <div class="navbar__hamburger" data-hamburger><span></span><span></span><span></span></div>
-  </nav>
+  <!-- Background Layer -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
 
-  <main class="main slide-up">
-    <h1 class="settings__heading">Settings</h1>
+  <!-- Header -->
+  <header class="nav-header">
+    <a href="/" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/pricing.html" class="nav-link">Pricing</a>
+      <a href="/settings.html" class="nav-link active">Settings</a>
+      <a href="/privacy.html" class="nav-link">Privacy</a>
+    </nav>
+    <div class="freemium-badge"><span>✨</span> 3 Free Replies</div>
+  </header>
 
-    <!-- THEME -->
-    <div class="settings__section">
-      <div class="settings__title">🎨 Theme</div>
-      <p class="settings__hint">Choose your vibe. Saved automatically.</p>
-      <div class="theme-grid">
-        <div class="theme-card" data-theme-card="sunset">
-          <div class="theme-card__preview theme-sunset-preview"></div>
-          <div class="theme-card__label">
-            <span>Sunset</span>
-            <span class="theme-card__check" data-check>✓</span>
-          </div>
-        </div>
-        <div class="theme-card" data-theme-card="purple-dream">
-          <div class="theme-card__preview theme-purple-dream-preview"></div>
-          <div class="theme-card__label">
-            <span>Purple Dream</span>
-            <span class="theme-card__check" data-check>✓</span>
-          </div>
-        </div>
-        <div class="theme-card" data-theme-card="neon-nights">
-          <div class="theme-card__preview theme-neon-nights-preview"></div>
-          <div class="theme-card__label">
-            <span>Neon Nights</span>
-            <span class="theme-card__check" data-check>✓</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <main class="page-container">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-sub">Manage your account and preferences.</p>
 
     <!-- PRIVACY -->
-    <div class="settings__section">
-      <div class="settings__title">🔒 Privacy</div>
-      <div class="settings__row">
+    <div class="glass-card settings-section">
+      <div class="settings-title">🔒 Privacy</div>
+      <div class="settings-row">
         <span>Audio auto-deleted after processing</span>
-        <span class="settings__badge settings__badge--on">✓ Always on</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
       </div>
-      <div class="settings__row">
+      <div class="settings-row">
         <span>No conversation history stored</span>
-        <span class="settings__badge settings__badge--on">✓ Always on</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
       </div>
-      <div class="settings__row">
+      <div class="settings-row">
         <span>Zero data sold to third parties</span>
-        <span class="settings__badge settings__badge--on">✓ Always on</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
       </div>
     </div>
 
     <!-- ACCOUNT -->
-    <div class="settings__section">
-      <div class="settings__title">👤 Account</div>
-      <div class="settings__row">
+    <div class="glass-card settings-section">
+      <div class="settings-title">👤 Account</div>
+      <div class="settings-hint">You're on the free plan — 3 AI replies per day.</div>
+      <div class="settings-row">
         <span>Plan</span>
-        <span class="settings__value">Free (3/day)</span>
+        <span class="settings-value">Free (3/day)</span>
       </div>
-      <div class="settings__row">
+      <div class="settings-row">
         <span>Replies used today</span>
-        <span class="settings__value" data-free-count>0 / 3</span>
+        <span class="settings-value" data-free-count>0 / 3</span>
       </div>
-      <a href="/pricing.html" class="settings__upgrade">
-        <button class="cta-btn">Upgrade to Pro →</button>
-      </a>
+      <div class="settings-upgrade">
+        <a href="/pricing.html" class="btn btn-primary btn-block">Upgrade to Pro →</a>
+      </div>
     </div>
 
     <!-- ABOUT -->
-    <div class="settings__section">
-      <div class="settings__title">ℹ️ About</div>
-      <div class="settings__row">
+    <div class="glass-card settings-section">
+      <div class="settings-title">ℹ️ About</div>
+      <div class="settings-row">
         <span>Version</span>
-        <span class="settings__value">1.0.0</span>
+        <span class="settings-value">1.0.0</span>
       </div>
-      <div class="settings__row">
-        <a href="/privacy.html" class="settings__link">Privacy Policy</a>
-        <span class="settings__arrow">→</span>
+      <div class="settings-row">
+        <a href="/privacy.html" class="settings-link">Privacy Policy</a>
+        <span class="settings-value">→</span>
       </div>
     </div>
-
   </main>
 
   <footer class="footer">
@@ -113,18 +122,8 @@
     <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
   </footer>
 
-  <div class="mobile-menu" data-mobile-menu>
-    <button class="mobile-menu__close" data-mobile-menu-close>✕</button>
-    <a href="/" class="mobile-menu__link">Home</a>
-    <a href="/pricing.html" class="mobile-menu__link">Pricing</a>
-    <a href="/settings.html" class="mobile-menu__link">Settings</a>
-    <a href="/privacy.html" class="mobile-menu__link">Privacy</a>
-  </div>
-
-  <div class="toast" data-toast></div>
-
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function() {});
+  </script>
 </body>
 </html>
