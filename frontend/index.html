@@ -138,7 +138,7 @@
     .view-state.active { opacity: 1; pointer-events: all; transform: translateY(0); }
 
     /* Hero-in-phone: push record + Upload/Link buttons lower (tabs now live on top) */
-    #view-hero { padding-top: 180px; }
+    #view-hero { padding-top: 120px; }
 
     .record-wrapper { position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; cursor: pointer; }
     .pulse-ring-1, .pulse-ring-2 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--orb-1); animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
@@ -398,11 +398,10 @@
     .mode-state.live { background: linear-gradient(135deg,#ff3366,#7000ff); color: #fff; }
     .mode-state.soon { color: #FFC15E; border: 1px solid rgba(255,193,94,.3); }
     .mode-track .hero-copy { max-width: 720px; text-align: center; }
-    /* Desktop: description left-aligned (uniform across modes) + Finesse lifted toward nav */
+    /* Desktop: description left-aligned (uniform across modes) */
     @media (min-width: 860px) {
       .mode-track .hero-copy { text-align: left; }
       .mode-track .hero-copy .subtext { margin-left: 0; }
-      .mode-panel.finesse { justify-content: center; padding-bottom: 8rem; }
     }
     /* Mobile: tighten the gap between the mode-name head and the title */
     @media (max-width: 640px) {
