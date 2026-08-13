@@ -386,8 +386,10 @@
       width: 100%;
     }
     .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; padding-top: 2.5rem; }
-    /* Finesse: pull content up so the head sits snug under the nav (not dead-centered/pushed down) */
-    .mode-panel.finesse { justify-content: flex-start; padding-top: 1rem; }
+    /* Finesse: pull content up so the head sits snug under the nav (not dead-centered/pushed down).
+       Also drop the 100vh min-height so the panel only wraps its content — no dead space below
+       the phone before the dots (fixes "reply page gap too big" on mobile). */
+    .mode-panel.finesse { justify-content: flex-start; padding-top: 1rem; min-height: 0; }
     .mode-panel.finesse .mode-panel__head { margin-top: 0; }
     .mode-panel__head {
       align-self: center; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;
@@ -425,13 +427,20 @@
     .mode-arrow--right { right: 12px; }
     .mode-arrow:disabled { opacity: 0.35; cursor: default; }
     /* Dots */
-    .mode-dots { display: flex; justify-content: center; gap: 8px; padding: 0.4rem 0 0.6rem; }
+    .mode-dots { display: flex; justify-content: center; gap: 8px; padding: 0.4rem 0 0.4rem; }
     /* Tighten gap between dots and THE FLOW below */
-    #how-it-works { padding-top: 1rem; padding-bottom: 0.5rem; }
-    /* Tighten gap between THE FLOW and FAQ */
+    #how-it-works { padding-top: 0.6rem; padding-bottom: 0.5rem; }
+    /* Tighten gap between THE FLOW and FAQ: pull FAQ head up + tighten flow title/eyebrow margins */
     #faq { padding-top: 1rem; }
+    #how-it-works .section-eyebrow { margin-bottom: 0.9rem; }
     /* Tighten gap between phone template bottom and the dots */
-    .mode-panel.finesse { padding-bottom: 1.5rem; }
+    .mode-panel.finesse { padding-bottom: 1.25rem; }
+    /* Tighten the shared section header spacing feeding the dots→flow→faq gaps */
+    #how-it-works .section-title, #faq .section-title { margin-bottom: 1.6rem; }
+    #faq .section-eyebrow { margin-bottom: 0.6rem; }
+    @media (max-width: 640px) {
+      #how-it-works .section-title, #faq .section-title { margin-bottom: 1.2rem; }
+    }
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
     /* Panels 2-4 shared content */
