@@ -254,6 +254,24 @@
       .step-num { position: static; display: block; margin-bottom: 0.8rem; font-size: 1.9rem; }
     }
 
+    /* Shared FAQ */
+    .faq { display: flex; flex-direction: column; gap: 0.8rem; max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); backdrop-filter: blur(20px);
+      transition: var(--transition);
+    }
+    .faq-item:hover { background: var(--glass-hover); }
+    .faq-item summary {
+      cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.3rem; font-weight: 600; font-size: 1rem; color: var(--text-main);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '＋'; font-size: 1.2rem; color: var(--orb-1); transition: var(--transition); }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p { padding: 0 1.3rem 1.2rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.55; }
+    .faq-item p strong { color: var(--text-main); }
+
     /* ==========================================
        V2 FEATURES — MVP + v2 story
        ========================================== */
@@ -755,6 +773,57 @@
     </div>
   </div>
 </main>
+
+  <!-- Shared THE FLOW — how every mode works -->
+  <section class="section" id="how-it-works">
+    <span class="section-eyebrow">The Flow</span>
+    <h2 class="section-title">Three steps. No overthinking.</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="step-num">01</span>
+        <h3>Record or drop it in</h3>
+        <p>Hold the mic, upload a file, or paste a link to the voice note you got.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">02</span>
+        <h3>Rizzr listens</h3>
+        <p>We transcribe it and read the tone — what they said and how they said it.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">03</span>
+        <h3>Pick your reply</h3>
+        <p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Shared FAQ — applies to all four modes -->
+  <section class="section" id="faq">
+    <span class="section-eyebrow">FAQ</span>
+    <h2 class="section-title">Questions, answered.</h2>
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary>Which modes are available now?</summary>
+        <p><strong>Finesse</strong> (reply) is live. <strong>Ghost</strong>, <strong>Echo</strong> and <strong>Vibe</strong> are in the works — they share the same voice→AI→reply engine, so they'll arrive on top of what already works.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need an account to use Rizzr?</summary>
+        <p>No signup needed. You get 3 free replies per day, then it's a flat <strong>$9.99/mo</strong> for unlimited use.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work in any language?</summary>
+        <p>Yes — Rizzr transcribes the voice note, reads the tone, and writes a reply in the same language the note was sent in.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How are audio replies made?</summary>
+        <p>By default replies come back as text you can copy or send. Audio replies in your own voice arrive with the <strong>Echo</strong> mode.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is my voice data private?</summary>
+        <p>Your voice notes are processed and not sold or shared. You control what's kept in your vault.</p>
+      </details>
+    </div>
+  </section>
 
   <footer class="footer">
     <div class="footer__links">
