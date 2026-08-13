@@ -240,25 +240,27 @@
     /* ==========================================
        V2 FEATURES — MVP + v2 story
        ========================================== */
-    .v2-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .v2-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
     .v2-card {
-      display: flex; gap: 1rem; align-items: flex-start; text-align: left;
+      display: flex; flex-direction: column; align-items: flex-start; text-align: left;
       background: var(--glass-bg); border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md); padding: 1.4rem 1.4rem;
+      border-radius: var(--radius-md); padding: 1.2rem 1.2rem;
       backdrop-filter: blur(20px); transition: var(--transition);
     }
     .v2-card:hover { background: var(--glass-hover); transform: translateY(-3px); border-color: rgba(255,255,255,0.16); }
     .v2-ic {
-      flex-shrink: 0; width: 46px; height: 46px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; margin-bottom: 0.8rem;
+      display: flex; align-items: center; justify-content: center; color: #fff;
       box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5);
     }
-    .v2-card h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .v2-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.45; }
-    .v2-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-      padding: 0.2rem 0.5rem; border-radius: 999px; margin-left: 0.4rem; vertical-align: middle; }
+    .v2-ic svg { width: 22px; height: 22px; }
+    .v2-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; line-height: 1.25; }
+    .v2-card p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.45; }
+    .v2-tag { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.18rem 0.45rem; border-radius: 999px; margin-left: 0.4rem; vertical-align: middle; display: inline-block; transform: translateY(-1px); }
     @media (min-width: 860px) {
-      .v2-grid { grid-template-columns: 1fr 1fr; }
+      .v2-grid { gap: 1rem; }
+      .v2-card { padding: 1.4rem 1.4rem; }
     }
   </style>
 </head>
@@ -454,22 +456,22 @@
     <h2 class="section-title">Rizzr grows with you</h2>
     <div class="v2-grid">
       <div class="v2-card">
-        <div class="v2-ic" style="background:linear-gradient(135deg,#FF6A5C,#FFC15E)">📲</div>
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FF6A5C,#FFC15E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></div>
         <div><h3>Fake-call bailout<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
           <p>Stuck in an awkward chat? One tap fakes an incoming call with a believable contact — a graceful exit, no explanations needed.</p></div>
       </div>
       <div class="v2-card">
-        <div class="v2-ic" style="background:linear-gradient(135deg,#9FE3C4,#FFC15E)">👻</div>
+        <div class="v2-ic" style="background:linear-gradient(135deg,#9FE3C4,#FFC15E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path d="M19 4l3 3"/></svg></div>
         <div><h3>Ghost mode<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
           <p>Fade out on your terms — replies spaced further apart until you gently drift out. No drama, no ghosting.</p></div>
       </div>
       <div class="v2-card">
-        <div class="v2-ic" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)">🎙️</div>
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/><path d="M17 3.5a5 5 0 0 1 0 7"/><path d="M7 3.5a5 5 0 0 0 0 7"/></svg></div>
         <div><h3>Your voice, cloned<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
           <p>Replies are read aloud in your own voice — not a generic robot — so the audio sounds like you sent it.</p></div>
       </div>
       <div class="v2-card">
-        <div class="v2-ic" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)">🧠</div>
+        <div class="v2-ic" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M3 12h4l3-6 4 12 2.5-4H17h4"/></svg></div>
         <div><h3>Emotion radar<span class="v2-tag" style="background:rgba(255,51,102,0.15);color:var(--orb-1)">v2</span></h3>
           <p>It reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p></div>
       </div>
