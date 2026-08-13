@@ -532,8 +532,8 @@
       .mode-panel__text { align-items: flex-start; }
       .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
       .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
-      /* bullets flow horizontally in a full-width row below the phone on desktop */
-      .mode-panel .mode-list { order: 3; flex: 0 0 100%; width: 100%; margin: 2.4rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.7rem; }
+      /* bullets flow horizontally in a full-width grid below the phone on desktop */
+      .mode-panel .mode-list { width: 100%; max-width: none; margin: 2.4rem auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.7rem; justify-content: center; }
       .mode-panel .mode-list li { flex: none; }
     }
     @media (max-width: 640px) {
@@ -760,15 +760,17 @@
                 <div style="margin-top:8px;font-size:0.6rem;color:#a1a1aa;max-width:180px;">"Sorry, I have to take this."</div>
               </div>
           </div>
-<ul class="mode-list">
-              <li>Fake-call bailout — a believable ring-in</li>
-              <li>Ghost fade — drift out on your own terms</li>
-              <li>One tap. No awkwardness. No follow-up texts.</li>
-            </ul>
+
         </div>
       </div>
       
 
+
+      <ul class="mode-list">
+              <li>Fake-call bailout — a believable ring-in</li>
+              <li>Ghost fade — drift out on your own terms</li>
+              <li>One tap. No awkwardness. No follow-up texts.</li>
+            </ul>
 <div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
@@ -798,15 +800,17 @@
                 <span class="voice-chip" style="margin-top:2px">Saved to vault</span>
               </div>
             </div>
-<ul class="mode-list">
-              <li>Voice clone tuned to how you talk</li>
-              <li>Audio replies that sound like you sent them</li>
-              <li>Vault — your saved replies &amp; favorites live here</li>
-            </ul>
+
           </div>
         </div>
       
 
+
+      <ul class="mode-list">
+              <li>Voice clone tuned to how you talk</li>
+              <li>Audio replies that sound like you sent them</li>
+              <li>Vault — your saved replies &amp; favorites live here</li>
+            </ul>
 <div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
@@ -839,15 +843,17 @@
                 <div style="margin-top:8px;font-size:0.62rem;color:#a1a1aa;max-width:180px;line-height:1.4;">Reply tuned to match the energy.</div>
               </div>
             </div>
-<ul class="mode-list">
-              <li>Emotion detection on the original note</li>
-              <li>Replies tuned to the mood, not generic</li>
-              <li>Say the right thing, every time</li>
-            </ul>
+
           </div>
         </div>
       
 
+
+      <ul class="mode-list">
+              <li>Emotion detection on the original note</li>
+              <li>Replies tuned to the mood, not generic</li>
+              <li>Say the right thing, every time</li>
+            </ul>
 <div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
