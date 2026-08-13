@@ -71,6 +71,12 @@
       .hero-copy .trust-row { justify-content: flex-start; margin-top: 1.6rem; }
       /* Remove the in-phone trust badges on desktop — they're already on the left */
       .demo .phone-trust { display: none; }
+      /* Remove the in-phone Upload/Link on desktop — already on the left */
+      .demo .phone-actions { display: none; }
+      /* Left-align mode titles + descriptions on desktop */
+      .mode-track .mode-title, .mode-track .mode-desc { text-align: left; }
+      .mode-track .mode-desc { margin-left: 0; }
+      .mode-track .mode-list { margin-left: 0; }
     }
 
     /* Mobile: stacked, condensed hook (hide full description + badges) */
@@ -372,7 +378,7 @@
     .mode-track .hero-copy { max-width: 720px; text-align: center; }
     /* Arrow buttons */
     .mode-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
+      position: absolute; top: 18%; transform: translateY(-50%); z-index: 20;
       width: 44px; height: 44px; border-radius: 50%;
       background: var(--glass-bg); border: 1px solid var(--glass-border);
       color: var(--text-main); display: flex; align-items: center; justify-content: center;
@@ -405,6 +411,63 @@
     }
     .mode-list li::before { content: '▸'; color: var(--orb-1); font-weight: 700; }
     .panel-steps { width: 100%; max-width: 1080px; margin: 2.4rem auto 0; }
+    /* ---- SOON mode panels: left-aligned text + phone mockup ---- */
+    .mode-panel .mode-body {
+      width: 100%; max-width: 1080px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: 2rem; text-align: center;
+    }
+    .mode-panel__text { display: flex; flex-direction: column; align-items: center; }
+    /* Phone mockup (shared with all modes) */
+    .mode-phone {
+      width: 250px; flex: none;
+      background: linear-gradient(160deg,#13131d,#0a0a12); border: 1px solid var(--glass-border);
+      border-radius: 38px; padding: 12px; box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7);
+    }
+    .mode-phone__screen {
+      position: relative; border-radius: 28px; overflow: hidden;
+      background: linear-gradient(175deg,rgba(255,51,102,0.06),rgba(112,0,255,0.06));
+      aspect-ratio: 9/18.5; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 26px 18px 20px;
+    }
+    .mode-phone__notch {
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 86px; height: 16px; background: #000; border-radius: 999px; z-index: 3;
+    }
+    /* Ghost — fake-call screen */
+    .call-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .call-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg,#7000ff,#9b6bff); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.5rem; box-shadow: 0 10px 28px -8px rgba(112,0,255,0.7); }
+    .call-name { font-weight: 700; font-size: 0.95rem; }
+    .call-sub { font-size: 0.62rem; color: #a1a1aa; letter-spacing: 0.08em; text-transform: uppercase; }
+    .inc-ring { display: flex; align-items: center; justify-content: center; gap: 5px; height: 22px; margin: 2px 0 4px; }
+    .inc-ring .bar { width: 4px; height: 22px; border-radius: 99px; background: linear-gradient(to top,#FF6A5C,#FFC15E); animation: ringeq .7s ease-in-out infinite alternate; }
+    .inc-ring .bar:nth-child(2) { animation-delay: .15s; }
+    .inc-ring .bar:nth-child(3) { animation-delay: .3s; }
+    .inc-ring .bar:nth-child(4) { animation-delay: .45s; }
+    .call-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .call-btn { font-size: 0.6rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: #fff; }
+    .call-btn.abort { background: linear-gradient(135deg,#ff3366,#ff6a8a); border-color: transparent; }
+    /* Echo — voice player */
+    .voice-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 100%; }
+    .voice-wave { display: flex; align-items: center; gap: 3px; height: 34px; justify-content: center; }
+    .voice-wave .bar { width: 4px; border-radius: 99px; background: linear-gradient(to top,#FF8FB1,#FF6A5C); animation: ringeq .8s ease-in-out infinite alternate; }
+    .voice-wave .bar:nth-child(1){height:14px}.voice-wave .bar:nth-child(2){height:26px;animation-delay:.1s}.voice-wave .bar:nth-child(3){height:20px;animation-delay:.2s}.voice-wave .bar:nth-child(4){height:30px;animation-delay:.3s}.voice-wave .bar:nth-child(5){height:16px;animation-delay:.4s}
+    .voice-lab { font-size: 0.66rem; color: #a1a1aa; }
+    .voice-chip { font-size: 0.6rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: #fff; }
+    /* Vibe — mood read */
+    .mood-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 100%; }
+    .mood-scale { width: 100%; position: relative; margin-top: 4px; }
+    .mood-track { height: 6px; border-radius: 999px; background: linear-gradient(90deg,#3162ff,#7c7cff,#ffffff,#FFC15E,#ff5c5c); opacity: 0.9; }
+    .mood-marker { position: absolute; top: -5px; left: 78%; width: 3px; height: 16px; background: #fff; border-radius: 999px; box-shadow: 0 0 10px rgba(255,255,255,0.7); }
+    .mood-tags { display: flex; justify-content: space-between; width: 100%; font-size: 0.55rem; color: #a1a1aa; margin-top: 6px; }
+    .mood-badge { font-size: 0.66rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: linear-gradient(135deg,#FFC15E,#FF8FB1); color: #170D16; }
+    /* SOON panels: text left, phone right on desktop */
+    @media (min-width: 860px) {
+      .mode-panel .mode-body { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; text-align: left; }
+      .mode-panel__text { align-items: flex-start; }
+      .mode-panel__head { align-self: flex-start; }
+      .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
+      .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
+    }
     @media (max-width: 640px) {
       .mode-panel { padding: 1.6rem 1rem 2.4rem; }
       .mode-title { font-size: 1.6rem; }
@@ -457,7 +520,6 @@
       <section class="mode-panel finesse">
         <div class="mode-panel__head">
           <span class="mode-name">Finesse</span>
-          <span class="mode-state live">live</span>
         </div>
 <div class="layout">
       <!-- LEFT: hero copy -->
@@ -556,7 +618,7 @@
               </div>
               <div class="cards-container">
                 <div class="reply-card flirty">
-                  <div class="card-top"><span class="vibe-tag">🔥 Flirty</span></div>
+                  <div class="card-top"><span class="vibe-tag">Flirty</span></div>
                   <p class="card-text">"You owe me a drink for that text. When are we making it happen?"</p>
                   <div class="card-actions">
                     <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
@@ -564,7 +626,7 @@
                   </div>
                 </div>
                 <div class="reply-card witty">
-                  <div class="card-top"><span class="vibe-tag">🧠 Witty</span></div>
+                  <div class="card-top"><span class="vibe-tag">Witty</span></div>
                   <p class="card-text">"I'd reply with something clever, but I feel like my silence builds mystery."</p>
                   <div class="card-actions">
                     <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
@@ -572,7 +634,7 @@
                   </div>
                 </div>
                 <div class="reply-card sweet">
-                  <div class="card-top"><span class="vibe-tag">🥺 Sweet</span></div>
+                  <div class="card-top"><span class="vibe-tag">Sweet</span></div>
                   <p class="card-text">"That actually just made my whole day. Tell me more about it."</p>
                   <div class="card-actions">
                     <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
@@ -611,52 +673,102 @@
       <section class="mode-panel ghost">
         <div class="mode-panel__head">
           <span class="mode-name">Ghost</span>
-          <span class="mode-state soon">soon</span>
         </div>
-        <div class="mode-icoc" style="background:linear-gradient(135deg,#7000ff,#9b6bff)">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <div class="mode-icoc" style="background:linear-gradient(135deg,#7000ff,#9b6bff)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+            </div>
+            <h2 class="mode-title">I want a graceful out</h2>
+            <p class="mode-desc">Fake-call bailout rings in with a believable contact at just the right moment — so you can exit an awkward talk with zero explanations.</p>
+            <ul class="mode-list">
+              <li>Fake-call bailout — a believable ring-in</li>
+              <li>Ghost fade — drift out on your own terms</li>
+              <li>One tap. No awkwardness. No follow-up texts.</li>
+            </ul>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="call-screen">
+                <div class="call-avatar">M</div>
+                <div class="call-name">Mom</div>
+                <div class="call-sub">Emergency</div>
+                <div class="inc-ring"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+                <div class="call-actions">
+                  <span class="call-btn">Decline</span>
+                  <span class="call-btn abort">Answer</span>
+                </div>
+                <div style="margin-top:8px;font-size:0.6rem;color:#a1a1aa;max-width:180px;">"Sorry, I have to take this."</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="mode-title">I want a graceful out</h2>
-        <p class="mode-desc">Fake-call bailout rings in with a believable contact at just the right moment — so you can exit an awkward talk with zero explanations.</p>
-        <ul class="mode-list">
-          <li>Fake-call bailout — a believable ring-in</li>
-          <li>Ghost fade — drift out on your own terms</li>
-          <li>One tap. No awkwardness. No follow-up texts.</li>
-        </ul>
       </section>
 
       <section class="mode-panel echo">
         <div class="mode-panel__head">
           <span class="mode-name">Echo</span>
-          <span class="mode-state soon">soon</span>
         </div>
-        <div class="mode-icoc" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M5 21l14-10"/><path d="M8 21l6-4"/></svg>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <div class="mode-icoc" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M5 21l14-10"/><path d="M8 21l6-4"/></svg>
+            </div>
+            <h2 class="mode-title">Sound like me, not a robot</h2>
+            <p class="mode-desc">Audio replies read in YOUR voice — cloned and tuned to you, not a generic text-to-speech voice.</p>
+            <ul class="mode-list">
+              <li>Voice clone tuned to how you talk</li>
+              <li>Audio replies that sound like you sent them</li>
+              <li>Vault — your saved replies &amp; favorites live here</li>
+            </ul>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="voice-screen">
+                <div class="voice-wave"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+                <div class="voice-lab">Replaying your reply</div>
+                <span class="voice-chip" style="display:inline-flex;align-items:center;gap:5px"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg> In your voice</span>
+                <span class="voice-chip" style="margin-top:2px">Saved to vault</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="mode-title">Sound like me, not a robot</h2>
-        <p class="mode-desc">Audio replies read in YOUR voice — cloned and tuned to you, not a generic text-to-speech voice.</p>
-        <ul class="mode-list">
-          <li>Voice clone tuned to how you talk</li>
-          <li>Audio replies that sound like you sent them</li>
-          <li>Vault — your saved replies &amp; favorites live here</li>
-        </ul>
       </section>
 
       <section class="mode-panel vibe">
         <div class="mode-panel__head">
           <span class="mode-name">Vibe</span>
-          <span class="mode-state soon">soon</span>
         </div>
-        <div class="mode-icoc" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M3 12h4l3-6 4 12 3-6h4"/></svg>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <div class="mode-icoc" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M3 12h4l3-6 4 12 3-6h4"/></svg>
+            </div>
+            <h2 class="mode-title">How are they really feeling?</h2>
+            <p class="mode-desc">Reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p>
+            <ul class="mode-list">
+              <li>Emotion detection on the original note</li>
+              <li>Replies tuned to the mood, not generic</li>
+              <li>Say the right thing, every time</li>
+            </ul>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="mood-screen">
+                <div class="mood-badge">Feels: Excited</div>
+                <div class="mood-scale">
+                  <div class="mood-track"></div>
+                  <div class="mood-marker"></div>
+                  <div class="mood-tags"><span>Cold</span><span>Neutral</span><span>Excited</span></div>
+                </div>
+                <div style="margin-top:8px;font-size:0.62rem;color:#a1a1aa;max-width:180px;line-height:1.4;">Reply tuned to match the energy.</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="mode-title">How are they really feeling?</h2>
-        <p class="mode-desc">Reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p>
-        <ul class="mode-list">
-          <li>Emotion detection on the original note</li>
-          <li>Replies tuned to the mood, not generic</li>
-          <li>Say the right thing, every time</li>
-        </ul>
       </section>
     </div>
 
