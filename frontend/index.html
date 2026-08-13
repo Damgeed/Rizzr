@@ -62,8 +62,9 @@
 
     /* Desktop: side-by-side (copy left, phone right) */
     @media (min-width: 860px) {
-      .layout { flex-direction: row; align-items: center; gap: 6rem; }
-      .hero-copy { flex: 1 1 46%; max-width: none; text-align: left; }
+      .layout { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; }
+      .hero-copy { flex: 0 1 46%; max-width: none; text-align: left; }
+      .mode-panel.finesse .demo { margin-left: auto; width: auto; }
       .hero-copy-title { font-size: 3.3rem; white-space: nowrap; }
       .hero-copy .subtext { margin: 1.1rem 0 0; }
       .hero-copy .hook { display: none; }
