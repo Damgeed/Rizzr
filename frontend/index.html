@@ -398,6 +398,17 @@
     .mode-state.live { background: linear-gradient(135deg,#ff3366,#7000ff); color: #fff; }
     .mode-state.soon { color: #FFC15E; border: 1px solid rgba(255,193,94,.3); }
     .mode-track .hero-copy { max-width: 720px; text-align: center; }
+    /* Desktop: Finesse content vertically centered + description left-aligned */
+    @media (min-width: 860px) {
+      .mode-panel.finesse { justify-content: center; }
+      .mode-track .hero-copy { text-align: left; }
+      .mode-track .hero-copy .subtext { margin-left: 0; }
+    }
+    /* Mobile: tighten the gap between the mode-name head and the title */
+    @media (max-width: 640px) {
+      .mode-panel__head { margin-bottom: 0.5rem; }
+      .mode-panel .layout { padding-top: 1rem; }
+    }
     /* Arrow buttons */
     .mode-arrow {
       position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
