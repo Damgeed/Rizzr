@@ -27,7 +27,7 @@
     }
     .layout { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2.2rem; }
 
-    /* Left: hero copy — centered above the phone */
+    /* Left: hero copy — side-by-side on desktop, condensed hook on mobile */
     .hero-copy { width: 100%; max-width: 720px; text-align: center; }
     .hero-copy-title {
       font-size: 3.2rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.04em;
@@ -35,8 +35,36 @@
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero-copy .subtext { color: var(--text-muted); font-size: 1.125rem; line-height: 1.5; max-width: 52ch; margin: 1.1rem auto 0; }
+    /* Short hook: mobile-only, hidden on desktop */
+    .hero-copy .hook { display: none; }
 
-    /* Right: phone demo (hero — below the copy) */
+    /* Desktop: side-by-side (copy left, phone right) */
+    @media (min-width: 860px) {
+      .layout { flex-direction: row; align-items: center; gap: 2.5rem; }
+      .hero-copy { flex: 1 1 46%; max-width: none; text-align: left; }
+      .hero-copy-title { font-size: 3.6rem; }
+      .hero-copy .subtext { margin: 1.1rem 0 0; }
+      .hero-copy .hook { display: none; }
+    }
+
+    /* Mobile: stacked, condensed hook (hide full description + badges) */
+    @media (max-width: 859px) {
+      main { padding: 0.5rem 0 2rem; }
+      .layout { gap: 1.5rem; }
+      .hero-copy { max-width: 480px; }
+      .hero-copy-title { font-size: 2.4rem; }
+      .hero-copy .subtext { display: none; }
+      .hero-copy .trust-row { display: none; }
+      .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
+      .demo { width: 100%; }
+    }
+    /* Very small phones */
+    @media (max-width: 380px) {
+      .hero-copy-title { font-size: 2rem; }
+      .hero-copy .hook { font-size: 0.9rem; }
+    }
+
+    /* Right: phone demo */
     .demo { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .state-tabs {
       display: inline-flex; gap: 4px; background: var(--glass-bg); border: 1px solid var(--glass-border);
@@ -141,23 +169,6 @@
     .reset-btn { color: var(--text-muted); background: transparent; border: none; font-family: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: 0.8; transition: opacity 0.2s; }
     .reset-btn:hover { opacity: 1; color: white; }
     svg { flex-shrink: 0; }
-
-    /* Responsive title scaling */
-    @media (min-width: 860px) {
-      .hero-copy-title { font-size: 3.6rem; }
-    }
-    /* Mobile: keep column stack, shrink title */
-    @media (max-width: 859px) {
-      main { padding: 0.5rem 0 2rem; }
-      .layout { gap: 1.5rem; }
-      .hero-copy-title { font-size: 2.4rem; }
-      .hero-copy .subtext { font-size: 1rem; }
-      .demo { width: 100%; }
-    }
-    /* Very small phones */
-    @media (max-width: 380px) {
-      .hero-copy-title { font-size: 2rem; }
-    }
   </style>
 </head>
 <body>
@@ -197,6 +208,7 @@
       <div class="hero-copy">
         <h1 class="hero-copy-title" data-rotating-title>Don't think.<br>Just Rizzr it.</h1>
         <p class="subtext">Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.</p>
+        <p class="hook">Send a voice note. Rizzr writes 3 perfect replies back — in seconds.</p>
         <div class="trust-row">
           <span class="trust-item">🔒 No Signup</span>
           <span class="trust-item">⚡ ~7s Results</span>
@@ -240,6 +252,11 @@
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   Link
                 </button>
+              </div>
+              <div class="phone-trust">
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🔒 No Signup</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">⚡ ~7s Results</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;">🌍 Any Language</span>
               </div>
             </section>
 
