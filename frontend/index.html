@@ -38,6 +38,27 @@
     /* Short hook: mobile-only, hidden on desktop */
     .hero-copy .hook { display: none; }
 
+    /* Hero CTA buttons (desktop only) */
+    .hero-copy .hero-cta {
+      display: flex; gap: 0.9rem; margin-top: 1.8rem; flex-wrap: wrap;
+    }
+    .hero-copy .hero-cta .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.6rem; font-size: 1rem; font-weight: 600;
+    }
+    .hero-copy .btn-pill-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font); font-size: 1rem; font-weight: 600;
+      color: var(--text-main);
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      padding: 0.85rem 1.6rem; border-radius: var(--radius-pill);
+      cursor: pointer; transition: var(--transition);
+    }
+    .hero-copy .btn-pill-cta:hover {
+      background: var(--glass-hover); border-color: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
+    }
+
     /* Desktop: side-by-side (copy left, phone right) */
     @media (min-width: 860px) {
       .layout { flex-direction: row; align-items: center; gap: 6rem; }
@@ -45,8 +66,8 @@
       .hero-copy-title { font-size: 3.3rem; white-space: nowrap; }
       .hero-copy .subtext { margin: 1.1rem 0 0; }
       .hero-copy .hook { display: none; }
-      /* Professional trust badges: centered below the description */
-      .hero-copy .trust-row { justify-content: center; margin-top: 1.6rem; }
+      /* Professional trust badges: left-aligned under the description (Bud reverted to left) */
+      .hero-copy .trust-row { justify-content: flex-start; margin-top: 1.6rem; }
     }
 
     /* Mobile: stacked, condensed hook (hide full description + badges) */
@@ -57,6 +78,7 @@
       .hero-copy-title { font-size: 2.4rem; }
       .hero-copy .subtext { display: none; }
       .hero-copy .trust-row { display: none; }
+      .hero-copy .hero-cta { display: none; }
       .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
       .demo { width: 100%; }
     }
@@ -224,6 +246,16 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
             Any Language
           </span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary" type="button" onclick="switchState('recording')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload audio
+          </button>
+          <button class="btn-pill-cta" type="button" onclick="switchState('recording')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            Paste link
+          </button>
         </div>
       </div>
 
