@@ -68,7 +68,7 @@ body {
    NAV HEADER
    ========================================== */
 .nav-header {
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -222,7 +222,7 @@ body {
    RESPONSIVE
    ========================================== */
 @media (max-width: 640px) {
-  .nav-header { padding: 1.2rem 1.25rem; }
+  .nav-header { padding: 1rem 1.25rem; }
   .freemium-badge { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
   .page-title { font-size: 1.9rem; }
 

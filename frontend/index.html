@@ -378,10 +378,10 @@
     .mode-panel {
       flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
       min-height: 100vh; padding: 2.4rem 1.5rem 3rem;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
       width: 100%;
     }
-    .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; }
+    .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; padding-top: 2.5rem; }
     .mode-panel__head {
       align-self: center; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;
     }
@@ -490,6 +490,9 @@
       .mode-panel { padding: 1.6rem 1rem 2.4rem; }
       .mode-title { font-size: 1.6rem; }
       .mode-desc { font-size: 0.95rem; }
+      /* Smaller arrows on mobile */
+      .mode-arrow { width: 34px; height: 34px; }
+      .mode-arrow svg { width: 17px; height: 17px; }
     }
   </style>
 </head>
