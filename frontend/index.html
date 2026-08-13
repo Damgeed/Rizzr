@@ -455,7 +455,7 @@
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
     /* Panels 2-4 shared content */
-    .mode-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; text-align: center; max-width: 18ch; }
+    .mode-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; text-align: center; max-width: none; white-space: nowrap; }
     .mode-title em { font-style: italic; }
     /* Uniformity: Finesse hero title/desc match the shared .mode-title/.mode-desc sizes */
     .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
@@ -463,11 +463,11 @@
     .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.55; text-align: center; max-width: 46ch; margin: 1rem auto 1.6rem; }
     .mode-list { list-style: none; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.7rem; max-width: 460px; margin: 0 auto; }
     .mode-list li {
-      display: flex; align-items: center; gap: 0.6rem;
+      display: flex; align-items: center; gap: 0.5rem;
       background: var(--glass-bg); border: 1px solid var(--glass-border);
-      padding: 0.8rem 1rem; border-radius: 12px; font-size: 0.95rem; color: var(--text-main);
+      padding: 0.7rem 1rem; border-radius: 12px; font-size: 0.92rem; color: var(--text-main);
       backdrop-filter: blur(12px);
-      flex: 0 1 calc((100% - 1.4rem) / 3); min-width: 0; text-align: left;
+      white-space: nowrap; flex: 0 1 auto;
     }
     .mode-list li::before { content: '▸'; color: var(--orb-1); font-weight: 700; }
     .panel-steps { width: 100%; max-width: 1080px; margin: 2.4rem auto 0; }
