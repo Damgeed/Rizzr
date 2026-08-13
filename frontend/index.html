@@ -6,6 +6,14 @@
   <meta name="theme-color" content="#050508">
   <meta name="description" content="Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.">
   <title>Rizzr | AI Voice-Note Reply Coach</title>
+  <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
+  <script>
+  (function(){try{
+    var v='v7h';
+    if(location.search.indexOf('v=')!==-1) return;
+    if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
+  }catch(e){}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=4">
