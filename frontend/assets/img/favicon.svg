@@ -1,14 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF3366"/>
-      <stop offset="100%" stop-color="#7000FF"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6A5C"/>
+      <stop offset="100%" stop-color="#FFC15E"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <g fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M32 11a6.5 6.5 0 0 0-6.5 6.5V30a6.5 6.5 0 0 0 13 0V17.5a6.5 6.5 0 0 0-6.5-6.5Z"/>
-    <path d="M19.5 29v1.5a12.5 12.5 0 0 0 25 0V29"/>
-    <line x1="32" y1="43" x2="32" y2="50"/>
+  <rect width="64" height="64" rx="16" fill="#170D16"/>
+  <g stroke="url(#g)" stroke-width="5" stroke-linecap="round" fill="none">
+    <line x1="16" y1="32" x2="16" y2="32"/>
+    <line x1="24" y1="20" x2="24" y2="44"/>
+    <line x1="32" y1="12" x2="32" y2="52"/>
+    <line x1="40" y1="22" x2="40" y2="42"/>
+    <line x1="48" y1="27" x2="48" y2="37"/>
   </g>
 </svg>

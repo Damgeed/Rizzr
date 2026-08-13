@@ -1,417 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#050508">
-  <meta name="description" content="Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.">
-  <title>Rizzr | AI Voice-Note Reply Coach</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=4">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=3">
-  <link rel="apple-touch-icon" href="assets/img/icon-192.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css">
-  <style>
-    /* ==========================================
-       LANDING-SPECIFIC (hero + phone demo)
-       Midnight Aura / rizzgeminiPRO untouched
-       ========================================== */
-    main {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: 1rem 1.5rem 2rem; position: relative; z-index: 10;
-    }
-    .layout { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2.2rem; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rizzr — the AI voice-note reply coach</title>
+<meta name="description" content="Send a voice note. Get 3 perfect replies back — flirty, witty, sweet — read aloud in seconds. No signup, any language.">
+<meta name="theme-color" content="#170D16">
 
-    /* Left: hero copy — side-by-side on desktop, condensed hook on mobile */
-    .hero-copy { width: 100%; max-width: 720px; text-align: center; }
-    .hero-copy-title {
-      font-size: 3.2rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.04em;
-      background: linear-gradient(to bottom right, #fff, #a1a1aa);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-copy .subtext { color: var(--text-muted); font-size: 1.125rem; line-height: 1.5; max-width: 52ch; margin: 1.1rem auto 0; }
-    /* Short hook: mobile-only, hidden on desktop */
-    .hero-copy .hook { display: none; }
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rizzr — never leave them on read">
+<meta property="og:description" content="AI transcribes your voice note and hands back 3 reply options, each with an audio preview. Free 3x/day.">
+<meta name="twitter:card" content="summary_large_image">
 
-    /* Hero CTA buttons (desktop only) */
-    .hero-copy .hero-cta {
-      display: flex; gap: 0.9rem; margin-top: 1.8rem; flex-wrap: wrap;
-    }
-    .hero-copy .hero-cta .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.85rem 1.6rem; font-size: 1rem; font-weight: 600;
-    }
-    .hero-copy .btn-pill-cta {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: var(--font); font-size: 1rem; font-weight: 600;
-      color: var(--text-main);
-      background: var(--glass-bg); border: 1px solid var(--glass-border);
-      padding: 0.85rem 1.6rem; border-radius: var(--radius-pill);
-      cursor: pointer; transition: var(--transition);
-    }
-    .hero-copy .btn-pill-cta:hover {
-      background: var(--glass-hover); border-color: rgba(255,255,255,0.18);
-      transform: translateY(-1px);
-    }
-
-    /* Desktop: side-by-side (copy left, phone right) */
-    @media (min-width: 860px) {
-      .layout { flex-direction: row; align-items: center; gap: 6rem; }
-      .hero-copy { flex: 1 1 46%; max-width: none; text-align: left; }
-      .hero-copy-title { font-size: 3.3rem; white-space: nowrap; }
-      .hero-copy .subtext { margin: 1.1rem 0 0; }
-      .hero-copy .hook { display: none; }
-      /* Professional trust badges: left-aligned under the description (Bud reverted to left) */
-      .hero-copy .trust-row { justify-content: flex-start; margin-top: 1.6rem; }
-    }
-
-    /* Mobile: stacked, condensed hook (hide full description + badges) */
-    @media (max-width: 859px) {
-      main { padding: 0.5rem 0 2rem; }
-      .layout { gap: 1.5rem; }
-      .hero-copy { max-width: 480px; }
-      .hero-copy-title { font-size: 2.4rem; }
-      .hero-copy .subtext { display: none; }
-      .hero-copy .trust-row { display: none; }
-      .hero-copy .hero-cta { display: none; }
-      .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
-      .demo { width: 100%; }
-    }
-    /* Very small phones */
-    @media (max-width: 380px) {
-      .hero-copy-title { font-size: 2rem; }
-      .hero-copy .hook { font-size: 0.9rem; }
-    }
-
-    /* Right: phone demo */
-    .demo { width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .state-tabs {
-      display: inline-flex; gap: 4px; background: var(--glass-bg); border: 1px solid var(--glass-border);
-      padding: 4px; border-radius: 999px; margin-bottom: 22px; backdrop-filter: blur(20px);
-    }
-    .state-tabs button {
-      appearance: none; border: none; background: transparent; color: var(--text-muted);
-      font-family: var(--font); font-size: 12.5px; font-weight: 600;
-      padding: 8px 15px; border-radius: 999px; cursor: pointer; transition: color .25s ease, background .25s ease;
-    }
-    .state-tabs button.active { background: var(--orb-1); color: #fff; box-shadow: 0 6px 18px -6px rgba(255,51,102,0.6); }
-    .state-tabs button:not(.active):hover { color: var(--text-main); }
-
-    .phone {
-      position: relative; width: min(340px, 82vw); aspect-ratio: 9 / 18; border-radius: 46px; padding: 12px;
-      background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 20px 60px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
-      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-    }
-    .phone__screen {
-      position: relative; width: 100%; height: 100%; border-radius: 36px; overflow: hidden;
-      background: #07070d; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .phone__notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 80px; height: 22px; background: rgba(0,0,0,0.6); border-radius: 999px; z-index: 5; }
-
-    .view-state {
-      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; opacity: 0; pointer-events: none; padding: 30px 20px 24px;
-      transition: opacity 0.4s ease, transform 0.4s ease; transform: translateY(10px);
-    }
-    .view-state.active { opacity: 1; pointer-events: all; transform: translateY(0); }
-
-    /* HERO inside phone */
-    .phone-tagline { font-size: 1.5rem; font-weight: 700; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.6rem;
-      background: linear-gradient(to bottom right, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .phone-subtext { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.4rem; line-height: 1.45; max-width: 90%; }
-    .record-wrapper { position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; cursor: pointer; }
-    .pulse-ring-1, .pulse-ring-2 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--orb-1); animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
-    .pulse-ring-2 { animation-delay: 1.25s; }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
-    .btn-record {
-      position: relative; z-index: 2; width: 84px; height: 84px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border: none;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 30px rgba(255,51,102,0.4), inset 0 0 20px rgba(255,255,255,0.2);
-      color: white; cursor: pointer; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .record-wrapper:hover .btn-record { transform: scale(1.05); }
-    .record-wrapper:active .btn-record { transform: scale(0.95); }
-    .record-hint { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
-    .phone-actions { display: flex; gap: 0.6rem; width: 100%; margin-top: 1.2rem; }
-    .btn-pill {
-      flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px);
-      color: var(--text-main); padding: 0.7rem 0.6rem; border-radius: var(--radius-pill);
-      font-family: inherit; font-size: 0.75rem; font-weight: 500;
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem; cursor: pointer; transition: var(--transition);
-    }
-    .btn-pill:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
-    .phone-trust { display: flex; justify-content: center; gap: 0.9rem; width: 100%; border-top: 1px solid var(--glass-border); padding-top: 0.9rem; margin-top: 1rem; }
-
-    /* RECORDING inside phone */
-    .phone-record-status { font-size: 1rem; font-weight: 600; margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.4rem; }
-    .recording-dot { width: 9px; height: 9px; background: var(--orb-1); border-radius: 50%; animation: blink 1s infinite alternate; }
-    @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0.3; } }
-    .visualizer { display: flex; align-items: center; justify-content: center; gap: 4px; height: 60px; margin-bottom: 1.4rem; }
-    .bar { width: 5px; background: linear-gradient(to top, var(--orb-2), var(--orb-1)); border-radius: 99px; animation: eq 0.5s ease-in-out infinite alternate; }
-    .bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
-    .bar:nth-child(2) { height: 60%; animation-delay: 0.2s; }
-    .bar:nth-child(3) { height: 100%; animation-delay: 0.3s; }
-    .bar:nth-child(4) { height: 50%; animation-delay: 0.4s; }
-    .bar:nth-child(5) { height: 80%; animation-delay: 0.5s; }
-    .bar:nth-child(6) { height: 40%; animation-delay: 0.6s; }
-    .bar:nth-child(7) { height: 90%; animation-delay: 0.7s; }
-    @keyframes eq { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }
-    .phone-timer { font-variant-numeric: tabular-nums; font-size: 1.9rem; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1.6rem; }
-    .btn-stop-scale { width: 180px; margin: 0 auto; background: rgba(255,51,102,0.1); border-color: var(--orb-1); color: var(--orb-1); padding: 0.85rem; font-size: 0.875rem; }
-
-    /* RESULTS inside phone */
-    .phone-results { justify-content: flex-start; padding-top: 40px; overflow-y: auto; }
-    .phone-results-header { margin-bottom: 1rem; text-align: center; width: 100%; }
-    .phone-results-header h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .phone-results-header p { font-size: 0.75rem; }
-    .cards-container { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; margin-bottom: 1.2rem; }
-    .reply-card {
-      background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(20px);
-      border-radius: var(--radius-md); padding: 0.95rem 1rem; text-align: left;
-      transition: var(--transition); position: relative; overflow: hidden;
-    }
-    .reply-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--card-color); opacity: 0.8; }
-    .reply-card.flirty { --card-color: var(--orb-1); }
-    .reply-card.witty { --card-color: var(--orb-2); }
-    .reply-card.sweet { --card-color: var(--orb-3); }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-    .vibe-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--card-color); background: color-mix(in srgb, var(--card-color) 15%, transparent); padding: 0.25rem 0.6rem; border-radius: 6px; }
-    .card-text { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.8rem; color: #fff; }
-    .card-actions { display: flex; gap: 0.4rem; }
-    .btn-play, .btn-copy { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 0.5rem 0.7rem; border-radius: var(--radius-pill); color: white; font-family: inherit; font-size: 0.72rem; font-weight: 500; display: flex; align-items: center; gap: 0.35rem; cursor: pointer; transition: var(--transition); }
-    .btn-play { flex: 1; justify-content: center; }
-    .btn-play:hover { background: color-mix(in srgb, var(--card-color) 20%, rgba(0,0,0,0.3)); border-color: var(--card-color); }
-    .btn-copy:hover { background: rgba(255,255,255,0.1); }
-    .reset-btn { color: var(--text-muted); background: transparent; border: none; font-family: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: 0.8; transition: opacity 0.2s; }
-    .reset-btn:hover { opacity: 1; color: white; }
-    svg { flex-shrink: 0; }
-  </style>
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=DM+Sans:ital,wght@0,400;0,500;0,700;0,900;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/sunset.css">
 </head>
 <body>
 
-  <!-- Background Layer -->
-  <div class="bg-container">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-  <div class="noise"></div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Header -->
-  <header class="nav-header">
-    <a href="/" class="logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-        <line x1="12" y1="19" x2="12" y2="22"/>
-      </svg>
-      <span>Rizzr</span>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="/pricing.html" class="nav-link">Pricing</a>
-      <a href="/settings.html" class="nav-link">Settings</a>
-      <a href="/privacy.html" class="nav-link">Privacy</a>
+<div class="bg" aria-hidden="true">
+  <div class="orb orb--1"></div>
+  <div class="orb orb--2"></div>
+  <div class="orb orb--3"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="site-header" id="site-header">
+  <div class="page">
+    <nav class="navbar" aria-label="Primary">
+      <a href="#main" class="wordmark"><span class="dot" aria-hidden="true"></span>Rizzr</a>
+
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+
+      <a class="btn btn--primary nav-cta" href="#try-it">
+        <span>Try it free</span>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
-    <div class="freemium-badge"><span>✨</span> 3 Free Replies</div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
+  </div>
 
-  <main>
-    <div class="layout">
-      <!-- LEFT: hero copy -->
-      <div class="hero-copy">
-        <h1 class="hero-copy-title" data-rotating-title>Don't think. Just Rizzr it.</h1>
-        <p class="subtext">Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.</p>
-        <p class="hook">Send a voice note. Rizzr writes 3 perfect replies back — in seconds.</p>
-        <div class="trust-row">
-          <span class="trust-item">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="15.5" r="1.3"/></svg>
-            No Signup
-          </span>
-          <span class="trust-item">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
-            ~7s Results
-          </span>
-          <span class="trust-item">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
-            Any Language
-          </span>
-        </div>
-        <div class="hero-cta">
-          <button class="btn-primary" type="button" onclick="switchState('recording')">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <ul>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a class="btn btn--primary" href="#try-it">Try it free</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero page" id="try-it" aria-labelledby="hero-heading">
+    <div class="free-badge" role="status">
+      <span class="spark" aria-hidden="true">✨</span>3 free replies today
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-copy" data-reveal>
+        <p class="eyebrow">AI voice&nbsp;reply coach</p>
+        <h1 id="hero-heading">Never leave them<br><em>on read</em> again.</h1>
+        <p class="sub">Send a voice note. Get <strong>3 perfect replies</strong> back — flirty, witty, sweet — read aloud in seconds.</p>
+
+        <div class="cta-row">
+          <button class="pill-btn" type="button" data-action="upload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12"/><path d="M8 8l4-5 4 5"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>
             Upload audio
           </button>
-          <button class="btn-pill-cta" type="button" onclick="switchState('recording')">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <button class="pill-btn" type="button" data-action="link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
             Paste link
           </button>
         </div>
+
+        <ul class="trust-row">
+          <li>🔒 No signup</li>
+          <li>⚡ ~7s results</li>
+          <li>🌍 Any language</li>
+        </ul>
       </div>
 
-      <!-- RIGHT: phone demo -->
-      <div class="demo">
+      <div class="demo-wrap" data-reveal>
         <div class="state-tabs" role="tablist" aria-label="Preview app states">
-          <button type="button" class="active" data-state="hero" onclick="switchState('hero')">Start</button>
-          <button type="button" data-state="recording" onclick="switchState('recording')">Recording</button>
-          <button type="button" data-state="results" onclick="switchState('results')">Results</button>
+          <button type="button" class="active" data-state="idle" role="tab" aria-selected="true">Start</button>
+          <button type="button" data-state="recording" role="tab" aria-selected="false">Recording</button>
+          <button type="button" data-state="results" role="tab" aria-selected="false">Results</button>
         </div>
 
         <div class="phone">
           <div class="phone__screen">
             <div class="phone__notch"></div>
 
-            <!-- STATE 1: HERO -->
-            <section id="view-hero" class="view-state active">
-              <h2 class="phone-tagline" data-rotating-title>Don't think. Just Rizzr it.</h2>
-              <p class="phone-subtext">Confident, flirty, natural replies that sound like you — not a robot.</p>
-              <div class="record-wrapper" onclick="switchState('recording')">
-                <div class="pulse-ring-1"></div>
-                <div class="pulse-ring-2"></div>
-                <button class="btn-record">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <!-- IDLE / RECORD STATE -->
+            <div class="view view--idle active" id="view-idle" role="tabpanel">
+              <p class="view-label">Tap to start</p>
+              <div class="record-btn-wrap">
+                <div class="ring" aria-hidden="true"></div>
+                <div class="ring" aria-hidden="true"></div>
+                <div class="ring" aria-hidden="true"></div>
+                <button class="record-btn" type="button" id="record-btn" aria-label="Hold to record a voice note">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#170D16" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 15a3 3 0 003-3V6a3 3 0 00-6 0v6a3 3 0 003 3z"/>
+                    <path d="M19 11a7 7 0 01-14 0"/>
+                    <path d="M12 18v3"/>
                   </svg>
                 </button>
               </div>
-              <p class="record-hint">Tap to Record</p>
-              <div class="phone-actions">
-                <button class="btn-pill" onclick="switchState('results')">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                  Upload
-                </button>
-                <button class="btn-pill" onclick="switchState('results')">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  Link
-                </button>
-              </div>
-              <div class="phone-trust">
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="15.5" r="1.3"/></svg>No Signup</span>
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>~7s Results</span>
-                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Any Language</span>
-              </div>
-            </section>
+              <p class="hold-hint"><span class="pill-key">HOLD</span> to record a voice note</p>
+              <p class="idle-title">what did they send you?</p>
+            </div>
 
-            <!-- STATE 2: RECORDING -->
-            <section id="view-recording" class="view-state">
-              <div class="phone-record-status">
-                <div class="recording-dot"></div>
-                Listening to their message...
+            <!-- RECORDING STATE -->
+            <div class="view view--recording" id="view-recording" role="tabpanel">
+              <p class="rec-pill"><span class="rec-dot" aria-hidden="true"></span>LISTENING</p>
+              <div class="waveform" id="waveform" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
               </div>
-              <div class="visualizer">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-              </div>
-              <div class="phone-timer">00:04</div>
-              <button class="btn-pill btn-stop-scale" onclick="switchState('results')">Stop & Generate</button>
-            </section>
+              <p class="rec-timer" id="rec-timer">0:00</p>
+              <button class="stop-btn" type="button" id="stop-btn" aria-label="Stop recording"><span></span></button>
+              <p class="rec-caption">release to stop &amp; transcribe</p>
+            </div>
 
-            <!-- STATE 3: RESULTS -->
-            <section id="view-results" class="view-state phone-results">
-              <div class="phone-results-header">
-                <h2>Pick your vibe</h2>
-                <p class="subtext">Listen to the preview or copy the text directly.</p>
-              </div>
-              <div class="cards-container">
-                <div class="reply-card flirty">
-                  <div class="card-top"><span class="vibe-tag">🔥 Flirty</span></div>
-                  <p class="card-text">"You owe me a drink for that text. When are we making it happen?"</p>
-                  <div class="card-actions">
-                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
-                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                  </div>
-                </div>
-                <div class="reply-card witty">
-                  <div class="card-top"><span class="vibe-tag">🧠 Witty</span></div>
-                  <p class="card-text">"I'd reply with something clever, but I feel like my silence builds mystery."</p>
-                  <div class="card-actions">
-                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
-                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                  </div>
-                </div>
-                <div class="reply-card sweet">
-                  <div class="card-top"><span class="vibe-tag">🥺 Sweet</span></div>
-                  <p class="card-text">"That actually just made my whole day. Tell me more about it."</p>
-                  <div class="card-actions">
-                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
-                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                  </div>
+            <!-- PROCESSING STATE -->
+            <div class="view view--processing" id="view-processing" role="tabpanel">
+              <div class="spinner" aria-hidden="true"></div>
+              <p class="processing-title">reading the room…</p>
+              <p class="processing-caption">matching tone &amp; picking words</p>
+            </div>
+
+            <!-- RESULTS STATE -->
+            <div class="view view--results" id="view-results" role="tabpanel">
+              <div class="results-head">
+                <button class="back-btn" type="button" id="back-btn" aria-label="Record a new voice note">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div>
+                  <p class="tiny">3 replies ready</p>
+                  <p class="big">pick your vibe</p>
                 </div>
               </div>
-              <button class="reset-btn" onclick="switchState('hero')">← Start a new recording</button>
-            </section>
+
+              <div class="reply-cards" id="reply-cards">
+                <article class="reply-card" data-reply="Ok that's actually so unfair how good you are at this 👀">
+                  <div class="reply-card__top"><span class="tone-tag flirty">Flirty</span></div>
+                  <p>"Ok that's actually so unfair how good you are at this 👀"</p>
+                  <div class="reply-card__ctrls">
+                    <button class="play-btn" type="button" aria-label="Play flirty reply">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="mini-wave" aria-hidden="true">
+                      <span style="height:6px"></span><span style="height:12px"></span><span style="height:9px"></span><span style="height:16px"></span><span style="height:7px"></span><span style="height:13px"></span><span style="height:10px"></span><span style="height:15px"></span><span style="height:8px"></span><span style="height:11px"></span><span style="height:6px"></span><span style="height:14px"></span>
+                    </div>
+                    <button class="copy-btn" type="button" aria-label="Copy flirty reply text">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                  </div>
+                </article>
+
+                <article class="reply-card" data-reply="Bold of you to text me during my villain era, but go on.">
+                  <div class="reply-card__top"><span class="tone-tag witty">Witty</span></div>
+                  <p>"Bold of you to text me during my villain era, but go on."</p>
+                  <div class="reply-card__ctrls">
+                    <button class="play-btn" type="button" aria-label="Play witty reply">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="mini-wave" aria-hidden="true">
+                      <span style="height:10px"></span><span style="height:15px"></span><span style="height:7px"></span><span style="height:12px"></span><span style="height:9px"></span><span style="height:16px"></span><span style="height:6px"></span><span style="height:13px"></span><span style="height:11px"></span><span style="height:8px"></span><span style="height:14px"></span><span style="height:7px"></span>
+                    </div>
+                    <button class="copy-btn" type="button" aria-label="Copy witty reply text">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                  </div>
+                </article>
+
+                <article class="reply-card" data-reply="Honestly this made my whole day, you have no idea.">
+                  <div class="reply-card__top"><span class="tone-tag sweet">Sweet</span></div>
+                  <p>"Honestly this made my whole day, you have no idea 🥹"</p>
+                  <div class="reply-card__ctrls">
+                    <button class="play-btn" type="button" aria-label="Play sweet reply">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="mini-wave" aria-hidden="true">
+                      <span style="height:8px"></span><span style="height:13px"></span><span style="height:10px"></span><span style="height:6px"></span><span style="height:15px"></span><span style="height:9px"></span><span style="height:12px"></span><span style="height:7px"></span><span style="height:16px"></span><span style="height:10px"></span><span style="height:8px"></span><span style="height:13px"></span>
+                    </div>
+                    <button class="copy-btn" type="button" aria-label="Copy sweet reply text">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </div>
 
           </div>
         </div>
+        <p class="sr-only" id="state-announcer" aria-live="polite"></p>
       </div>
     </div>
-  </main>
+  </section>
 
-  <footer class="footer">
-    <div class="footer__links">
-      <a href="/" class="footer__link">Home</a>
-      <a href="/pricing.html" class="footer__link">Pricing</a>
-      <a href="/settings.html" class="footer__link">Settings</a>
-      <a href="/privacy.html" class="footer__link">Privacy</a>
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how page" id="how-it-works" aria-labelledby="how-heading" data-reveal>
+    <p class="section-eyebrow">The flow</p>
+    <h2 id="how-heading">Three steps. No overthinking.</h2>
+
+    <ol class="steps">
+      <li class="step">
+        <span class="step-num">01</span>
+        <h3>Record or drop it in</h3>
+        <p>Hold the mic, upload a file, or paste a link to the voice note you got.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">02</span>
+        <h3>Rizzr listens</h3>
+        <p>We transcribe it and read the tone — what they said and how they said it.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">03</span>
+        <h3>Pick your reply</h3>
+        <p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features page" aria-labelledby="features-heading" data-reveal>
+    <p class="section-eyebrow">Why it hits different</p>
+    <h2 id="features-heading">Built for the group chat,<br>not the boardroom.</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#FF6A5C,#FFC15E)">🎙️</div>
+        <h3>Sounds like a reply, not a script</h3>
+        <p>Every option comes with an audio preview — tone, pacing, and all — so you know how it lands before you send it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#FF8FB1,#FF6A5C)">🌍</div>
+        <h3>Works in any language</h3>
+        <p>Send it in Spanish, get it back in Spanish. Rizzr matches the language of the original voice note automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#9FE3C4,#FFC15E)">🎭</div>
+        <h3>Three tones, one tap</h3>
+        <p>Flirty, witty, or sweet — pick the one that fits the vibe instead of staring at a blank text box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#FFC15E,#FF8FB1)">⚡</div>
+        <h3>No signup to try it</h3>
+        <p>Three replies a day, free, with nothing to set up. Upgrade only if you actually use it.</p>
+      </div>
     </div>
-    <p>Rizzr — AI voice-note reply coach. Made with 💜</p>
-  </footer>
+  </section>
 
-  <script>
-    // ---- Rotating hero title (random on each refresh) ----
-    var ROTATING_TITLES = [
-      "Don't think. Just Rizzr it.",
-      "Perfect replies, zero panic."
-    ];
-    (function rotateTitle() {
-      var i = Math.floor(Math.random() * ROTATING_TITLES.length);
-      document.querySelectorAll('[data-rotating-title]').forEach(function(el) {
-        el.innerHTML = ROTATING_TITLES[i];
-      });
-    })();
+  <!-- ============ PRICING ============ -->
+  <section class="pricing page" id="pricing" aria-labelledby="pricing-heading" data-reveal>
+    <p class="section-eyebrow">Pricing</p>
+    <h2 id="pricing-heading">Free to try. Cheap to keep.</h2>
 
-    function switchState(targetId) {
-      var sections = document.querySelectorAll('.view-state');
-      for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
-      document.getElementById('view-' + targetId).classList.add('active');
-      var tabs = document.querySelectorAll('.state-tabs button');
-      for (var j = 0; j < tabs.length; j++) tabs[j].classList.toggle('active', tabs[j].getAttribute('data-state') === targetId);
-      if (targetId === 'recording') {
-        var timer = document.querySelector('.phone-timer');
-        var sec = 0; timer.innerText = '00:00';
-        if (window.recInterval) clearInterval(window.recInterval);
-        window.recInterval = setInterval(function() {
-          sec += 1;
-          timer.innerText = (sec < 10 ? '00:0' : '00:') + sec;
-          if (sec >= 5) { clearInterval(window.recInterval); switchState('results'); }
-        }, 1000);
-      } else {
-        clearInterval(window.recInterval);
-      }
-    }
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function() {});
-    // ---- Mobile hamburger nav toggle ----
-    (function() {
-      var toggle = document.getElementById('navToggle');
-      var links = document.getElementById('navLinks');
-      if (!toggle || !links) return;
-      toggle.addEventListener('click', function() {
-        var open = links.classList.toggle('open');
-        toggle.classList.toggle('open', open);
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    })();
-  </script>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Free</h3>
+        <p class="price">$0<span>/mo</span></p>
+        <p class="price-desc">For seeing if it's worth it.</p>
+        <ul class="price-list">
+          <li>3 replies a day</li>
+          <li>All three tones</li>
+          <li>Audio previews</li>
+          <li>No signup required</li>
+        </ul>
+        <a href="#try-it" class="btn btn--ghost">Start free</a>
+      </div>
+
+      <div class="price-card price-card--highlight">
+        <p class="price-badge">Most popular</p>
+        <h3>Plus</h3>
+        <p class="price">$9.99<span>/mo</span></p>
+        <p class="price-desc">For when you actually use it.</p>
+        <ul class="price-list">
+          <li>Unlimited replies</li>
+          <li>All three tones</li>
+          <li>Audio previews</li>
+          <li>Priority response speed</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="#try-it" class="btn btn--primary">Get Plus</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq page" id="faq" aria-labelledby="faq-heading" data-reveal>
+    <p class="section-eyebrow">Questions</p>
+    <h2 id="faq-heading">Good to know</h2>
+
+    <div class="accordion" id="accordion">
+      <div class="accordion-item">
+        <h3>
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-1">
+            Is my audio stored anywhere?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </h3>
+        <div class="accordion-panel" id="faq-1">
+          <p>Your voice note is processed to generate replies and isn't kept longer than it takes to do that. Nothing is posted or shared anywhere else.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3>
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-2">
+            What languages does it support?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </h3>
+        <div class="accordion-panel" id="faq-2">
+          <p>Rizzr detects the language of the voice note automatically and replies in the same one — no settings to change.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3>
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-3">
+            Can I use the audio replies anywhere?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </h3>
+        <div class="accordion-panel" id="faq-3">
+          <p>Yes. Copy the text or download the audio preview and send it through whatever app the conversation is already in.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3>
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-4">
+            How does the free plan work?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </h3>
+        <div class="accordion-panel" id="faq-4">
+          <p>You get 3 replies every day at no cost, no account needed. Once you hit the limit, it resets the next day — or you can upgrade to Plus for unlimited replies.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3>
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-5">
+            Can I cancel Plus anytime?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </h3>
+        <div class="accordion-panel" id="faq-5">
+          <p>Yes — cancel from your account settings whenever you want. You'll keep Plus access until the end of the billing period.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta page" aria-labelledby="final-cta-heading" data-reveal>
+    <h2 id="final-cta-heading">Stop staring<br><em>at the keyboard.</em></h2>
+    <p>Your next reply is one voice note away.</p>
+    <a href="#try-it" class="btn btn--primary btn--lg">Try Rizzr free</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="page footer-grid">
+    <div class="footer-brand">
+      <a href="#main" class="wordmark"><span class="dot" aria-hidden="true"></span>Rizzr</a>
+      <p>Built for the group chat, not the boardroom.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Product">
+      <p class="footer-heading">Product</p>
+      <ul>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Company">
+      <p class="footer-heading">Company</p>
+      <ul>
+        <li><a href="#how-it-works">About</a></li>
+        <li><a href="#faq">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Legal">
+      <p class="footer-heading">Legal</p>
+      <ul>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="page footer-bottom">
+    <p>© 2026 Rizzr. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/landing.js"></script>
 </body>
 </html>
