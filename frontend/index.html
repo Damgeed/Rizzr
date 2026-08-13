@@ -446,6 +446,9 @@
     /* Panels 2-4 shared content */
     .mode-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; text-align: center; max-width: 18ch; }
     .mode-title em { font-style: italic; }
+    /* Uniformity: Finesse hero title/desc match the shared .mode-title/.mode-desc sizes */
+    .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
+    .hero-copy .subtext { font-size: 1.05rem; }
     .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.55; text-align: center; max-width: 46ch; margin: 1rem auto 1.6rem; }
     .mode-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; max-width: 460px; margin: 0 auto; }
     .mode-list li {
@@ -575,10 +578,6 @@
     <div class="mode-track" id="modeTrack">
 
       <section class="mode-panel finesse">
-        <div class="mode-panel__head">
-          <span class="mode-name">Finesse</span>
-          <span class="mode-state live">Live</span>
-        </div>
         <div class="layout">
       <!-- LEFT: hero copy -->
       <div class="hero-copy">
@@ -707,6 +706,10 @@
         </div>
       </div>
       </div>
+      <div class="mode-panel__head">
+        <span class="mode-name">Finesse</span>
+        <span class="mode-state live">Live</span>
+      </div>
       <div class="panel-steps">
         <ol class="steps">
           <li class="step"><span class="step-num">01</span><h3>Record or drop it in</h3><p>Hold the mic, upload a file, or paste a link to the voice note you got.</p></li>
@@ -717,9 +720,6 @@
       </section>
 
       <section class="mode-panel ghost">
-        <div class="mode-panel__head">
-          <span class="mode-name">Ghost</span>
-        </div>
         <div class="mode-body">
           <div class="mode-panel__text">
             <h2 class="mode-title">I want a graceful out</h2>
@@ -744,12 +744,15 @@
                 </div>
                 <div style="margin-top:8px;font-size:0.6rem;color:#a1a1aa;max-width:180px;">"Sorry, I have to take this."</div>
               </div>
-            </div>
           </div>
         </div>
-        <div class="panel-steps">
-          <ol class="steps">
-            <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
+      </div>
+      <div class="mode-panel__head">
+        <span class="mode-name">Ghost</span>
+      </div>
+      <div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
             <li class="step"><span class="step-num">02</span><h3>It rings in</h3><p>A natural call screen appears at the perfect moment — real sounding, on cue.</p></li>
             <li class="step"><span class="step-num">03</span><h3>Take the out</h3><p>Answer and duck out gracefully. No explanation needed, no follow-up texts.</p></li>
           </ol>
@@ -757,9 +760,6 @@
       </section>
 
       <section class="mode-panel echo">
-        <div class="mode-panel__head">
-          <span class="mode-name">Echo</span>
-        </div>
         <div class="mode-body">
           <div class="mode-panel__text">
             <h2 class="mode-title">Sound like me, not a robot</h2>
@@ -782,9 +782,12 @@
             </div>
           </div>
         </div>
-        <div class="panel-steps">
-          <ol class="steps">
-            <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
+      <div class="mode-panel__head">
+        <span class="mode-name">Echo</span>
+      </div>
+      <div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
             <li class="step"><span class="step-num">02</span><h3>Echo tunes your clone</h3><p>Your own voice is cloned and matched to the moment — not a robot reading text.</p></li>
             <li class="step"><span class="step-num">03</span><h3>Send an audio reply</h3><p>Play it, tweak it, or send it wearing your voice — they'll think you said it yourself.</p></li>
           </ol>
@@ -792,9 +795,6 @@
       </section>
 
       <section class="mode-panel vibe">
-        <div class="mode-panel__head">
-          <span class="mode-name">Vibe</span>
-        </div>
         <div class="mode-body">
           <div class="mode-panel__text">
             <h2 class="mode-title">How are they really feeling?</h2>
@@ -820,9 +820,12 @@
             </div>
           </div>
         </div>
-        <div class="panel-steps">
-          <ol class="steps">
-            <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
+      <div class="mode-panel__head">
+        <span class="mode-name">Vibe</span>
+      </div>
+      <div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
             <li class="step"><span class="step-num">02</span><h3>Read the mood</h3><p>Vibe detects the emotion — cold, neutral, excited — from how they actually sound.</p></li>
             <li class="step"><span class="step-num">03</span><h3>Reply in tune</h3><p>Get a reply that matches their energy, so you never say the wrong thing.</p></li>
           </ol>
