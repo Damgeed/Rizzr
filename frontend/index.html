@@ -69,6 +69,8 @@
       .hero-copy .hook { display: none; }
       /* Professional trust badges: left-aligned under the description (Bud reverted to left) */
       .hero-copy .trust-row { justify-content: flex-start; margin-top: 1.6rem; }
+      /* Remove the in-phone trust badges on desktop — they're already on the left */
+      .demo .phone-trust { display: none; }
     }
 
     /* Mobile: stacked, condensed hook (hide full description + badges) */
@@ -124,6 +126,9 @@
       transition: opacity 0.4s ease, transform 0.4s ease; transform: translateY(10px);
     }
     .view-state.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+
+    /* Hero-in-phone: push record + Upload/Link buttons lower (tabs now live on top) */
+    #view-hero { padding-top: 120px; }
 
     .record-wrapper { position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; cursor: pointer; }
     .pulse-ring-1, .pulse-ring-2 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--orb-1); animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
