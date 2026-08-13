@@ -218,6 +218,14 @@
     @media (max-width: 520px) {
       .section-title { font-size: clamp(1.05rem, 4.7vw, 1.6rem); white-space: nowrap; }
     }
+    /* Mobile: center section titles + tighten gaps between hero/template and sections */
+    @media (max-width: 640px) {
+      .section { padding: 2.6rem 1.25rem 1.8rem; }
+      .section-eyebrow {
+        display: block; width: max-content; margin-left: auto; margin-right: auto;
+      }
+      .section-title { margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 2rem; }
+    }
     /* Steps: stacked on mobile, 3-across on desktop */
     .steps { display: flex; flex-direction: column; gap: 1.4rem; text-align: left; }
     .step {
