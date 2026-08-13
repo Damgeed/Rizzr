@@ -216,28 +216,31 @@ body {
   .freemium-badge { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
   .page-title { font-size: 1.9rem; }
 
-  /* Mobile: show hamburger, collapse centered nav into a drawer */
+  /* Mobile: show hamburger, collapse centered nav into a right-side dropdown */
   .nav-toggle { display: flex; }
   .nav-links {
     position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 1.25rem; right: 1.25rem;
+    top: calc(100% + 0.6rem);
+    left: auto;
+    right: 0;
     transform: none;
     flex-direction: column;
     align-items: stretch;
     gap: 0.2rem;
-    background: rgba(10, 10, 16, 0.95);
-    border: 1px solid var(--glass-border);
+    min-width: 230px;
+    background: rgba(12, 12, 20, 0.98);
+    border: 1px solid rgba(255,255,255,0.16);
     border-radius: 1rem;
     padding: 0.5rem;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.8);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 24px 60px -12px rgba(0,0,0,0.9);
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
     z-index: 100;
-    transition: max-height 0.3s ease, opacity 0.25s ease;
+    transform-origin: top right;
+    transition: max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease;
   }
   .nav-links.open {
     max-height: 320px;
@@ -248,6 +251,8 @@ body {
     padding: 0.9rem 1rem;
     text-align: left;
     font-size: 0.95rem;
+    color: #fff;
+    font-weight: 600;
   }
 }
 
