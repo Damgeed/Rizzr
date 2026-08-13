@@ -532,6 +532,11 @@
       /* Smaller arrows on mobile */
       .mode-arrow { width: 34px; height: 34px; }
       .mode-arrow svg { width: 17px; height: 17px; }
+      /* Expose the mobile phone template at the TOP of each tab on mobile —
+         bring the phone above the descriptive text, steps fall below */
+      .mode-body .mode-phone { order: 1; }
+      .mode-body .mode-panel__text { order: 2; }
+      .panel-steps { margin-top: 2rem; }
     }
   </style>
 </head>
@@ -710,6 +715,13 @@
         </div>
       </div>
       </div>
+      <div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Record or drop it in</h3><p>Hold the mic, upload a file, or paste a link to the voice note you got.</p></li>
+          <li class="step"><span class="step-num">02</span><h3>Rizzr listens</h3><p>We transcribe it and read the tone — what they said and how they said it.</p></li>
+          <li class="step"><span class="step-num">03</span><h3>Pick your reply</h3><p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p></li>
+        </ol>
+      </div>
       </section>
 
       <section class="mode-panel ghost">
@@ -746,6 +758,13 @@
             </div>
           </div>
         </div>
+        <div class="panel-steps">
+          <ol class="steps">
+            <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>It rings in</h3><p>A natural call screen appears at the perfect moment — real sounding, on cue.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Take the out</h3><p>Answer and duck out gracefully. No explanation needed, no follow-up texts.</p></li>
+          </ol>
+        </div>
       </section>
 
       <section class="mode-panel echo">
@@ -776,6 +795,13 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="panel-steps">
+          <ol class="steps">
+            <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>Echo tunes your clone</h3><p>Your own voice is cloned and matched to the moment — not a robot reading text.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Send an audio reply</h3><p>Play it, tweak it, or send it wearing your voice — they'll think you said it yourself.</p></li>
+          </ol>
         </div>
       </section>
 
@@ -811,6 +837,13 @@
             </div>
           </div>
         </div>
+        <div class="panel-steps">
+          <ol class="steps">
+            <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>Read the mood</h3><p>Vibe detects the emotion — cold, neutral, excited — from how they actually sound.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Reply in tune</h3><p>Get a reply that matches their energy, so you never say the wrong thing.</p></li>
+          </ol>
+        </div>
       </section>
     </div>
 
@@ -819,29 +852,6 @@
     </div>
   </div>
 </main>
-
-  <!-- Shared THE FLOW — how every mode works -->
-  <section class="section" id="how-it-works">
-    <span class="section-eyebrow">The Flow</span>
-    <h2 class="section-title">Three steps. No overthinking.</h2>
-    <ol class="steps">
-      <li class="step">
-        <span class="step-num">01</span>
-        <h3>Record or drop it in</h3>
-        <p>Hold the mic, upload a file, or paste a link to the voice note you got.</p>
-      </li>
-      <li class="step">
-        <span class="step-num">02</span>
-        <h3>Rizzr listens</h3>
-        <p>We transcribe it and read the tone — what they said and how they said it.</p>
-      </li>
-      <li class="step">
-        <span class="step-num">03</span>
-        <h3>Pick your reply</h3>
-        <p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p>
-      </li>
-    </ol>
-  </section>
 
   <!-- Shared FAQ — applies to all four modes -->
   <section class="section" id="faq">
