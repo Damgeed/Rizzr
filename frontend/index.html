@@ -386,6 +386,9 @@
       width: 100%;
     }
     .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; padding-top: 2.5rem; }
+    /* Finesse: pull content up so the head sits snug under the nav (not dead-centered/pushed down) */
+    .mode-panel.finesse { justify-content: flex-start; padding-top: 1rem; }
+    .mode-panel.finesse .mode-panel__head { margin-top: 0; }
     .mode-panel__head {
       align-self: center; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;
     }
