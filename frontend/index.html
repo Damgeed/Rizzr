@@ -187,8 +187,8 @@
     <div class="layout">
       <!-- LEFT: hero copy -->
       <div class="hero-copy">
-        <h1 class="hero-copy-title">Don't think.<br>Just Rizzr it.</h1>
-        <p class="subtext">Perfect replies,<br>zero panic.</p>
+        <h1 class="hero-copy-title" data-rotating-title>Don't think.<br>Just Rizzr it.</h1>
+        <p class="subtext">AI-crafted voice replies for when you're left on read or lost for words.</p>
         <div class="trust-row">
           <span class="trust-item">🔒 No Signup</span>
           <span class="trust-item">⚡ ~7s Results</span>
@@ -210,8 +210,8 @@
 
             <!-- STATE 1: HERO -->
             <section id="view-hero" class="view-state active">
-              <h2 class="phone-tagline">Don't think.<br>Just Rizzr it.</h2>
-              <p class="phone-subtext">Perfect replies,<br>zero panic.</p>
+              <h2 class="phone-tagline" data-rotating-title>Don't think.<br>Just Rizzr it.</h2>
+              <p class="phone-subtext">AI-crafted voice replies for when you're left on read or lost for words.</p>
               <div class="record-wrapper" onclick="switchState('recording')">
                 <div class="pulse-ring-1"></div>
                 <div class="pulse-ring-2"></div>
@@ -306,6 +306,18 @@
   </footer>
 
   <script>
+    // ---- Rotating hero title (random on each refresh) ----
+    var ROTATING_TITLES = [
+      "Don't think.<br>Just Rizzr it.",
+      "Perfect replies,<br>zero panic."
+    ];
+    (function rotateTitle() {
+      var i = Math.floor(Math.random() * ROTATING_TITLES.length);
+      document.querySelectorAll('[data-rotating-title]').forEach(function(el) {
+        el.innerHTML = ROTATING_TITLES[i];
+      });
+    })();
+
     function switchState(targetId) {
       var sections = document.querySelectorAll('.view-state');
       for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
