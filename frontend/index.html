@@ -41,8 +41,8 @@
     /* Desktop: side-by-side (copy left, phone right) */
     @media (min-width: 860px) {
       .layout { flex-direction: row; align-items: center; gap: 2.5rem; }
-      .hero-copy { flex: 1 1 46%; max-width: none; text-align: left; }
-      .hero-copy-title { font-size: 3.6rem; }
+      .hero-copy { flex: 1 1 52%; max-width: none; text-align: left; }
+      .hero-copy-title { font-size: 3.3rem; white-space: nowrap; }
       .hero-copy .subtext { margin: 1.1rem 0 0; }
       .hero-copy .hook { display: none; }
     }
@@ -206,7 +206,7 @@
     <div class="layout">
       <!-- LEFT: hero copy -->
       <div class="hero-copy">
-        <h1 class="hero-copy-title" data-rotating-title>Don't think.<br>Just Rizzr it.</h1>
+        <h1 class="hero-copy-title" data-rotating-title>Don't think. Just Rizzr it.</h1>
         <p class="subtext">Rizzr turns your messy voice notes into confident, flirty, natural replies that sound like you — not a robot trying to flirt.</p>
         <p class="hook">Send a voice note. Rizzr writes 3 perfect replies back — in seconds.</p>
         <div class="trust-row">
@@ -230,7 +230,7 @@
 
             <!-- STATE 1: HERO -->
             <section id="view-hero" class="view-state active">
-              <h2 class="phone-tagline" data-rotating-title>Don't think.<br>Just Rizzr it.</h2>
+              <h2 class="phone-tagline" data-rotating-title>Don't think. Just Rizzr it.</h2>
               <p class="phone-subtext">Confident, flirty, natural replies that sound like you — not a robot.</p>
               <div class="record-wrapper" onclick="switchState('recording')">
                 <div class="pulse-ring-1"></div>
@@ -328,8 +328,8 @@
   <script>
     // ---- Rotating hero title (random on each refresh) ----
     var ROTATING_TITLES = [
-      "Don't think.<br>Just Rizzr it.",
-      "Perfect replies,<br>zero panic."
+      "Don't think. Just Rizzr it.",
+      "Perfect replies, zero panic."
     ];
     (function rotateTitle() {
       var i = Math.floor(Math.random() * ROTATING_TITLES.length);
