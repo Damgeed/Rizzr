@@ -425,7 +425,13 @@
     .mode-arrow--right { right: 12px; }
     .mode-arrow:disabled { opacity: 0.35; cursor: default; }
     /* Dots */
-    .mode-dots { display: flex; justify-content: center; gap: 8px; padding: 1.6rem 0 2rem; }
+    .mode-dots { display: flex; justify-content: center; gap: 8px; padding: 0.4rem 0 0.6rem; }
+    /* Tighten gap between dots and THE FLOW below */
+    #how-it-works { padding-top: 1rem; padding-bottom: 0.5rem; }
+    /* Tighten gap between THE FLOW and FAQ */
+    #faq { padding-top: 1rem; }
+    /* Tighten gap between phone template bottom and the dots */
+    .mode-panel.finesse { padding-bottom: 1.5rem; }
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
     /* Panels 2-4 shared content */
