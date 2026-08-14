@@ -9,7 +9,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt2';
+    var v='hgt3';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
   }catch(e){}})();
@@ -23,7 +23,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt3">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -961,10 +961,25 @@
       var toggle = document.getElementById('navToggle');
       var links = document.getElementById('navLinks');
       if (!toggle || !links) return;
+      function closeNav() {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
       toggle.addEventListener('click', function() {
         var open = links.classList.toggle('open');
         toggle.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      // close when clicking anywhere outside the nav
+      document.addEventListener('click', function(e) {
+        if (!links.classList.contains('open')) return;
+        if (links.contains(e.target) || toggle.contains(e.target)) return;
+        closeNav();
+      });
+      // close when a link is chosen
+      Array.prototype.slice.call(links.querySelectorAll('a')).forEach(function(a) {
+        a.addEventListener('click', closeNav);
       });
     })();
     // ---- Mode carousel: left/right arrows + dots ----
