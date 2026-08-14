@@ -9,7 +9,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='btn2';
+    var v='hgt2';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
   }catch(e){}})();
@@ -434,6 +434,9 @@
     @media (max-width: 640px) {
       .mode-panel__head { margin-bottom: 0.5rem; }
       .mode-panel .layout { padding-top: 1rem; }
+      /* Match SOON panels' body top-padding to Finesse's layout so all phones
+         start at the same Y on mobile (levels the mobile template heights) */
+      .mode-panel .mode-body { padding-top: 1rem; }
     }
     /* Arrow buttons */
     .mode-arrow {
