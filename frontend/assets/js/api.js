@@ -67,9 +67,11 @@ class RizzrAPI {
     return res.json(); // { remaining, total }
   }
 
-  async createCheckout() {
+  async createCheckout(tier = 'pro_monthly') {
     const res = await fetch(`${this.base}/api/checkout`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tier }),
     });
     if (!res.ok) throw new Error('Checkout failed');
     const data = await res.json();

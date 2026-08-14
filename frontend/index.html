@@ -9,7 +9,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='rec4';
+    var v='pri1';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
   }catch(e){}})();
@@ -195,8 +195,8 @@
     @keyframes eq { 0% { transform: scaleY(0.35); } 100% { transform: scaleY(1); } }
     .phone-timer { font-variant-numeric: tabular-nums; font-size: 2rem; font-weight: 300; letter-spacing: 0.04em; margin-bottom: 1.4rem; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.35rem 1.1rem; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); }
     .phone-timer b { font-weight: 700; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--orb-1); opacity: 0.9; }
-    .btn-stop-scale { width: auto; margin: 0 auto; background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border: none; color: #160d10; font-weight: 700; padding: 0.42rem 0.95rem; font-size: 0.68rem; letter-spacing: 0.01em; border-radius: 999px; box-shadow: 0 4px 12px rgba(255,193,94,0.2); transition: transform 0.15s ease, box-shadow 0.2s ease; }
-    .btn-stop-scale:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(255,193,94,0.28); }
+    .btn-stop-scale { flex: none; width: auto; margin: 0 auto; height: 26px; line-height: 1; background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border: none; color: #160d10; font-weight: 700; padding: 0 0.8rem; font-size: 0.62rem; letter-spacing: 0.01em; border-radius: 999px; box-shadow: 0 3px 10px rgba(255,193,94,0.18); transition: transform 0.15s ease, box-shadow 0.2s ease; }
+    .btn-stop-scale:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(255,193,94,0.26); }
     .btn-stop-scale:active { transform: translateY(0); }
     .btn-stop-scale svg { width: 8px; height: 8px; vertical-align: -1px; margin-right: 0.3rem; }
 
@@ -880,7 +880,7 @@
       </details>
       <details class="faq-item">
         <summary>Do I need an account to use Rizzr?</summary>
-        <p>No signup needed. You get 3 free replies per day, then it's a flat <strong>$9.99/mo</strong> for unlimited use.</p>
+        <p>No signup needed. You get 3 free replies per day, then it's a flat <strong>$5.99/mo</strong> for unlimited use.</p>
       </details>
       <details class="faq-item">
         <summary>Does it work in any language?</summary>
