@@ -9,7 +9,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='pri1';
+    var v='hgt1';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
   }catch(e){}})();
@@ -94,6 +94,9 @@
       .hero-copy .hero-cta { display: none; }
       .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
       .demo { width: 100%; }
+      /* Level the mobile template heights: give descriptions a uniform height so
+         Ghost/Echo/Vibe phones all start at the same Y regardless of desc length */
+      .mode-desc { min-height: 3.4em; display: flex; align-items: flex-start; justify-content: center; }
     }
     /* Very small phones */
     @media (max-width: 380px) {
