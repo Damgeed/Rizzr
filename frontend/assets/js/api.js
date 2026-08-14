@@ -107,4 +107,67 @@ class RizzrAPI {
   }
 }
 
+// ---- Robust microphone capture (mobile-Safari safe) ----
+// mimeType fallback chain, getUserMedia MUST be called inside the user tap
+// gesture (Safari blocks async), and Safari fires several `dataavailable`
+// blobs that must be concatenated into one file.
+RizzrAPI.pickAudioMime = function () {
+  if (typeof MediaRecorder === 'undefined') return null;
+  const types = [
+    'audio/mp4',
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    '',
+  ];
+  for (const t of types) {
+    try {
+      if (MediaRecorder.isTypeSupported(t)) return t;
+    } catch (e) { /* ignore */ }
+  }
+  return '';
+};
+
+// Returns { stop(), stream, blobPromise } — call start() then stop() later.
+RizzrAPI.startRecording = function () {
+  return navigator.mediaDevices.getUserMedia({
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      autoGainControl: true,
+    },
+  }).then(function (stream) {
+    const mime = RizzrAPI.pickAudioMime();
+    let recorder;
+    try {
+      recorder = mime
+        ? new MediaRecorder(stream, mime === '' ? undefined : { mimeType: mime })
+        : new MediaRecorder(stream);
+    } catch (e) {
+      // Last resort: no options
+      recorder = new MediaRecorder(stream);
+    }
+    const chunks = [];
+    recorder.ondataavailable = function (e) {
+      if (e.data && e.data.size > 0) chunks.push(e.data);
+    };
+    const blobPromise = new Promise(function (resolve, reject) {
+      recorder.onstop = function () {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+        const type = mime && mime !== '' ? mime : chunks[0] && chunks[0].type;
+        resolve(new Blob(chunks, { type: type || 'audio/webm' }));
+      };
+      recorder.onerror = function (e) { reject(e); };
+    });
+    recorder.start();
+    return {
+      stop: function () {
+        if (recorder.state === 'recording') recorder.stop();
+      },
+      stream: stream,
+      blob: blobPromise,
+    };
+  });
+};
+
 window.rizzrAPI = new RizzrAPI();
