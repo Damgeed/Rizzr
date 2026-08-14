@@ -9,9 +9,14 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt5';
+    var v='hgt6';
     if(location.search.indexOf('v=')!==-1) return;
-    if(localStorage.getItem('rizzr_cache_v')!==v){ localStorage.setItem('rizzr_cache_v',v); location.replace(location.pathname+location.pathname.endsWith('/')?'?v='+v:'?'+v); }
+    if(localStorage.getItem('rizzr_cache_v')!==v){
+      localStorage.setItem('rizzr_cache_v',v);
+      // Preserve the existing query string (e.g. ?action=record) so PWA shortcuts survive the cache-buster redirect
+      var sep = location.search ? (location.search.indexOf('?')===0 ? '&' : '?') : '?';
+      location.replace(location.pathname + (location.search || '') + sep + 'v=' + v);
+    }
   }catch(e){}})();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -963,6 +968,15 @@
         clearInterval(window.recInterval);
       }
     }
+    // ---- PWA shortcut: ?action=record (from manifest shortcut tap) jumps straight to recording ----
+    (function() {
+      try {
+        var p = new URLSearchParams(window.location.search);
+        if (p.get('action') === 'record' && typeof switchState === 'function') {
+          switchState('recording');
+        }
+      } catch (e) {}
+    })();
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
     // ---- Fixed nav: frosted glass on scroll ----
     (function() {
