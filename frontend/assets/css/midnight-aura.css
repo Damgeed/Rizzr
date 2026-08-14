@@ -106,9 +106,15 @@ body {
   font-size: 0.9rem; font-weight: 600;
   padding: 0.55rem 0.9rem; border-radius: var(--radius-pill);
   transition: var(--transition);
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.nav-link svg {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: var(--orb-1, #FFC15E); opacity: 0.9;
 }
 .nav-link:hover { color: var(--text-main); background: var(--glass-hover); }
 .nav-link.active { color: #fff; background: var(--glass-bg); border: 1px solid var(--glass-border); }
+.nav-link.active svg { color: #fff; }
 
 /* Hamburger toggle (mobile only) — professional glass pill */
 .nav-toggle {
