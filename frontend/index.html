@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt11';
+    var v='hgt12';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -597,6 +597,11 @@
       /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
       .mode-phone { height: 654px; }
       .mode-phone__screen { height: 100%; aspect-ratio: auto; }
+      /* Push the description chips lower on mobile: below the numbered steps */
+      .mode-panel .mode-panel__head { order: 1; }
+      .mode-panel .mode-body { order: 2; }
+      .mode-panel .panel-steps { order: 3; }
+      .mode-panel .mode-list { order: 4; }
     }
   </style>
 </head>
