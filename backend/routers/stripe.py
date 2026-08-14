@@ -13,6 +13,13 @@ from pydantic import BaseModel
 from config import get_settings
 from middleware.rate_limit import get_limiter
 
+try:
+    import stripe
+    _STRIPE_AVAILABLE = True
+except ImportError:
+    _STRIPE_AVAILABLE = False
+
+
 router = APIRouter()
 
 
@@ -37,12 +44,31 @@ async def get_usage(request: Request):
 
 
 @router.post("/api/checkout")
-async def create_checkout():
+async def create_checkout(request: Request):
     """Create Stripe Checkout session for Pro subscription."""
     settings = get_settings()
 
-    if not settings.stripe_secret_key or not settings.stripe_price_id:
+    if not settings.stripe_secret_key:
         raise HTTPException(status_code=500, detail="Stripe not configured")
+
+    # Read tier from optional JSON body (frontend sends {"tier": "..."})
+    tier = "pro_monthly"
+    try:
+        body = await request.json()
+        if isinstance(body, dict) and body.get("tier"):
+            tier = str(body["tier"])
+    except Exception:
+        pass
+
+    # Resolve the price ID from the requested tier (server-side, never client-supplied Stripe values)
+    price_id = {
+        "pro_monthly": settings.stripe_price_id,
+        "pro_annual": settings.stripe_price_annual_id,
+        "pro_plus": settings.stripe_price_plus_id,
+    }.get(tier, settings.stripe_price_id)
+
+    if not price_id:
+        raise HTTPException(status_code=500, detail="No Stripe price configured")
 
     url = "https://api.stripe.com/v1/checkout/sessions"
     headers = {
@@ -51,7 +77,7 @@ async def create_checkout():
     }
     data = {
         "mode": "subscription",
-        "line_items[0][price]": settings.stripe_price_id,
+        "line_items[0][price]": price_id,
         "line_items[0][quantity]": "1",
         "success_url": "https://rizzr.com/?upgraded=true",
         "cancel_url": "https://rizzr.com/pricing.html?canceled=true",
@@ -71,17 +97,34 @@ async def create_checkout():
 
 @router.post("/api/webhook")
 async def stripe_webhook(request: Request):
-    """Stripe webhook — idempotent via event ID."""
+    """Stripe webhook — idempotent, signature-verified."""
     settings = get_settings()
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature", "")
+    endpoint_secret = settings.stripe_webhook_secret
 
-    # In production, verify webhook signature with Stripe
-    # For now, parse the event
-    try:
-        event = json.loads(payload)
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid payload")
+    # Hard requirement in production: verify the signature or reject the event.
+    if not endpoint_secret or not sig_header:
+        raise HTTPException(
+            status_code=400,
+            detail="Webhook signature missing — endpoint_secret or signature header not configured",
+        )
+
+    if _STRIPE_AVAILABLE:
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, endpoint_secret
+            )
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+        except stripe.error.SignatureVerificationError:
+            raise HTTPException(status_code=400, detail="Invalid signature")
+    else:
+        # Fallback: raw parse (best-effort only — DO NOT rely on this in prod without the stripe lib)
+        try:
+            event = json.loads(payload)
+        except json.JSONDecodeError:
+            raise HTTPException(status_code=400, detail="Invalid payload")
 
     event_id = event.get("id", "")
     event_type = event.get("type", "")
