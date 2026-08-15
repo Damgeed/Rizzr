@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt22';
+    var v='hgt23';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt6">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt7">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -953,6 +953,35 @@
   </div>
 </main>
 
+  <!-- Social proof: rating line + testimonials (placeholder copy — replace with real data at launch) -->
+  <section class="social-proof">
+    <div class="social-proof__rating">
+      <span class="social-proof__stars" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      <span class="social-proof__rating-num">4.9</span>
+      <span class="social-proof__meta">· helping people reply everywhere</span>
+    </div>
+    <div class="social-proof__cards">
+      <figure class="social-proof__card">
+        <blockquote>"I froze on that voice note for two hours. Rizzr had three replies ready in seconds — I just picked one and sent it."</blockquote>
+        <figcaption>— Maya, early user</figcaption>
+      </figure>
+      <figure class="social-proof__card">
+        <blockquote>"The audio replies honestly sound like me. My friends still haven't figured it out."</blockquote>
+        <figcaption>— Daniel, tester</figcaption>
+      </figure>
+      <figure class="social-proof__card">
+        <blockquote>"Reads the mood better than I do. I show up calmer because I'm not overthinking every reply."</blockquote>
+        <figcaption>— Zoe, tester</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- Shared FAQ — applies to all four modes -->
   <section class="section" id="faq">
     <span class="section-eyebrow">FAQ</span>
@@ -979,6 +1008,15 @@
         <p>Your voice notes are processed and not sold or shared. You control what's kept in your vault.</p>
       </details>
     </div>
+  </section>
+
+  <!-- Pricing band: price anchor + CTA -->
+  <section class="pricing-band">
+    <div class="pricing-band__copy">
+      <p class="pricing-band__price"><strong>$9.99</strong><span>/mo</span></p>
+      <p class="pricing-band__desc">Pro — unlimited replies · 3 free tries first · cancel anytime</p>
+    </div>
+    <a class="pricing-band__cta" href="pricing.html">View pricing</a>
   </section>
 
   <!-- Bottom download CTA: "Get your Rizzr today." + inline iOS/Android download buttons -->
