@@ -295,6 +295,7 @@ body {
 .testimonial-track {
   display: flex; gap: 1rem;
   flex: 1;
+  min-width: 0;
   transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .testimonial-track .social-proof__card {
