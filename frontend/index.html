@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt30';
+    var v='hgt31';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -1237,7 +1237,7 @@
       }
       function go(i){
         idx = ((i % pages) + pages) % pages;
-        track.style.transition = 'transform 0.5s cubic-bezier(.22,.61,.36,1)';
+        track.style.transition = 'transform 0.7s cubic-bezier(0.35, 0.1, 0.25, 1)';
         track.style.transform = 'translateX(' + (-idx * perPage * pitch()) + 'px)';
         syncDots();
       }
