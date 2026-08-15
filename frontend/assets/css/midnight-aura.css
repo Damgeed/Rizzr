@@ -225,6 +225,31 @@ body {
 .btn-block { width: 100%; }
 
 /* ==========================================
+   DOWNLOAD CTA + STORE BADGES (shared)
+   ========================================== */
+.store-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  transition: opacity var(--transition), transform var(--transition);
+}
+.store-btn:hover { opacity: 0.86; transform: translateY(-1px); }
+.store-btn img { height: 48px; width: auto; display: block; }
+
+.download-cta {
+  padding: 3rem 1.5rem 1rem;
+  text-align: center;
+}
+.download-cta__title {
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+  margin: 0 0 1.4rem;
+}
+.download-cta__btns {
+  display: flex; justify-content: center; align-items: center;
+  flex-wrap: wrap; gap: 0.9rem;
+}
+
+/* ==========================================
    FOOTER
    ========================================== */
 .footer {

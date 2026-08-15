@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt18';
+    var v='hgt19';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt5">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt6">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -88,6 +88,12 @@
       transform: translateY(-1px);
     }
 
+    /* Store download badges (iOS/Android) — .store-btn is defined in shared midnight-aura.css */
+    /* Hero download row (desktop): sits below Upload audio + Paste link */
+    .hero-copy .hero-download {
+      display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.1rem;
+    }
+
     /* Desktop: side-by-side (copy left, phone right) */
     @media (min-width: 860px) {
       .layout { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; }
@@ -112,6 +118,7 @@
       .hero-copy .subtext { display: none; }
       .hero-copy .trust-row { display: none; }
       .hero-copy .hero-cta { display: none; }
+      .hero-copy .hero-download { display: none; }
       .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
       .demo { width: 100%; }
       /* Level the mobile template heights: give descriptions a uniform height so
@@ -677,6 +684,15 @@
             Paste link
           </button>
         </div>
+        <!-- Download buttons (desktop): below Upload audio + Paste link -->
+        <div class="hero-download">
+          <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+            <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+          </a>
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+          </a>
+        </div>
       </div>
 
       <!-- RIGHT: phone demo -->
@@ -943,6 +959,19 @@
         <summary>Is my voice data private?</summary>
         <p>Your voice notes are processed and not sold or shared. You control what's kept in your vault.</p>
       </details>
+    </div>
+  </section>
+
+  <!-- Bottom download CTA: "Get your Rizzr today." + inline iOS/Android download buttons -->
+  <section class="download-cta">
+    <h2 class="download-cta__title">Get your Rizzr today.</h2>
+    <div class="download-cta__btns">
+      <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+        <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+      </a>
+      <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+      </a>
     </div>
   </section>
 
