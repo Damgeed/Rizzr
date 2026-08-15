@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt32';
+    var v='hgt31';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -1225,67 +1225,51 @@
       var next = slider.querySelector('.testimonial-nav--next');
       var dotsWrap = document.querySelector('.testimonial-dots');
       if (!track || !dotsWrap) return;
-      var orig = Array.prototype.slice.call(track.children);
-      var COUNT = orig.length;                          // 9 real testimonials
-      // Clone the set once so it can rotate a full smooth 360° (like the mode tabs) without end-stop.
-      orig.forEach(function(c){ track.appendChild(c.cloneNode(true)); });
+      var cards = Array.prototype.slice.call(track.children);
       var perPage = window.innerWidth <= 640 ? 1 : 3;
-      var pages = Math.max(1, Math.ceil(COUNT / perPage));
+      var total = cards.length;                          // 6
+      var pages = Math.max(1, Math.ceil(total / perPage));
+      var idx = 0;                                       // 0..pages-1
 
-      // idx = the left-most visible card. It can grow continuously; transitionend wraps it back invisibly.
-      var idx = 0;
       function pitch(){
         var gap = parseFloat(getComputedStyle(track).gap) || 0;
-        return (orig[0].getBoundingClientRect().width + gap) || (slider.clientWidth / perPage);
+        return (cards[0].getBoundingClientRect().width + gap) || (slider.clientWidth / perPage);
       }
-      function setTransform(animate){
-        track.style.transition = animate ? 'transform 0.65s cubic-bezier(.33,.06,.24,1)' : 'none';
-        track.style.transform = 'translateX(' + (-idx * pitch()) + 'px)';
-      }
-      function step(dir){
-        idx += dir;                                      // slide one card at a time (smooth)
-        setTransform(true);
+      function go(i){
+        idx = ((i % pages) + pages) % pages;
+        track.style.transition = 'transform 0.7s cubic-bezier(0.35, 0.1, 0.25, 1)';
+        track.style.transform = 'translateX(' + (-idx * perPage * pitch()) + 'px)';
         syncDots();
       }
-      // Smooth 360 wrap: once the slide completes, if idx left the real set (into clones) snap it
-      // back to the identical real position WITHOUT a transition — invisible.
-      function maybeWrap(){
-        if (idx >= COUNT)            idx = idx % COUNT;
-        else if (idx < 0)            idx = ((idx % COUNT) + COUNT) % COUNT;
-        else                         { setTransform(true); syncDots(); return; }
-        setTransform(false);
-        syncDots();
-      }
+      function step(dir){ go(idx + dir); }
       function buildDots(){
         dotsWrap.innerHTML = '';
         for (var i = 0; i < pages; i++){
           (function(k){
             var d = document.createElement('span');
-            d.addEventListener('click', function(){ idx = k * perPage; setTransform(true); syncDots(); });
+            d.addEventListener('click', function(){ go(k); });
             dotsWrap.appendChild(d);
           })(i);
         }
       }
       function syncDots(){
         var ds = Array.prototype.slice.call(dotsWrap.children);
-        var active = Math.floor(idx / perPage) % Math.max(1, ds.length);
-        ds.forEach(function(d, k){ d.classList.toggle('on', k === active); });
+        ds.forEach(function(d, k){ d.classList.toggle('on', k === idx); });
       }
+      // Rebuild per-page on resize (mobile = 1 card / view, desktop = 3)
       function onResize(){
         perPage = window.innerWidth <= 640 ? 1 : 3;
-        pages = Math.max(1, Math.ceil(COUNT / perPage));
+        pages = Math.max(1, Math.ceil(total / perPage));
         buildDots();
-        idx = 0; setTransform(false); syncDots();
+        go(0);
       }
       buildDots();
-      track.addEventListener('transitionend', maybeWrap);
       if (prev) prev.addEventListener('click', function(){ step(-1); });
       if (next) next.addEventListener('click', function(){ step(1); });
       window.addEventListener('resize', onResize);
-      // Continuous smooth 360 rotation: advance one card every 4s, looping forever
-      setInterval(function(){ step(1); }, 4000);
-      setTransform(false);
-      syncDots();
+      // Auto-advance between the two windows every 5s
+      setInterval(function(){ step(1); }, 5000);
+      go(0);
     })();
 
   </script>
