@@ -284,6 +284,64 @@ body {
   font-size: 0.82rem; color: var(--text-muted); font-weight: 500;
 }
 
+/* --- Testimonial slider --- */
+.testimonial-slider {
+  position: relative;
+  display: flex; align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+.testimonial-track {
+  display: flex; gap: 1rem;
+  flex: 1;
+  transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.testimonial-track .social-proof__card {
+  flex: 0 0 calc((100% - 2rem) / 3);
+  min-width: 0;
+}
+.testimonial-track .social-proof__card blockquote {
+  font-size: 0.9rem;
+}
+@media (max-width: 640px) {
+  .testimonial-track .social-proof__card { flex-basis: calc(100% - 0rem); } /* 1 per view on mobile */
+}
+.testimonial-nav {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+.testimonial-nav:hover {
+  background: var(--glass-hover);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+.testimonial-dots {
+  display: flex; justify-content: center; gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+.testimonial-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.testimonial-dots span.on {
+  background: linear-gradient(135deg, #ff3366, #7000ff);
+  transform: scale(1.2);
+}
+
+@media (max-width: 640px) {
+  .testimonial-nav { display: none; } /* on mobile, hide arrows (swipe via track) */
+}
+
 /* ==========================================
    PRICING BAND (price anchor strip)
    ========================================== */

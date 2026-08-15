@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt23';
+    var v='hgt25';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt7">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt8">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -966,20 +966,41 @@
       <span class="social-proof__rating-num">4.9</span>
       <span class="social-proof__meta">· helping people reply everywhere</span>
     </div>
-    <div class="social-proof__cards">
-      <figure class="social-proof__card">
-        <blockquote>"I froze on that voice note for two hours. Rizzr had three replies ready in seconds — I just picked one and sent it."</blockquote>
-        <figcaption>— Maya, early user</figcaption>
-      </figure>
-      <figure class="social-proof__card">
-        <blockquote>"The audio replies honestly sound like me. My friends still haven't figured it out."</blockquote>
-        <figcaption>— Daniel, tester</figcaption>
-      </figure>
-      <figure class="social-proof__card">
-        <blockquote>"Reads the mood better than I do. I show up calmer because I'm not overthinking every reply."</blockquote>
-        <figcaption>— Zoe, tester</figcaption>
-      </figure>
+    <div class="testimonial-slider">
+      <button class="testimonial-nav testimonial-nav--prev" type="button" aria-label="Previous testimonials">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="testimonial-track">
+        <figure class="social-proof__card">
+          <blockquote>"I froze on that voice note for two hours. Rizzr had three replies ready in seconds — I just picked one and sent it."</blockquote>
+          <figcaption>— Maya, early user</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"The audio replies honestly sound like me. My friends still haven't figured it out."</blockquote>
+          <figcaption>— Daniel, tester</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"Reads the mood better than I do. I show up calmer because I'm not overthinking every reply."</blockquote>
+          <figcaption>— Zoe, tester</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"Sent a reply I never would've thought of. They double-texted me back in five minutes."</blockquote>
+          <figcaption>— Amir, early user</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"Works in any language. I replied to my boss in English and my grandma in Tagalog — both sounded natural."</blockquote>
+          <figcaption>— Lena, tester</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"The seven-second turnaround is the best part. No more sitting on replies until they feel 'right.'"</blockquote>
+          <figcaption>— Jordan, early user</figcaption>
+        </figure>
+      </div>
+      <button class="testimonial-nav testimonial-nav--next" type="button" aria-label="Next testimonials">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
+    <div class="testimonial-dots" role="tablist" aria-label="Testimonial pages"></div>
   </section>
 
   <!-- Shared FAQ — applies to all four modes -->
@@ -1147,6 +1168,67 @@
       if (leftBtn) leftBtn.addEventListener('click', function(){ window.scrollModes(-1); });
       if (rightBtn) rightBtn.addEventListener('click', function(){ window.scrollModes(1); });
       sync();
+    })();
+
+    // --- Testimonial slider (show 3 at a time on desktop, 1 on mobile) ---
+    (function(){
+      var slider = document.querySelector('.testimonial-slider');
+      if (!slider) return;
+      var track = slider.querySelector('.testimonial-track');
+      var prev = slider.querySelector('.testimonial-nav--prev');
+      var next = slider.querySelector('.testimonial-nav--next');
+      var dotsWrap = document.querySelector('.testimonial-dots');
+      var cards = Array.prototype.slice.call(track.children);
+      var perPage = 3;        // cards visible at once
+      var total = cards.length;
+      var pages = Math.max(1, Math.ceil(total / perPage)); // slides for 6 -> 2 (3 each), overflow handled by wrap
+      var idx = 0;
+      if (!dotsWrap) return;
+
+      function perPageCalc(){
+        // responsive: 1 card on very small, else 3
+        return window.innerWidth <= 640 ? 1 : 3;
+      }
+      function rebuildDots(){
+        var p = pages;
+        dotsWrap.innerHTML = '';
+        for (var i = 0; i < p; i++){
+          var d = document.createElement('span');
+          d.addEventListener('click', function(){ goTo(i); });
+          dotsWrap.appendChild(d);
+        }
+      }
+      function goTo(n){
+        var pp = perPageCalc();
+        var maxStart = total - pp;
+        idx = Math.min(Math.max(0, n), maxStart);
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var cardPitch = (cards[0].getBoundingClientRect().width + gap) || (track.clientWidth / pp);
+        track.style.transform = 'translateX(' + (-idx * cardPitch) + 'px)';
+        syncDots();
+      }
+      function step(dir){
+        var maxStart = total - perPageCalc();
+        idx = Math.min(Math.max(0, idx + dir), maxStart);
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var cardPitch = (cards[0].getBoundingClientRect().width + gap) || (track.clientWidth / perPageCalc());
+        track.style.transform = 'translateX(' + (-idx * cardPitch) + 'px)';
+        syncDots();
+      }
+      function syncDots(){
+        var dots = Array.prototype.slice.call(dotsWrap.children);
+        var pp = perPageCalc();
+        var activePage = Math.floor(idx / pp);
+        dots.forEach(function(d, k){ d.classList.toggle('on', k === activePage); });
+      }
+      rebuildDots();
+      if (prev) prev.addEventListener('click', function(){ step(-1); });
+      if (next) next.addEventListener('click', function(){ step(1); });
+      // responsive reflow
+      window.addEventListener('resize', function(){ goTo(idx); });
+      // auto-advance every 6s
+      setInterval(function(){ if (idx < total - perPageCalc()) step(1); else goTo(0); }, 6000);
+      goTo(0);
     })();
   </script>
 </body>
