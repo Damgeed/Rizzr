@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt36';
+    var v='hgt37';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -609,6 +609,10 @@
       .mode-arrow svg { width: 17px; height: 17px; }
       /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
       .panel-steps { margin-top: 2rem; }
+      /* Finesse panel content sits higher than the other three tabs (its phone demo is shorter),
+         leaving a big blank gap before the shared mode-dots. Add bottom padding so the dots sit
+         a consistent distance below the last step, matching Ghost/Echo/Vibe. */
+      .mode-panel.finesse .panel-steps { padding-bottom: 6.9rem; }
       /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
       .mode-phone { height: 654px; }
       .mode-phone__screen { height: 100%; aspect-ratio: auto; }
