@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" href="assets/img/icon-192.png?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt8">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt10">
   <style>
     /* Pricing-specific */
     .pricing-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; }
@@ -132,16 +132,16 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="tick-ok" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Early access to new features</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="tick-ok" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Voice cloning (coming v2)</li>
         </ul>
-        <button class="btn btn-primary btn-block" onclick="rizzrAPI.createCheckout('pro_monthly')">Get Pro — $9.99/mo</button>
+        <a href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" class="btn btn-primary btn-block" role="button">Get Pro — $9.99/mo</a>
         <div class="annual-divider" style="height:1px;background:rgba(255,255,255,0.08);margin:1.2rem 0 1rem;"></div>
         <div class="annual-block" style="text-align:center;">
           <span style="font-weight:600;font-size:0.95rem;">Annual</span>
           <span style="display:inline-block;background:rgba(52,211,153,0.15);color:#34d399;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-left:0.4rem;">Save 20%</span>
           <div style="margin:0.4rem 0 0.6rem;"><span class="amount" style="font-size:1.7rem;font-weight:700;background:linear-gradient(to bottom right,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">$7.99</span><span style="color:var(--text-muted);font-size:0.85rem;">/mo</span></div>
           <p style="font-size:0.78rem;color:var(--text-muted);margin:0 0 0.6rem;">Billed yearly — paid once (~$96/yr)</p>
-          <button class="btn btn-primary btn-block" onclick="rizzrAPI.createCheckout('pro_annual')">Get Pro Annual — $7.99/mo</button>
+          <a href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" class="btn btn-primary btn-block" role="button">Get Pro Annual — $7.99/mo</a>
         </div>
-        <p class="secure-text">Secured by Stripe. Cancel anytime.</p>
+        <p class="secure-text">Billed securely through the App Store. Cancel anytime.</p>
       </div>
 
       <!-- PRO+ (decoy tier — anchors Pro, lifts take-rate) -->
@@ -156,8 +156,8 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="tick-ok" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Priority + dedicated processing</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="tick-ok" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Early access to all new modes</li>
         </ul>
-        <button class="btn btn-primary btn-block" onclick="rizzrAPI.createCheckout('pro_plus')">Get Pro+ — $19.99/mo</button>
-        <p class="secure-text">Secured by Stripe. Cancel anytime.</p>
+        <a href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" class="btn btn-primary btn-block" role="button">Get Pro+ — $19.99/mo</a>
+        <p class="secure-text">Billed securely through the App Store. Cancel anytime.</p>
       </div>
     </div>
 
@@ -170,15 +170,15 @@
       </details>
       <details class="faq-item">
         <summary class="faq-summary">Can I cancel anytime?</summary>
-        <p class="faq-answer">Yes. Cancel from Settings → Account. You keep Pro until the end of your billing period.</p>
+        <p class="faq-answer">Yes. Cancel from the Rizzr app or your Apple ID subscription settings. You keep Pro until the end of your billing period.</p>
       </details>
       <details class="faq-item">
         <summary class="faq-summary">What languages are supported?</summary>
         <p class="faq-answer">Whisper auto-detects 50+ languages. Replies match the detected language automatically.</p>
       </details>
       <details class="faq-item">
-        <summary class="faq-summary">Do I need to install anything?</summary>
-        <p class="faq-answer">No. Rizzr is a PWA — works in your browser. Add to home screen for the app experience.</p>
+        <summary class="faq-summary">Do I need the app?</summary>
+        <p class="faq-answer">Rizzr is designed as a native iPhone app for the best experience — record or drop in a voice note and get replies right on your phone. Grab it free on the App Store.</p>
       </details>
     </div>
   </main>
@@ -193,16 +193,7 @@
     <p>Rizzr — AI voice-note reply coach. Made with care</p>
   </footer>
 
-  <script src="assets/js/api.js"></script>
   <script>
-    document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
-      try {
-        const url = await window.rizzrAPI.createCheckout();
-        window.location.href = url;
-      } catch (e) {
-        console.error('Checkout error:', e);
-      }
-    });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
     // ---- Mobile hamburger nav toggle ----
     (function() {

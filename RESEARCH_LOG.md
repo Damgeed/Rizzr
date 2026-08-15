@@ -356,3 +356,25 @@ The #1 brand-growth gap flagged at 10:44 (no Open Graph/Twitter Card = shared li
 - VERIFIED live: og-card.png 200 (45228 bytes), all og tags present in served index.html.
 
 Next unlock for the share-loop to actually pay off: backend (checkout/transcribe/apikey) still undeployed — api.rizzr.com serves 000. Share meta is ready; the loop converts only once the backend ships.
+
+---
+
+## 2026-08-14 14:20 — Settings redesign + StoreKit-aligned pricing + mobile polish (commit `b8c31ba`/`fcc136c` ongoing, this round one clean commit)
+
+Setting page was a fake "account management" shell (implied login that doesn't exist — Rizzr is no-signup). Redesigned to match the settled architecture (no-signup + Apple StoreKit IAP, web = marketing front door):
+
+SETTINGS (settings.html):
+- Dropped the "👤 Account" card (implies auth). Replaced with a **"⭐ Your Plan"** card — shows Free/3-replies status + "Get Pro in the app →" deep-link to the App Store, with an honest note that subscriptions live on the Apple ID and are never charged from the website.
+- Added a **"⚙️ Preferences"** card — 3 on-device toggles (Relaxed tone, friendly emoji, auto-copy) wired client-side via `localStorage`-read display + `data-toggle` buttons. No fake backend.
+- Kept **Privacy** (strong trust signals) + **About**.
+- Added mobile rule: `.settings-row` wraps on ≤480px so labels/values don't overflow narrow phones.
+
+PRICING (pricing.html) — aligned to StoreKit:
+- Buy buttons were `rizzrAPI.createCheckout(...)` hitting a dead web checkout (`api.rizzr.com` 000). Replaced all 3 (Pro / Pro Annual / Pro+) with App Store deep-links (`apps.apple.com/.../idXXXXXXXXXX` placeholder).
+- "Secured by Stripe" → "Billed securely through the App Store. Cancel anytime."
+- FAQ "Cancel from Settings → Account" → App Store/Apple ID; "PWA works in browser" → native iPhone app framing (PWA dropped).
+- Removed dead `assets/js/api.js` ref + checkout handler.
+
+CONSISTENCY: CSS ref on all pages aligned to `?v=hgt10`.
+
+Note: App Store URLs are placeholders (`idXXXXXXXXXX`); Bud must swap real IDs at launch. Testimonial section unchanged (settled simple 3-window). Mode carousel untouched.
