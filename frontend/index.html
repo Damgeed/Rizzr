@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt26';
+    var v='hgt25';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -973,39 +973,27 @@
       <div class="testimonial-track">
         <figure class="social-proof__card">
           <blockquote>"I froze on that voice note for two hours. Rizzr had three replies ready in seconds — I just picked one and sent it."</blockquote>
-          <figcaption>— Maya Thompson</figcaption>
+          <figcaption>— Maya, early user</figcaption>
         </figure>
         <figure class="social-proof__card">
           <blockquote>"The audio replies honestly sound like me. My friends still haven't figured it out."</blockquote>
-          <figcaption>— Daniel Rodriguez</figcaption>
+          <figcaption>— Daniel, tester</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Reads the mood way better than I do. I show up calmer now because I'm not overthinking every reply."</blockquote>
-          <figcaption>— Zoe Bennett</figcaption>
+          <blockquote>"Reads the mood better than I do. I show up calmer because I'm not overthinking every reply."</blockquote>
+          <figcaption>— Zoe, tester</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Sent a reply I never would've thought of in a million years. They double-texted me back in five minutes."</blockquote>
-          <figcaption>— Amir Haddad</figcaption>
+          <blockquote>"Sent a reply I never would've thought of. They double-texted me back in five minutes."</blockquote>
+          <figcaption>— Amir, early user</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Works in any language, which is huge for me. I replied to my boss in English and my grandma in Tagalog — both sounded natural."</blockquote>
-          <figcaption>— Lena Ortiz</figcaption>
+          <blockquote>"Works in any language. I replied to my boss in English and my grandma in Tagalog — both sounded natural."</blockquote>
+          <figcaption>— Lena, tester</figcaption>
         </figure>
         <figure class="social-proof__card">
           <blockquote>"The seven-second turnaround is the best part. No more sitting on replies until they feel 'right.'"</blockquote>
-          <figcaption>— Jordan Reyes</figcaption>
-        </figure>
-        <figure class="social-proof__card">
-          <blockquote>"I typed the reply out myself first and then compared — Rizzr's version was just smoother. I use it for almost everything now."</blockquote>
-          <figcaption>— Priya Sharma</figcaption>
-        </figure>
-        <figure class="social-proof__card">
-          <blockquote>"Dating apps went from exhausting to kind of fun. Matching and actually knowing what to say are two totally different skills."</blockquote>
-          <figcaption>— Marcus Webb</figcaption>
-        </figure>
-        <figure class="social-proof__card">
-          <blockquote>"I'm honestly not great with words, and this makes me sound like I am. My last boss even mentioned my 'great communication.'"</blockquote>
-          <figcaption>— Kofi Mensah</figcaption>
+          <figcaption>— Jordan, early user</figcaption>
         </figure>
       </div>
       <button class="testimonial-nav testimonial-nav--next" type="button" aria-label="Next testimonials">
@@ -1153,28 +1141,27 @@
         a.addEventListener('click', closeNav);
       });
     })();
-    // ---- Mode carousel: left/right arrows + dots (infinite 360 wrap) ----
+    // ---- Mode carousel: left/right arrows + dots ----
     (function() {
       var track = document.getElementById('modeTrack');
       if (!track) return;
-      var panels = Array.prototype.slice.call(track.children);
-      var N = panels.length;
       var dots = Array.prototype.slice.call(document.querySelectorAll('#modeDots span'));
       var leftBtn = document.querySelector('.mode-arrow--left');
       var rightBtn = document.querySelector('.mode-arrow--right');
-      var modeIdx = 0;
-      function go(idx){
-        track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+      function currentIndex() {
+        var i = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+        return Math.min(Math.max(i, 0), dots.length - 1);
       }
       function sync() {
-        var i = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
-        i = ((i % N) + N) % N; // wrap for dots
-        dots.forEach(function(d, k) { d.classList.toggle('on', k === i); });
+        var i = currentIndex();
+        dots.forEach(function(d, idx) { d.classList.toggle('on', idx === i); });
+        if (leftBtn) leftBtn.classList.toggle('disabled', i <= 0);
+        if (rightBtn) rightBtn.classList.toggle('disabled', i >= dots.length - 1);
       }
       window.scrollModes = function(dir) {
-        // wrap around 360: next after last goes to first, prev before first goes to last
-        modeIdx = (((modeIdx + dir) % N) + N) % N;
-        go(modeIdx);
+        var i = currentIndex();
+        var target = Math.min(Math.max(i + dir, 0), dots.length - 1);
+        track.scrollTo({ left: target * track.clientWidth, behavior: 'smooth' });
       };
       track.addEventListener('scroll', sync, { passive: true });
       window.addEventListener('resize', sync);
@@ -1183,71 +1170,65 @@
       sync();
     })();
 
-    // --- Testimonial slider: 3 at a time desktop / 1 mobile, infinite 360 wrap ---
-    (function() {
+    // --- Testimonial slider (show 3 at a time on desktop, 1 on mobile) ---
+    (function(){
       var slider = document.querySelector('.testimonial-slider');
       if (!slider) return;
       var track = slider.querySelector('.testimonial-track');
       var prev = slider.querySelector('.testimonial-nav--prev');
       var next = slider.querySelector('.testimonial-nav--next');
       var dotsWrap = document.querySelector('.testimonial-dots');
-      if (!track || !dotsWrap) return;
-      var orig = Array.prototype.slice.call(track.children);
-      var COUNT = orig.length;           // real number of testimonials (9)
-      // duplicate the set once so the loop can wrap seamlessly
-      orig.forEach(function(c){ track.appendChild(c.cloneNode(true)); });
-      var cards = Array.prototype.slice.call(track.children); // now 2x
-      var idx = 0;                        // continuous sliding index
+      var cards = Array.prototype.slice.call(track.children);
+      var perPage = 3;        // cards visible at once
+      var total = cards.length;
+      var pages = Math.max(1, Math.ceil(total / perPage)); // slides for 6 -> 2 (3 each), overflow handled by wrap
+      var idx = 0;
+      if (!dotsWrap) return;
 
-      function perPage(){ return window.innerWidth <= 640 ? 1 : 3; }
-      function pitch(){
-        var gap = parseFloat(getComputedStyle(track).gap) || 0;
-        return (orig[0].getBoundingClientRect().width + gap) || (slider.clientWidth / perPage());
+      function perPageCalc(){
+        // responsive: 1 card on very small, else 3
+        return window.innerWidth <= 640 ? 1 : 3;
       }
-      function refresh(animate){
-        track.style.transition = animate ? 'transform 0.55s cubic-bezier(.22,.61,.36,1)' : 'none';
-        track.style.transform = 'translateX(' + (-idx * pitch()) + 'px)';
-      }
-      function buildDots(){
+      function rebuildDots(){
+        var p = pages;
         dotsWrap.innerHTML = '';
-        var p = Math.max(1, Math.ceil(COUNT / perPage()));
         for (var i = 0; i < p; i++){
-          (function(k){
-            var d = document.createElement('span');
-            d.addEventListener('click', function(){
-              idx = k * perPage();   // go to the page
-              refresh(true);
-              syncDots();
-            });
-            dotsWrap.appendChild(d);
-          })(i);
+          var d = document.createElement('span');
+          d.addEventListener('click', function(){ goTo(i); });
+          dotsWrap.appendChild(d);
         }
+      }
+      function goTo(n){
+        var pp = perPageCalc();
+        var maxStart = total - pp;
+        idx = Math.min(Math.max(0, n), maxStart);
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var cardPitch = (cards[0].getBoundingClientRect().width + gap) || (track.clientWidth / pp);
+        track.style.transform = 'translateX(' + (-idx * cardPitch) + 'px)';
+        syncDots();
+      }
+      function step(dir){
+        var maxStart = total - perPageCalc();
+        idx = Math.min(Math.max(0, idx + dir), maxStart);
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var cardPitch = (cards[0].getBoundingClientRect().width + gap) || (track.clientWidth / perPageCalc());
+        track.style.transform = 'translateX(' + (-idx * cardPitch) + 'px)';
+        syncDots();
       }
       function syncDots(){
         var dots = Array.prototype.slice.call(dotsWrap.children);
-        var active = Math.floor(idx / perPage()) % dots.length;
-        dots.forEach(function(d, k){ d.classList.toggle('on', k === active); });
+        var pp = perPageCalc();
+        var activePage = Math.floor(idx / pp);
+        dots.forEach(function(d, k){ d.classList.toggle('on', k === activePage); });
       }
-      function step(dir){
-        idx += dir;
-        refresh(true);
-        // wrap: when we've slid past the last real card / before the first, snap back
-        if (idx >= COUNT){
-          setTimeout(function(){ idx -= COUNT; refresh(false); syncDots(); }, 560);
-        } else if (idx < 0){
-          setTimeout(function(){ idx += COUNT; refresh(false); syncDots(); }, 560);
-        }
-        syncDots();
-      }
-      function onResize(){ idx = 0; refresh(false); buildDots(); syncDots(); }
-      buildDots();
+      rebuildDots();
       if (prev) prev.addEventListener('click', function(){ step(-1); });
       if (next) next.addEventListener('click', function(){ step(1); });
-      window.addEventListener('resize', onResize);
-      // auto-advance every 6s (infinite)
-      setInterval(function(){ step(1); }, 6000);
-      refresh(false);
-      syncDots();
+      // responsive reflow
+      window.addEventListener('resize', function(){ goTo(idx); });
+      // auto-advance every 6s
+      setInterval(function(){ if (idx < total - perPageCalc()) step(1); else goTo(0); }, 6000);
+      goTo(0);
     })();
   </script>
 </body>
