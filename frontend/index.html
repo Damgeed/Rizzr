@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt47';
+    var v='hgt48';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt13">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt14">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -609,6 +609,7 @@
            carousel after the title-alignment/active-height work. */
         overflow-x: hidden;
         scroll-snap-type: none;
+        transition: none;
       }
       .mode-panel { scroll-snap-stop: normal; }
       .mode-track { touch-action: pan-y; }
@@ -1222,6 +1223,16 @@
       track.scrollLeft = N * track.clientWidth;
       sync();
       requestTrackHeight();
+      function stabilizeInitialLayout(){
+        var logical = activePage();
+        track.scrollTo({ left: (N + logical) * track.clientWidth, behavior: 'auto' });
+        lastHeightPage = -1;
+        syncDots();
+        requestTrackHeight();
+      }
+      requestAnimationFrame(stabilizeInitialLayout);
+      window.addEventListener('load', stabilizeInitialLayout, { once: true });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(stabilizeInitialLayout).catch(function(){});
 
       // Snap back to the real set whenever user lands in the clone zones (invisible: identical copy)
       var snapTimer = null;
