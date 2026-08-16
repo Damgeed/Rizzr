@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt45';
+    var v='hgt46';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -603,6 +603,13 @@
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
+      .mode-track {
+        /* Mobile uses explicit horizontal swipe detection below. Keeping the
+           native horizontal scroller exposed made vertical swipes drift the
+           carousel after the title-alignment/active-height work. */
+        overflow-x: hidden;
+        scroll-snap-type: none;
+      }
       .mode-panel { scroll-snap-stop: normal; }
       .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
@@ -1235,6 +1242,36 @@
         syncDots();
         requestTrackHeight();
       }
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var touchLocked = null;
+      function isMobileModeSwipe() {
+        return window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+      }
+      track.addEventListener('touchstart', function(e){
+        if (!isMobileModeSwipe() || !e.touches || e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchLocked = null;
+      }, { passive: true });
+      track.addEventListener('touchmove', function(e){
+        if (!isMobileModeSwipe() || !e.touches || e.touches.length !== 1) return;
+        var dx = e.touches[0].clientX - touchStartX;
+        var dy = e.touches[0].clientY - touchStartY;
+        if (touchLocked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+          touchLocked = Math.abs(dx) > Math.abs(dy) * 1.35 ? 'x' : 'y';
+        }
+        if (touchLocked === 'x') e.preventDefault();
+      }, { passive: false });
+      track.addEventListener('touchend', function(e){
+        if (!isMobileModeSwipe() || touchLocked !== 'x' || !e.changedTouches || !e.changedTouches.length) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.35) {
+          window.scrollModes(dx < 0 ? 1 : -1);
+        }
+        touchLocked = null;
+      }, { passive: true });
       track.addEventListener('scroll', function(){
         syncDots();
         // During touch swipes, don't mutate track height every frame — it makes native scrolling feel sticky.
