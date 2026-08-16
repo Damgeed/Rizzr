@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt46';
+    var v='hgt47';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -611,6 +611,7 @@
         scroll-snap-type: none;
       }
       .mode-panel { scroll-snap-stop: normal; }
+      .mode-track { touch-action: pan-y; }
       .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
       .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
