@@ -77,14 +77,16 @@ body {
   z-index: 100;
   gap: 1rem;
   flex-wrap: wrap;
+  background: rgba(8, 8, 14, 0.34);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   transition: background .3s ease, box-shadow .3s ease, border-color .3s ease, backdrop-filter .3s ease;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-/* Fixed-nav scrolled state: frosted glass over content */
+/* Fixed-nav scrolled state: slightly stronger frosted glass over content */
 .nav-header.is-scrolled {
-  background: rgba(5, 5, 8, 0.72);
+  background: rgba(5, 5, 8, 0.58);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  border-bottom-color: var(--glass-border);
+  border-bottom-color: rgba(255,255,255,0.10);
   box-shadow: 0 8px 30px -16px rgba(0, 0, 0, 0.6);
 }
 .logo {
