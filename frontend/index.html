@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt40';
+    var v='hgt41';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -519,10 +519,10 @@
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
     /* Panels 2-4 shared content */
-    .mode-title { font-size: 3.3rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1.08; text-align: center; max-width: none; white-space: nowrap; }
+    .mode-title { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; text-align: center; max-width: none; white-space: nowrap; }
     .mode-title em { font-style: italic; }
     /* Uniformity: Finesse is the standard; all mode titles/descriptions use the same scale */
-    .hero-copy-title { font-size: 3.3rem; letter-spacing: -0.04em; line-height: 1.08; }
+    .hero-copy-title { font-size: 2.8rem; letter-spacing: -0.035em; line-height: 1.1; }
     .hero-copy .subtext { font-size: 1.05rem; }
     .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; text-align: center; max-width: 46ch; margin: 1rem auto 1.1rem; }
     .mode-list { list-style: none; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.7rem; width: 100%; max-width: 100%; margin: 4.8rem auto 0; }
@@ -601,6 +601,8 @@
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
+      .mode-track { scroll-snap-type: x proximity; }
+      .mode-panel { scroll-snap-stop: normal; }
       .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
       .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
@@ -1178,14 +1180,26 @@
         return Math.max(0, Math.min(i, TOTAL - 1));
       }
       function activePage() { return ((page() % N) + N) % N; }
+      var heightFrame = null;
+      var lastHeightPage = -1;
       function sync() {
         var a = activePage();
         dots.forEach(function(d, idx) { d.classList.toggle('on', idx === a); });
-        syncTrackHeight();
+        requestTrackHeight();
+      }
+      function requestTrackHeight() {
+        if (heightFrame) return;
+        heightFrame = requestAnimationFrame(function(){
+          heightFrame = null;
+          syncTrackHeight();
+        });
       }
       function syncTrackHeight() {
-        var current = track.children[page()];
+        var i = page();
+        if (i === lastHeightPage) return;
+        var current = track.children[i];
         if (!current) return;
+        lastHeightPage = i;
         track.style.height = current.offsetHeight + 'px';
       }
       window.scrollModes = function(dir) {
@@ -1212,7 +1226,8 @@
       }
       function snapTo(targetIndex){
         track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'auto' });
-        dots.forEach(function(d, idx) { d.classList.toggle('on', idx === ((targetIndex % N) + N) % N); });
+        lastHeightPage = -1;
+        sync();
       }
       track.addEventListener('scroll', function(){
         sync();
@@ -1222,7 +1237,7 @@
       }, { passive: true });
       if (leftBtn) leftBtn.addEventListener('click', function(){ window.scrollModes(-1); });
       if (rightBtn) rightBtn.addEventListener('click', function(){ window.scrollModes(1); });
-      window.addEventListener('resize', function(){ sync(); });
+      window.addEventListener('resize', function(){ lastHeightPage = -1; sync(); });
     })();
 
     // --- Bottom testimonial slider: the 6 extra quotes, 3 at a time, slides between windows ---
