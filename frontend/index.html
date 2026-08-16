@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt42';
+    var v='hgt44';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -448,6 +448,9 @@
     .mode-track {
       display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
       scrollbar-width: none; gap: 0; align-items: flex-start;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
       transition: height 0.28s ease;
     }
     .mode-track::-webkit-scrollbar { display: none; }
@@ -601,7 +604,6 @@
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
-      .mode-track { scroll-snap-type: x proximity; }
       .mode-panel { scroll-snap-stop: normal; }
       .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
@@ -1182,10 +1184,12 @@
       function activePage() { return ((page() % N) + N) % N; }
       var heightFrame = null;
       var lastHeightPage = -1;
-      function sync() {
+      function syncDots() {
         var a = activePage();
         dots.forEach(function(d, idx) { d.classList.toggle('on', idx === a); });
-        requestTrackHeight();
+      }
+      function sync() {
+        syncDots();
       }
       function requestTrackHeight() {
         if (heightFrame) return;
@@ -1210,9 +1214,11 @@
       // Start at the middle (real) set so the first panel is actual content, not a clone
       track.scrollLeft = N * track.clientWidth;
       sync();
+      requestTrackHeight();
 
       // Snap back to the real set whenever user lands in the clone zones (invisible: identical copy)
       var snapTimer = null;
+      var heightSettleTimer = null;
       function maybeSnap(){
         var i = page();
         // middle real set is indices [N, 2N-1]
@@ -1227,17 +1233,21 @@
       function snapTo(targetIndex){
         track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'auto' });
         lastHeightPage = -1;
-        sync();
+        syncDots();
+        requestTrackHeight();
       }
       track.addEventListener('scroll', function(){
-        sync();
-        // debounce so we only snap after the scrolling settles OR at the immediate boundary
+        syncDots();
+        // During touch swipes, don't mutate track height every frame — it makes native scrolling feel sticky.
+        // Wait until the scroll settles, then resize the track once for the active panel and snap clone zones.
+        if (heightSettleTimer) clearTimeout(heightSettleTimer);
+        heightSettleTimer = setTimeout(function(){ lastHeightPage = -1; requestTrackHeight(); }, 320);
         if (snapTimer) clearTimeout(snapTimer);
-        snapTimer = setTimeout(maybeSnap, 150);
+        snapTimer = setTimeout(maybeSnap, 360);
       }, { passive: true });
       if (leftBtn) leftBtn.addEventListener('click', function(){ window.scrollModes(-1); });
       if (rightBtn) rightBtn.addEventListener('click', function(){ window.scrollModes(1); });
-      window.addEventListener('resize', function(){ lastHeightPage = -1; sync(); });
+      window.addEventListener('resize', function(){ lastHeightPage = -1; syncDots(); requestTrackHeight(); });
     })();
 
     // --- Bottom testimonial slider: the 6 extra quotes, 3 at a time, slides between windows ---
