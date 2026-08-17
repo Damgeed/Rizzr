@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt54';
+    var v='hgt55';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -619,8 +619,9 @@
       .mode-panel:not(.finesse) .mode-body { padding-top: 0; }
       .phone { width: min(360px, 92vw); }
       .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
-      .mode-title { font-size: 2rem; white-space: normal; }
-      .mode-desc { font-size: 1rem; }
+      .mode-title { font-size: 2rem; white-space: normal; line-height: 1.15; letter-spacing: -0.02em; }
+      .mode-desc { font-size: 1rem; line-height: 1.45; max-width: 42ch; margin: 0.55rem auto; }
+      .mode-panel:not(.finesse) .mode-panel__text { margin-top: 0.45rem; }
       /* Smaller arrows on mobile */
       .mode-arrow { width: 34px; height: 34px; top: 27%; }
       .mode-arrow svg { width: 17px; height: 17px; }
