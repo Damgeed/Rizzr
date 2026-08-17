@@ -459,6 +459,39 @@ body {
     opacity: 0.9;
   }
   .nav-link.active svg { color: #fff; }
+
+  .pricing-band {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.65rem 0.8rem;
+    padding: 1.15rem 1rem;
+  }
+  .pricing-band__copy { display: contents; }
+  .pricing-band__price { grid-column: 1; grid-row: 1; }
+  .pricing-band__price strong { font-size: 1.65rem; }
+  .pricing-band__price span { font-size: 0.82rem; }
+  .pricing-band__desc {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    font-size: clamp(0.7rem, 2.85vw, 0.78rem);
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pricing-band__cta {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto;
+    justify-self: end;
+    align-self: center;
+    justify-content: center;
+    padding: 0.62rem 1rem;
+  }
 }
 
 /* Reduced motion */
