@@ -30,12 +30,13 @@
 - [x] Generate replies via `/api/generate`
 - [x] Reply cards: Flirty/Witty/Sweet
 - [x] Copy reply
-- [x] Share reply
-- [x] Settings sheet with API/build info
+- [x] Professional app icon/brand mark
+- [x] Reply card copy/share + haptics
+- [x] Settings sheet with build/API info
 - [x] Domain remains swappable via build settings
 - [ ] TTS preview wiring
 - [x] Error states and retry UX
-- [x] Haptics + accessibility labels
+- [x] Accessibility labels
 
 ## Phase 2 — Monetization
 

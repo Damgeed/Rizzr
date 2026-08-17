@@ -47,6 +47,13 @@ struct HomeView: View {
 
     private var header: some View {
         VStack(spacing: RizzrSpacing.sm) {
+            Image("BrandMark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 72, height: 72)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .accessibilityHidden(true)
+
             Text("Rizzr")
                 .font(.system(size: 28, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)

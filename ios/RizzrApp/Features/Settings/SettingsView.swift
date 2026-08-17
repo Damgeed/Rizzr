@@ -11,6 +11,7 @@ struct SettingsView: View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: RizzrSpacing.lg) {
+                    header
                     section(title: "Build") {
                         infoRow(label: "App", value: "Rizzr")
                         infoRow(label: "Mode", value: environment.featureFlags.isEnabled(.finesse) ? "Finesse live" : "Feature gated")
@@ -38,6 +39,21 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private var header: some View {
+        VStack(spacing: RizzrSpacing.sm) {
+            Image("BrandMark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 64, height: 64)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .accessibilityHidden(true)
+            Text("Settings")
+                .font(RizzrTypography.title)
+                .foregroundStyle(RizzrColor.textPrimary)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     @ViewBuilder
