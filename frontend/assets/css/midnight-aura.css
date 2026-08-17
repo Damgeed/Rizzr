@@ -360,11 +360,11 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap;
 }
-.pricing-band__copy { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; min-width: 0; }
-.pricing-band__price { margin: 0; font-size: 1.15rem; flex: 0 0 auto; }
+.pricing-band__copy { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.pricing-band__price { margin: 0; font-size: 1.15rem; }
 .pricing-band__price strong { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.03em; }
 .pricing-band__price span { color: var(--text-muted); font-size: 0.95rem; }
-.pricing-band__desc { margin: 0; color: var(--text-muted); font-size: 0.9rem; white-space: nowrap; }
+.pricing-band__desc { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
 .pricing-band__cta {
   display: inline-flex; align-items: center;
   padding: 0.7rem 1.4rem; border-radius: 999px;
@@ -459,43 +459,6 @@ body {
     opacity: 0.9;
   }
   .nav-link.active svg { color: #fff; }
-
-  .pricing-band {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 0.65rem 0.8rem;
-    padding: 1.15rem 1rem;
-  }
-  .pricing-band__copy {
-    display: contents;
-  }
-  .pricing-band__price {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .pricing-band__price strong { font-size: 1.65rem; }
-  .pricing-band__price span { font-size: 0.82rem; }
-  .pricing-band__desc {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: 100%;
-    min-width: 0;
-    font-size: clamp(0.7rem, 2.85vw, 0.78rem);
-    line-height: 1.2;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .pricing-band__cta {
-    grid-column: 2;
-    grid-row: 1;
-    width: auto;
-    justify-self: end;
-    align-self: center;
-    justify-content: center;
-    padding: 0.62rem 1rem;
-  }
 }
 
 /* Reduced motion */

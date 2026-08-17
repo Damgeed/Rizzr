@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt48';
+    var v='hgt39';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt14">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt12">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -102,6 +102,7 @@
       .mode-panel.finesse .demo { margin-left: auto; width: auto; }
       .mode-panel.finesse .layout { padding-top: 0; align-items: flex-start; }
       .mode-panel.finesse .demo .phone { margin-right: auto; }
+      .hero-copy-title { font-size: 3.3rem; white-space: nowrap; }
       .hero-copy .subtext { margin: 1.1rem 0 0; }
       .hero-copy .hook { display: none; }
       /* Professional trust badges: left-aligned under the description (Bud reverted to left) */
@@ -114,7 +115,7 @@
       main { padding: 0.5rem 0 2rem; }
       .layout { gap: 1.5rem; }
       .hero-copy { max-width: 480px; }
-      .hero-copy-title { font-size: 2rem; }
+      .hero-copy-title { font-size: 2.4rem; }
       .hero-copy .subtext { display: none; }
       .hero-copy .trust-row { display: none; }
       .hero-copy .hero-cta { display: none; }
@@ -447,10 +448,7 @@
     .mode-wrap { position: relative; width: 100%; }
     .mode-track {
       display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-      scrollbar-width: none; gap: 0; align-items: flex-start;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-x: contain;
-      transition: height 0.28s ease;
+      scrollbar-width: none; gap: 0;
     }
     .mode-track::-webkit-scrollbar { display: none; }
     .mode-panel {
@@ -488,7 +486,7 @@
       .mode-panel .layout { padding-top: 1rem; }
       /* Match SOON panels' body top-padding to Finesse's layout so all phones
          start at the same Y on mobile (levels the mobile template heights) */
-      .mode-panel .mode-body { padding-top: 0.4rem; }
+      .mode-panel .mode-body { padding-top: 1rem; }
     }
     /* Arrow buttons */
     .mode-arrow {
@@ -521,12 +519,12 @@
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
     /* Panels 2-4 shared content */
-    .mode-title { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; text-align: center; max-width: none; white-space: nowrap; }
+    .mode-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; text-align: center; max-width: none; white-space: nowrap; }
     .mode-title em { font-style: italic; }
-    /* Uniformity: Finesse is the standard; all mode titles/descriptions use the same scale */
-    .hero-copy-title { font-size: 2.8rem; letter-spacing: -0.035em; line-height: 1.1; }
+    /* Uniformity: Finesse hero title/desc match the shared .mode-title/.mode-desc sizes */
+    .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
     .hero-copy .subtext { font-size: 1.05rem; }
-    .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; text-align: center; max-width: 46ch; margin: 1rem auto 1.1rem; }
+    .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.55; text-align: center; max-width: 46ch; margin: 1rem auto 1.6rem; }
     .mode-list { list-style: none; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.7rem; width: 100%; max-width: 100%; margin: 4.8rem auto 0; }
     .mode-list li {
       display: flex; align-items: center; gap: 0.5rem;
@@ -596,35 +594,28 @@
     /* SOON panels: text left, phone right on desktop */
     @media (min-width: 860px) {
       .mode-panel .mode-body { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; text-align: left; }
-      .mode-panel__text { align-items: flex-start; margin-top: -5.6rem; }
+      .mode-panel__text { align-items: flex-start; }
       .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
       .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
       /* bullets moved after the phone in DOM; lay out horizontally across the full row width on desktop */
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
-      .mode-track {
-        /* Mobile uses explicit horizontal swipe detection below. Keeping the
-           native horizontal scroller exposed made vertical swipes drift the
-           carousel after the title-alignment/active-height work. */
-        overflow-x: hidden;
-        scroll-snap-type: none;
-        transition: none;
-      }
-      .mode-panel { scroll-snap-stop: normal; }
-      .mode-track { touch-action: pan-y; }
       .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
       .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
       .phone { width: min(360px, 92vw); }
-      .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
-      .mode-title { font-size: 2rem; white-space: normal; }
-      .mode-desc { font-size: 1rem; }
+      .mode-title { font-size: 1.6rem; }
+      .mode-desc { font-size: 0.95rem; }
       /* Smaller arrows on mobile */
       .mode-arrow { width: 34px; height: 34px; top: 27%; }
       .mode-arrow svg { width: 17px; height: 17px; }
       /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
       .panel-steps { margin-top: 2rem; }
+      /* Finesse panel content sits higher than the other three tabs (its phone demo is shorter),
+         leaving a big blank gap before the shared mode-dots. Add bottom padding so the dots sit
+         a consistent distance below the last step, matching Ghost/Echo/Vibe. */
+      .mode-panel.finesse .panel-steps { padding-bottom: 6.9rem; }
       /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
       .mode-phone { height: 654px; }
       .mode-phone__screen { height: 100%; aspect-ratio: auto; }
@@ -1062,7 +1053,7 @@
   <section class="pricing-band">
     <div class="pricing-band__copy">
       <p class="pricing-band__price"><strong>$9.99</strong><span>/mo</span></p>
-      <p class="pricing-band__desc">Pro — unlimited replies · 3 free tries · cancel anytime</p>
+      <p class="pricing-band__desc">Pro — unlimited replies · 3 free tries first · cancel anytime</p>
     </div>
     <a class="pricing-band__cta" href="pricing.html">View pricing</a>
   </section>
@@ -1190,29 +1181,9 @@
         return Math.max(0, Math.min(i, TOTAL - 1));
       }
       function activePage() { return ((page() % N) + N) % N; }
-      var heightFrame = null;
-      var lastHeightPage = -1;
-      function syncDots() {
+      function sync() {
         var a = activePage();
         dots.forEach(function(d, idx) { d.classList.toggle('on', idx === a); });
-      }
-      function sync() {
-        syncDots();
-      }
-      function requestTrackHeight() {
-        if (heightFrame) return;
-        heightFrame = requestAnimationFrame(function(){
-          heightFrame = null;
-          syncTrackHeight();
-        });
-      }
-      function syncTrackHeight() {
-        var i = page();
-        if (i === lastHeightPage) return;
-        var current = track.children[i];
-        if (!current) return;
-        lastHeightPage = i;
-        track.style.height = current.offsetHeight + 'px';
       }
       window.scrollModes = function(dir) {
         var i = page();
@@ -1222,21 +1193,9 @@
       // Start at the middle (real) set so the first panel is actual content, not a clone
       track.scrollLeft = N * track.clientWidth;
       sync();
-      requestTrackHeight();
-      function stabilizeInitialLayout(){
-        var logical = activePage();
-        track.scrollTo({ left: (N + logical) * track.clientWidth, behavior: 'auto' });
-        lastHeightPage = -1;
-        syncDots();
-        requestTrackHeight();
-      }
-      requestAnimationFrame(stabilizeInitialLayout);
-      window.addEventListener('load', stabilizeInitialLayout, { once: true });
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(stabilizeInitialLayout).catch(function(){});
 
       // Snap back to the real set whenever user lands in the clone zones (invisible: identical copy)
       var snapTimer = null;
-      var heightSettleTimer = null;
       function maybeSnap(){
         var i = page();
         // middle real set is indices [N, 2N-1]
@@ -1250,52 +1209,17 @@
       }
       function snapTo(targetIndex){
         track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'auto' });
-        lastHeightPage = -1;
-        syncDots();
-        requestTrackHeight();
+        dots.forEach(function(d, idx) { d.classList.toggle('on', idx === ((targetIndex % N) + N) % N); });
       }
-      var touchStartX = 0;
-      var touchStartY = 0;
-      var touchLocked = null;
-      function isMobileModeSwipe() {
-        return window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
-      }
-      track.addEventListener('touchstart', function(e){
-        if (!isMobileModeSwipe() || !e.touches || e.touches.length !== 1) return;
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchLocked = null;
-      }, { passive: true });
-      track.addEventListener('touchmove', function(e){
-        if (!isMobileModeSwipe() || !e.touches || e.touches.length !== 1) return;
-        var dx = e.touches[0].clientX - touchStartX;
-        var dy = e.touches[0].clientY - touchStartY;
-        if (touchLocked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-          touchLocked = Math.abs(dx) > Math.abs(dy) * 1.35 ? 'x' : 'y';
-        }
-        if (touchLocked === 'x') e.preventDefault();
-      }, { passive: false });
-      track.addEventListener('touchend', function(e){
-        if (!isMobileModeSwipe() || touchLocked !== 'x' || !e.changedTouches || !e.changedTouches.length) return;
-        var dx = e.changedTouches[0].clientX - touchStartX;
-        var dy = e.changedTouches[0].clientY - touchStartY;
-        if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.35) {
-          window.scrollModes(dx < 0 ? 1 : -1);
-        }
-        touchLocked = null;
-      }, { passive: true });
       track.addEventListener('scroll', function(){
-        syncDots();
-        // During touch swipes, don't mutate track height every frame — it makes native scrolling feel sticky.
-        // Wait until the scroll settles, then resize the track once for the active panel and snap clone zones.
-        if (heightSettleTimer) clearTimeout(heightSettleTimer);
-        heightSettleTimer = setTimeout(function(){ lastHeightPage = -1; requestTrackHeight(); }, 320);
+        sync();
+        // debounce so we only snap after the scrolling settles OR at the immediate boundary
         if (snapTimer) clearTimeout(snapTimer);
-        snapTimer = setTimeout(maybeSnap, 360);
+        snapTimer = setTimeout(maybeSnap, 150);
       }, { passive: true });
       if (leftBtn) leftBtn.addEventListener('click', function(){ window.scrollModes(-1); });
       if (rightBtn) rightBtn.addEventListener('click', function(){ window.scrollModes(1); });
-      window.addEventListener('resize', function(){ lastHeightPage = -1; syncDots(); requestTrackHeight(); });
+      window.addEventListener('resize', sync);
     })();
 
     // --- Bottom testimonial slider: the 6 extra quotes, 3 at a time, slides between windows ---
