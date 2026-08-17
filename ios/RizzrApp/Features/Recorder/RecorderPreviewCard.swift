@@ -6,14 +6,22 @@ import UIKit
 struct RecorderPreviewCard: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @State private var copiedReplyID: String?
+    @State private var selectedState: RecorderDisplayState = .start
+
+    private enum RecorderDisplayState: String, CaseIterable, Identifiable {
+        case start = "Start"
+        case recording = "Recording"
+        case results = "Results"
+
+        var id: String { rawValue }
+    }
 
     var body: some View {
         GlassCard {
             VStack(spacing: RizzrSpacing.lg) {
                 header
-                primaryAction
-                helperText
-                repliesList
+                stateTabs
+                stateBody
             }
             .frame(maxWidth: .infinity)
         }
@@ -31,11 +39,62 @@ struct RecorderPreviewCard: View {
         }
     }
 
-    private var stateLabel: some View {
-        Text(labelText)
-            .font(RizzrTypography.bodyStrong)
-            .foregroundStyle(RizzrColor.textPrimary)
-            .multilineTextAlignment(.center)
+    private var stateTabs: some View {
+        HStack(spacing: RizzrSpacing.xs) {
+            ForEach(RecorderDisplayState.allCases) { state in
+                Button {
+                    selectedState = state
+                } label: {
+                    Text(state.rawValue)
+                        .font(RizzrTypography.caption)
+                        .foregroundStyle(selectedState == state ? .white : RizzrColor.textMuted)
+                        .padding(.horizontal, RizzrSpacing.md)
+                        .padding(.vertical, RizzrSpacing.xs)
+                        .background(selectedState == state ? RizzrColor.glassFill : Color.clear, in: Capsule())
+                        .overlay(
+                            Capsule().stroke(
+                                selectedState == state ? RizzrColor.glassBorder : Color.clear,
+                                lineWidth: 1
+                            )
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var stateBody: some View {
+        switch selectedState {
+        case .start:
+            VStack(spacing: RizzrSpacing.lg) {
+                recordButton
+                helperText
+            }
+        case .recording:
+            VStack(spacing: RizzrSpacing.lg) {
+                recordingMeter
+                recordButton
+                helperText
+            }
+        case .results:
+            VStack(spacing: RizzrSpacing.lg) {
+                primaryAction
+                helperText
+                repliesList
+            }
+        }
+    }
+
+    private var recordingMeter: some View {
+        HStack(spacing: 5) {
+            ForEach(0..<7, id: \.self) { index in
+                Capsule()
+                    .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .bottom, endPoint: .top))
+                    .frame(width: 5, height: [18, 34, 58, 28, 44, 24, 50][index])
+            }
+        }
+        .padding(.vertical, RizzrSpacing.xs)
     }
 
     @ViewBuilder
@@ -61,6 +120,7 @@ struct RecorderPreviewCard: View {
             Button {
                 copiedReplyID = nil
                 viewModel.reset()
+                selectedState = .start
             } label: {
                 Text("Record another")
                     .font(RizzrTypography.bodyStrong)
@@ -87,6 +147,7 @@ struct RecorderPreviewCard: View {
                     await viewModel.start()
                 }
             }
+            selectedState = viewModel.state == .recording ? .recording : .start
         } label: {
             ZStack {
                 Circle()

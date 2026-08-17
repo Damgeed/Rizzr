@@ -3,6 +3,7 @@ import SwiftUI
 struct ModeCarouselView: View {
     let featureFlags: AppFeatureFlags
     private let modes: [RizzrMode] = RizzrMode.allCases
+    @State private var selectedMode: RizzrMode = .finesse
 
     var body: some View {
         VStack(alignment: .leading, spacing: RizzrSpacing.md) {
@@ -12,14 +13,49 @@ struct ModeCarouselView: View {
                 .textCase(.uppercase)
                 .tracking(1.5)
 
-            TabView {
+            HStack(spacing: RizzrSpacing.xs) {
                 ForEach(modes) { mode in
-                    ModeCard(mode: mode, isEnabled: featureFlags.isEnabled(mode.featureGate))
-                        .padding(.horizontal, RizzrSpacing.xs)
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            selectedMode = mode
+                        }
+                    } label: {
+                        Text(mode.title)
+                            .font(RizzrTypography.caption)
+                            .foregroundStyle(selectedMode == mode ? .white : RizzrColor.textMuted)
+                            .padding(.horizontal, RizzrSpacing.md)
+                            .padding(.vertical, RizzrSpacing.xs)
+                            .background(selectedMode == mode ? RizzrColor.glassFill : Color.clear, in: Capsule())
+                            .overlay(
+                                Capsule().stroke(
+                                    selectedMode == mode ? RizzrColor.glassBorder : Color.clear,
+                                    lineWidth: 1
+                                )
+                            )
+                    }
+                    .buttonStyle(.plain)
                 }
             }
+
+            GeometryReader { proxy in
+                let cardWidth = proxy.size.width
+
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: RizzrSpacing.md) {
+                        ForEach(modes) { mode in
+                            ModeCard(mode: mode, isEnabled: featureFlags.isEnabled(mode.featureGate))
+                                .frame(width: cardWidth)
+                                .id(mode)
+                        }
+                    }
+                    .scrollTargetLayout()
+                }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $selectedMode)
+                .frame(height: 194)
+            }
             .frame(height: 194)
-            .tabViewStyle(.page(indexDisplayMode: .automatic))
         }
     }
 }
@@ -64,7 +100,7 @@ private struct ModeCard: View {
     }
 }
 
-enum RizzrMode: String, CaseIterable, Identifiable {
+enum RizzrMode: String, CaseIterable, Identifiable, Hashable {
     case finesse
     case ghost
     case echo
