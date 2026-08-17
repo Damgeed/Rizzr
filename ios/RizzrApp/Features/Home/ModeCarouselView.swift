@@ -5,14 +5,22 @@ struct ModeCarouselView: View {
     private let modes: [RizzrMode] = RizzrMode.allCases
 
     var body: some View {
-        TabView {
-            ForEach(modes) { mode in
-                ModeCard(mode: mode, isEnabled: featureFlags.isEnabled(mode.featureGate))
-                    .padding(.horizontal, RizzrSpacing.xs)
+        VStack(alignment: .leading, spacing: RizzrSpacing.md) {
+            Text("Modes")
+                .font(RizzrTypography.caption)
+                .foregroundStyle(RizzrColor.orbCoral)
+                .textCase(.uppercase)
+                .tracking(1.5)
+
+            TabView {
+                ForEach(modes) { mode in
+                    ModeCard(mode: mode, isEnabled: featureFlags.isEnabled(mode.featureGate))
+                        .padding(.horizontal, RizzrSpacing.xs)
+                }
             }
+            .frame(height: 194)
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
         }
-        .frame(height: 194)
-        .tabViewStyle(.page(indexDisplayMode: .automatic))
     }
 }
 
@@ -33,7 +41,10 @@ private struct ModeCard: View {
                         .textCase(.uppercase)
                         .padding(.horizontal, RizzrSpacing.sm)
                         .padding(.vertical, RizzrSpacing.xxs)
-                        .background(isEnabled ? RizzrColor.orbCoral : Color.clear, in: Capsule())
+                        .background(
+                            LinearGradient(colors: isEnabled ? [RizzrColor.orbCoral, RizzrColor.orbViolet] : [Color.clear, Color.clear], startPoint: .topLeading, endPoint: .bottomTrailing),
+                            in: Capsule()
+                        )
                         .overlay(Capsule().stroke(isEnabled ? Color.clear : Color.yellow.opacity(0.35), lineWidth: 1))
                         .foregroundStyle(isEnabled ? .white : Color.yellow)
                 }

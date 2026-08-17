@@ -10,12 +10,24 @@ struct RecorderPreviewCard: View {
     var body: some View {
         GlassCard {
             VStack(spacing: RizzrSpacing.lg) {
-                stateLabel
+                header
                 primaryAction
                 helperText
                 repliesList
             }
             .frame(maxWidth: .infinity)
+        }
+    }
+
+    private var header: some View {
+        VStack(spacing: RizzrSpacing.xs) {
+            Text("Replies ready")
+                .font(RizzrTypography.caption)
+                .foregroundStyle(RizzrColor.orbCyan)
+                .textCase(.uppercase)
+                .tracking(1.5)
+
+            stateLabel
         }
     }
 
