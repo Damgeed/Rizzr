@@ -18,6 +18,7 @@ struct RecorderPreviewCard: View {
         Text(labelText)
             .font(RizzrTypography.bodyStrong)
             .foregroundStyle(RizzrColor.textPrimary)
+            .multilineTextAlignment(.center)
     }
 
     private var recordButton: some View {
@@ -42,11 +43,12 @@ struct RecorderPreviewCard: View {
                     .foregroundStyle(.white)
             }
         }
+        .disabled(viewModel.state == .processing)
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
     }
 
     private var helperText: some View {
-        Text("Finesse is the live MVP. Ghost, Echo, and Vibe stay behind a clean feature boundary.")
+        Text(helperCopy)
             .font(RizzrTypography.body)
             .foregroundStyle(RizzrColor.textMuted)
             .multilineTextAlignment(.center)
@@ -56,8 +58,24 @@ struct RecorderPreviewCard: View {
         switch viewModel.state {
         case .idle: "Tap to record"
         case .recording: "Listening…"
+        case .ready: "Voice note ready"
         case .processing: "Preparing replies…"
         case .failed: "Something went wrong"
+        }
+    }
+
+    private var helperCopy: String {
+        switch viewModel.state {
+        case .idle:
+            "Record a short voice note. Finesse turns it into flirty, witty, and sweet replies."
+        case .recording:
+            "Keep it natural. Short voice notes work best."
+        case .ready(let recording):
+            "Ready to process: \(recording.duration.formatted(.number.precision(.fractionLength(1))))s captured."
+        case .processing:
+            "Cleaning up the recording before reply generation."
+        case .failed(let message):
+            message
         }
     }
 }

@@ -11,7 +11,7 @@ struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: RizzrSpacing.xl) {
                     header
-                    ModeCarouselView()
+                    ModeCarouselView(featureFlags: environment.featureFlags)
                     RecorderPreviewCard(viewModel: recorderViewModel)
                 }
                 .padding(.horizontal, RizzrSpacing.md)

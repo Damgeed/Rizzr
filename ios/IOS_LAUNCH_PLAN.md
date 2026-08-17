@@ -29,6 +29,14 @@ Rizzr iOS should be treated as a production product from day one:
 - Unit-test target scaffold.
 - Professional build checklist.
 
+## Phase 0.5 — Safe product hardening complete in this repo
+
+- Production feature flags keep Finesse live and Ghost/Echo/Vibe gated.
+- Recorder state now preserves a validated recording session instead of discarding the capture.
+- Voice notes shorter than 1 second or longer than 2 minutes are rejected before API work.
+- API client now sets timeouts and explicit `Accept` headers.
+- Unit tests cover feature gating and recording duration policy.
+
 ## Immediate next steps after full Xcode is available
 
 1. Install/select full Xcode:

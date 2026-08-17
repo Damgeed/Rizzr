@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct ModeCarouselView: View {
+    let featureFlags: AppFeatureFlags
     private let modes: [RizzrMode] = RizzrMode.allCases
 
     var body: some View {
         TabView {
             ForEach(modes) { mode in
-                ModeCard(mode: mode)
+                ModeCard(mode: mode, isEnabled: featureFlags.isEnabled(mode.featureGate))
                     .padding(.horizontal, RizzrSpacing.xs)
             }
         }
@@ -17,6 +18,7 @@ struct ModeCarouselView: View {
 
 private struct ModeCard: View {
     let mode: RizzrMode
+    let isEnabled: Bool
 
     var body: some View {
         GlassCard {
@@ -26,14 +28,14 @@ private struct ModeCard: View {
                         .font(RizzrTypography.title)
                         .foregroundStyle(.white)
 
-                    Text(mode.badge)
+                    Text(isEnabled ? "Live" : "Soon")
                         .font(RizzrTypography.caption)
                         .textCase(.uppercase)
                         .padding(.horizontal, RizzrSpacing.sm)
                         .padding(.vertical, RizzrSpacing.xxs)
-                        .background(mode.isLive ? RizzrColor.orbCoral : Color.clear, in: Capsule())
-                        .overlay(Capsule().stroke(mode.isLive ? Color.clear : Color.yellow.opacity(0.35), lineWidth: 1))
-                        .foregroundStyle(mode.isLive ? .white : Color.yellow)
+                        .background(isEnabled ? RizzrColor.orbCoral : Color.clear, in: Capsule())
+                        .overlay(Capsule().stroke(isEnabled ? Color.clear : Color.yellow.opacity(0.35), lineWidth: 1))
+                        .foregroundStyle(isEnabled ? .white : Color.yellow)
                 }
 
                 Text(mode.headline)
@@ -59,6 +61,15 @@ enum RizzrMode: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var featureGate: FeatureGate {
+        switch self {
+        case .finesse: .finesse
+        case .ghost: .ghost
+        case .echo: .echo
+        case .vibe: .vibe
+        }
+    }
+
     var title: String {
         switch self {
         case .finesse: "Finesse"
@@ -67,9 +78,6 @@ enum RizzrMode: String, CaseIterable, Identifiable {
         case .vibe: "Vibe"
         }
     }
-
-    var badge: String { isLive ? "Live" : "Soon" }
-    var isLive: Bool { self == .finesse }
 
     var headline: String {
         switch self {

@@ -24,8 +24,8 @@
 
 ## Phase 1 — Finesse MVP
 
-- [ ] Microphone permission UX
-- [ ] Recording quality validation
+- [x] Microphone permission UX
+- [x] Recording quality validation
 - [ ] Upload recorded M4A to `/api/transcribe`
 - [ ] Generate replies via `/api/generate`
 - [ ] Reply cards: Flirty/Witty/Sweet

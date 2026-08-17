@@ -2,11 +2,13 @@ import XCTest
 @testable import Rizzr
 
 final class RizzrModeTests: XCTestCase {
-    func testFinesseIsOnlyLiveMode() {
-        XCTAssertTrue(RizzrMode.finesse.isLive)
-        XCTAssertFalse(RizzrMode.ghost.isLive)
-        XCTAssertFalse(RizzrMode.echo.isLive)
-        XCTAssertFalse(RizzrMode.vibe.isLive)
+    func testFinesseIsOnlyEnabledProductionMode() {
+        let flags = AppFeatureFlags.production
+
+        XCTAssertTrue(flags.isEnabled(.finesse))
+        XCTAssertFalse(flags.isEnabled(.ghost))
+        XCTAssertFalse(flags.isEnabled(.echo))
+        XCTAssertFalse(flags.isEnabled(.vibe))
     }
 
     func testModesHaveUserFacingCopy() {
@@ -15,5 +17,12 @@ final class RizzrModeTests: XCTestCase {
             XCTAssertFalse(mode.headline.isEmpty)
             XCTAssertFalse(mode.description.isEmpty)
         }
+    }
+
+    func testModeFeatureGatesMatchModeIdentity() {
+        XCTAssertEqual(RizzrMode.finesse.featureGate, .finesse)
+        XCTAssertEqual(RizzrMode.ghost.featureGate, .ghost)
+        XCTAssertEqual(RizzrMode.echo.featureGate, .echo)
+        XCTAssertEqual(RizzrMode.vibe.featureGate, .vibe)
     }
 }
