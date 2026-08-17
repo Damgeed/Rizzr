@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt51';
+    var v='hgt52';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -606,9 +606,10 @@
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
-      .mode-panel { padding: 1.6rem 0.75rem 2.4rem; }
+      .mode-panel { padding: 1rem 0.75rem 2.4rem; }
       .mode-panel.finesse { padding-left: 0; padding-right: 0; }
       .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
+      .mode-panel:not(.finesse) .mode-body { padding-top: 0; }
       .phone { width: min(360px, 92vw); }
       .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
       .mode-title { font-size: 2rem; white-space: normal; }
