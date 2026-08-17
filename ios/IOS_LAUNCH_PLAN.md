@@ -69,6 +69,7 @@ Rizzr iOS should be treated as a production product from day one:
 - iOS uploads recorded M4A audio as multipart form data to `/api/transcribe`.
 - iOS sends the returned transcript to `/api/generate`.
 - iOS renders the three returned reply cards: flirty, witty, sweet.
+- Reply cards support copy/share actions, copied-state feedback, and accessibility labels.
 - No App Store, account, Echo, Ghost, Vibe, or TTS production claims are wired yet.
 
 ## Backend/API dependency note

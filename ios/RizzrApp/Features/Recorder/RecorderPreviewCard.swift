@@ -1,7 +1,11 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct RecorderPreviewCard: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
+    @State private var copiedReplyID: String?
 
     var body: some View {
         GlassCard {
@@ -43,6 +47,7 @@ struct RecorderPreviewCard: View {
 
         case .complete:
             Button {
+                copiedReplyID = nil
                 viewModel.reset()
             } label: {
                 Text("Record another")
@@ -98,23 +103,10 @@ struct RecorderPreviewCard: View {
         if case .complete(let replies) = viewModel.state {
             VStack(spacing: RizzrSpacing.sm) {
                 ForEach(replies) { reply in
-                    VStack(alignment: .leading, spacing: RizzrSpacing.xs) {
-                        Text(reply.style.rawValue.capitalized)
-                            .font(RizzrTypography.caption)
-                            .foregroundStyle(RizzrColor.orbCyan)
-                            .textCase(.uppercase)
-
-                        Text(reply.text)
-                            .font(RizzrTypography.body)
-                            .foregroundStyle(RizzrColor.textPrimary)
-                            .textSelection(.enabled)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(RizzrSpacing.md)
-                    .background(RizzrColor.glassFill, in: RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)
-                            .stroke(RizzrColor.glassBorder, lineWidth: 1)
+                    ReplyCard(
+                        reply: reply,
+                        isCopied: copiedReplyID == reply.id,
+                        onCopy: { copy(reply) }
                     )
                 }
             }
@@ -149,7 +141,7 @@ struct RecorderPreviewCard: View {
         case .generating(let transcript):
             "Generating from: “\(transcript.prefix(80))”"
         case .complete:
-            "Pick the one that sounds most like you."
+            "Pick the one that sounds most like you. Copy or share when ready."
         case .failed(let message):
             message
         }
@@ -162,5 +154,61 @@ struct RecorderPreviewCard: View {
         default:
             false
         }
+    }
+
+    private func copy(_ reply: ReplySuggestion) {
+        #if canImport(UIKit)
+        UIPasteboard.general.string = reply.text
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        copiedReplyID = reply.id
+        #endif
+    }
+}
+
+private struct ReplyCard: View {
+    let reply: ReplySuggestion
+    let isCopied: Bool
+    let onCopy: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: RizzrSpacing.sm) {
+            HStack(spacing: RizzrSpacing.sm) {
+                Text(reply.style.rawValue.capitalized)
+                    .font(RizzrTypography.caption)
+                    .foregroundStyle(RizzrColor.orbCyan)
+                    .textCase(.uppercase)
+
+                Spacer()
+
+                Button(action: onCopy) {
+                    Label(isCopied ? "Copied" : "Copy", systemImage: isCopied ? "checkmark" : "doc.on.doc")
+                        .labelStyle(.iconOnly)
+                        .font(.system(size: 15, weight: .semibold))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(isCopied ? RizzrColor.orbCyan : RizzrColor.textMuted)
+                .accessibilityLabel(isCopied ? "Copied reply" : "Copy reply")
+
+                ShareLink(item: reply.text) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 15, weight: .semibold))
+                }
+                .foregroundStyle(RizzrColor.textMuted)
+                .accessibilityLabel("Share reply")
+            }
+
+            Text(reply.text)
+                .font(RizzrTypography.body)
+                .foregroundStyle(RizzrColor.textPrimary)
+                .textSelection(.enabled)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(RizzrSpacing.md)
+        .background(RizzrColor.glassFill, in: RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)
+                .stroke(RizzrColor.glassBorder, lineWidth: 1)
+        )
+        .accessibilityElement(children: .combine)
     }
 }

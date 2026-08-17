@@ -29,10 +29,10 @@
 - [x] Upload recorded M4A to `/api/transcribe`
 - [x] Generate replies via `/api/generate`
 - [x] Reply cards: Flirty/Witty/Sweet
-- [ ] Copy reply
+- [x] Copy reply
 - [ ] TTS preview wiring
 - [x] Error states and retry UX
-- [ ] Haptics + accessibility labels
+- [x] Haptics + accessibility labels
 
 ## Phase 2 — Monetization
 
