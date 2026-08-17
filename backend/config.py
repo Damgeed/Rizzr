@@ -1,54 +1,80 @@
-"""Rizzr — Backend Configuration"""
+"""Rizzr — Backend Configuration."""
+from __future__ import annotations
+
 import os
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+from typing import Literal
+
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # App
-    app_name: str = "Rizzr API"
-    debug: bool = os.getenv("DEBUG", "false").lower() == "true"
+    """Runtime settings loaded from environment variables only."""
 
-    # CORS — lock to production domains
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
+    app_name: str = "Rizzr API"
+    environment: Literal["development", "staging", "production"] = Field(default="production", alias="APP_ENV")
+    debug: bool = Field(default=False, alias="DEBUG")
+
     allowed_origins: list[str] = [
         "https://rizzr.com",
         "https://www.rizzr.com",
-        "https://damgeed.github.io",  # GitHub Pages (temporary)
-        "http://localhost:8080",       # dev
+        "https://damgeed.github.io",
+        "http://localhost:8080",
         "http://localhost:3000",
     ]
 
-    # API Keys (server-side only, never exposed)
-    openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
-    openai_whisper_model: str = "whisper-1"
+    openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
+    openai_whisper_model: str = Field(default="whisper-1", alias="OPENAI_WHISPER_MODEL")
 
-    # LLM (kaiweb gateway — GLM-5.2)
-    llm_base_url: str = os.getenv("LLM_BASE_URL", "https://ai.kaiweb.net/v1")
-    llm_api_key: str = os.getenv("LLM_API_KEY", "")
-    llm_model: str = os.getenv("LLM_MODEL", "glm-5.2")
+    llm_base_url: str = Field(default="https://ai.kaiweb.net/v1", alias="LLM_BASE_URL")
+    llm_api_key: str = Field(default="", alias="LLM_API_KEY")
+    llm_model: str = Field(default="glm-5.2", alias="LLM_MODEL")
 
-    # ElevenLabs TTS
-    elevenlabs_api_key: str = os.getenv("ELEVENLABS_API_KEY", "")
-    elevenlabs_voice_id: str = os.getenv("ELEVENLABS_VOICE_ID", "")
-    elevenlabs_model: str = "eleven_multilingual_v2"
+    elevenlabs_api_key: str = Field(default="", alias="ELEVENLABS_API_KEY")
+    elevenlabs_voice_id: str = Field(default="", alias="ELEVENLABS_VOICE_ID")
+    elevenlabs_model: str = Field(default="eleven_multilingual_v2", alias="ELEVENLABS_MODEL")
 
+    rate_limit_free: int = Field(default=30, alias="RATE_LIMIT_FREE")
+    rate_limit_pro: int = Field(default=999_999, alias="RATE_LIMIT_PRO")
+    rate_window_seconds: int = Field(default=86_400, alias="RATE_WINDOW_SECONDS")
 
-    # Rate limiting
-    rate_limit_free: int = 3          # 3 requests per day for free tier
-    rate_limit_pro: int = 999999      # effectively unlimited
-    rate_window_seconds: int = 86400 # 24 hours
-
-    # Audio constraints
-    max_audio_size: int = 25 * 1024 * 1024  # 25MB (Whisper limit)
-    max_audio_duration: int = 300           # 5 minutes
+    max_audio_size: int = Field(default=25 * 1024 * 1024, alias="MAX_AUDIO_SIZE")
+    max_audio_duration: int = Field(default=120, alias="MAX_AUDIO_DURATION")
     allowed_mime_types: list[str] = [
-        "audio/webm", "audio/wav", "audio/m4a",
-        "audio/mp3", "audio/mpeg", "audio/ogg",
-        "audio/mp4", "audio/aac",
+        "audio/mp4",
+        "audio/m4a",
+        "audio/x-m4a",
+        "audio/aac",
+        "audio/mpeg",
+        "audio/mp3",
+        "audio/wav",
+        "audio/webm",
+        "audio/ogg",
     ]
 
-    # Redis (for rate limiting — optional, falls back to in-memory)
-    redis_url: str = os.getenv("REDIS_URL", "")
+    redis_url: str = Field(default="", alias="REDIS_URL")
+
+    @field_validator("allowed_origins", mode="before")
+    @classmethod
+    def parse_allowed_origins(cls, value: str | list[str]) -> list[str]:
+        if isinstance(value, str):
+            return [origin.strip() for origin in value.split(",") if origin.strip()]
+        return value
+
+    @property
+    def is_production(self) -> bool:
+        return self.environment == "production" and not self.debug
+
+    def require_openai_key(self) -> None:
+        if not self.openai_api_key:
+            raise RuntimeError("OPENAI_API_KEY is not configured")
+
+    def require_llm_key(self) -> None:
+        if not self.llm_api_key:
+            raise RuntimeError("LLM_API_KEY is not configured")
 
 
 @lru_cache

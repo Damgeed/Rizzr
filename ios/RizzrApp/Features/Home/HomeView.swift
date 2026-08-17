@@ -20,7 +20,10 @@ struct HomeView: View {
             }
         }
         .task {
-            recorderViewModel.configure(recorderClient: environment.recorderClient)
+            recorderViewModel.configure(
+                recorderClient: environment.recorderClient,
+                apiClient: environment.apiClient
+            )
         }
     }
 

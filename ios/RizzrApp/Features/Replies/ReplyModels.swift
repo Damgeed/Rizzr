@@ -7,24 +7,46 @@ struct ReplySuggestion: Identifiable, Codable, Equatable {
         case sweet
     }
 
-    let id: UUID
+    var id: String { style.rawValue }
+
     let style: Style
     let text: String
     let audioPreviewURL: URL?
 
-    init(id: UUID = UUID(), style: Style, text: String, audioPreviewURL: URL? = nil) {
-        self.id = id
+    init(style: Style, text: String, audioPreviewURL: URL? = nil) {
         self.style = style
         self.text = text
         self.audioPreviewURL = audioPreviewURL
     }
 }
 
+struct TranscribeResponse: Decodable, Equatable {
+    let transcript: String
+    let language: String
+    let duration: Double
+}
+
 struct GenerateRepliesRequest: Encodable, Equatable {
     let transcript: String
     let styles: [ReplySuggestion.Style]
+
+    init(transcript: String, styles: [ReplySuggestion.Style] = ReplySuggestion.Style.allCases) {
+        self.transcript = transcript
+        self.styles = styles
+    }
 }
 
 struct GenerateRepliesResponse: Decodable, Equatable {
     let replies: [ReplySuggestion]
+}
+
+struct APIEnvelope<T: Decodable>: Decodable {
+    let success: Bool
+    let data: T?
+    let error: APIErrorPayload?
+}
+
+struct APIErrorPayload: Decodable, Equatable {
+    let code: String
+    let message: String
 }

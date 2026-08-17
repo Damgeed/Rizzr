@@ -7,8 +7,9 @@ struct RecorderPreviewCard: View {
         GlassCard {
             VStack(spacing: RizzrSpacing.lg) {
                 stateLabel
-                recordButton
+                primaryAction
                 helperText
+                repliesList
             }
             .frame(maxWidth: .infinity)
         }
@@ -19,6 +20,44 @@ struct RecorderPreviewCard: View {
             .font(RizzrTypography.bodyStrong)
             .foregroundStyle(RizzrColor.textPrimary)
             .multilineTextAlignment(.center)
+    }
+
+    @ViewBuilder
+    private var primaryAction: some View {
+        switch viewModel.state {
+        case .ready:
+            Button {
+                Task { await viewModel.generateReplies() }
+            } label: {
+                Text("Generate replies")
+                    .font(RizzrTypography.bodyStrong)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, RizzrSpacing.lg)
+                    .padding(.vertical, RizzrSpacing.sm)
+                    .background(
+                        LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .topLeading, endPoint: .bottomTrailing),
+                        in: Capsule()
+                    )
+            }
+            .accessibilityLabel("Generate replies")
+
+        case .complete:
+            Button {
+                viewModel.reset()
+            } label: {
+                Text("Record another")
+                    .font(RizzrTypography.bodyStrong)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, RizzrSpacing.lg)
+                    .padding(.vertical, RizzrSpacing.sm)
+                    .background(RizzrColor.glassFill, in: Capsule())
+                    .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
+            }
+            .accessibilityLabel("Record another voice note")
+
+        default:
+            recordButton
+        }
     }
 
     private var recordButton: some View {
@@ -43,7 +82,7 @@ struct RecorderPreviewCard: View {
                     .foregroundStyle(.white)
             }
         }
-        .disabled(viewModel.state == .processing)
+        .disabled(isBusy)
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
     }
 
@@ -54,12 +93,43 @@ struct RecorderPreviewCard: View {
             .multilineTextAlignment(.center)
     }
 
+    @ViewBuilder
+    private var repliesList: some View {
+        if case .complete(let replies) = viewModel.state {
+            VStack(spacing: RizzrSpacing.sm) {
+                ForEach(replies) { reply in
+                    VStack(alignment: .leading, spacing: RizzrSpacing.xs) {
+                        Text(reply.style.rawValue.capitalized)
+                            .font(RizzrTypography.caption)
+                            .foregroundStyle(RizzrColor.orbCyan)
+                            .textCase(.uppercase)
+
+                        Text(reply.text)
+                            .font(RizzrTypography.body)
+                            .foregroundStyle(RizzrColor.textPrimary)
+                            .textSelection(.enabled)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(RizzrSpacing.md)
+                    .background(RizzrColor.glassFill, in: RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)
+                            .stroke(RizzrColor.glassBorder, lineWidth: 1)
+                    )
+                }
+            }
+        }
+    }
+
     private var labelText: String {
         switch viewModel.state {
         case .idle: "Tap to record"
         case .recording: "Listening…"
         case .ready: "Voice note ready"
-        case .processing: "Preparing replies…"
+        case .processing: "Preparing recording…"
+        case .transcribing: "Transcribing voice note…"
+        case .generating: "Writing replies…"
+        case .complete: "Replies ready"
         case .failed: "Something went wrong"
         }
     }
@@ -74,8 +144,23 @@ struct RecorderPreviewCard: View {
             "Ready to process: \(recording.duration.formatted(.number.precision(.fractionLength(1))))s captured."
         case .processing:
             "Cleaning up the recording before reply generation."
+        case .transcribing:
+            "Turning the voice note into text."
+        case .generating(let transcript):
+            "Generating from: “\(transcript.prefix(80))”"
+        case .complete:
+            "Pick the one that sounds most like you."
         case .failed(let message):
             message
+        }
+    }
+
+    private var isBusy: Bool {
+        switch viewModel.state {
+        case .processing, .transcribing, .generating:
+            true
+        default:
+            false
         }
     }
 }

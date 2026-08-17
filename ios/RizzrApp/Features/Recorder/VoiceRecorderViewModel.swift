@@ -6,7 +6,9 @@ final class VoiceRecorderViewModel: ObservableObject {
         case idle
         case recording
         case ready(RecordingSession)
-        case processing
+        case transcribing(RecordingSession)
+        case generating(String)
+        case complete([ReplySuggestion])
         case failed(String)
     }
 
@@ -14,9 +16,11 @@ final class VoiceRecorderViewModel: ObservableObject {
     @Published private(set) var lastRecording: RecordingSession?
 
     private weak var recorderClient: AudioRecorderClient?
+    private var apiClient: RizzrAPIClient?
 
-    func configure(recorderClient: AudioRecorderClient) {
+    func configure(recorderClient: AudioRecorderClient, apiClient: RizzrAPIClient) {
         self.recorderClient = recorderClient
+        self.apiClient = apiClient
     }
 
     func start() async {
@@ -37,6 +41,19 @@ final class VoiceRecorderViewModel: ObservableObject {
             let recording = try await recorderClient.stopRecording()
             lastRecording = recording
             state = .ready(recording)
+        } catch {
+            state = .failed(error.localizedDescription)
+        }
+    }
+
+    func generateReplies() async {
+        guard let apiClient, let recording = lastRecording else { return }
+        do {
+            state = .transcribing(recording)
+            let transcription = try await apiClient.transcribeRecording(at: recording.url)
+            state = .generating(transcription.transcript)
+            let generated = try await apiClient.generateReplies(GenerateRepliesRequest(transcript: transcription.transcript))
+            state = .complete(generated.replies)
         } catch {
             state = .failed(error.localizedDescription)
         }

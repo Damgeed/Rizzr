@@ -26,12 +26,12 @@
 
 - [x] Microphone permission UX
 - [x] Recording quality validation
-- [ ] Upload recorded M4A to `/api/transcribe`
-- [ ] Generate replies via `/api/generate`
-- [ ] Reply cards: Flirty/Witty/Sweet
+- [x] Upload recorded M4A to `/api/transcribe`
+- [x] Generate replies via `/api/generate`
+- [x] Reply cards: Flirty/Witty/Sweet
 - [ ] Copy reply
 - [ ] TTS preview wiring
-- [ ] Error states and retry UX
+- [x] Error states and retry UX
 - [ ] Haptics + accessibility labels
 
 ## Phase 2 — Monetization

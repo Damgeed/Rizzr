@@ -1,26 +1,26 @@
-"""Rizzr — Rate Limiting Middleware
+"""Rizzr — Rate Limiting Middleware."""
+from __future__ import annotations
 
-IP-based sliding window rate limiter.
-Uses Redis if available, falls back to in-memory dict.
-"""
+import ipaddress
 import time
-import json
 from collections import defaultdict
-from fastapi import Request, HTTPException
+
+from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
 
 from config import get_settings
 
 
 class InMemoryRateLimiter:
-    """Fallback when Redis isn't available."""
-    def __init__(self):
+    """Single-process fallback when Redis is not configured."""
+
+    def __init__(self) -> None:
         self._store: dict[str, list[float]] = defaultdict(list)
 
     def check(self, key: str, limit: int, window: int) -> tuple[bool, int]:
         now = time.time()
-        # Clean old entries
-        self._store[key] = [t for t in self._store[key] if now - t < window]
+        self._store[key] = [timestamp for timestamp in self._store[key] if now - timestamp < window]
         remaining = limit - len(self._store[key])
         if remaining <= 0:
             return False, 0
@@ -29,75 +29,91 @@ class InMemoryRateLimiter:
 
 
 class RedisRateLimiter:
-    """Production rate limiter using Redis sliding window."""
-    def __init__(self, redis_url: str):
+    """Redis-backed sliding-window limiter for production."""
+
+    def __init__(self, redis_url: str) -> None:
         import redis
-        self.r = redis.from_url(redis_url, decode_responses=True)
+
+        self.redis = redis.from_url(redis_url, decode_responses=True)
 
     def check(self, key: str, limit: int, window: int) -> tuple[bool, int]:
         now = time.time()
-        pipe = self.r.pipeline()
+        pipe = self.redis.pipeline()
         pipe.zremrangebyscore(key, 0, now - window)
         pipe.zadd(key, {str(now): now})
         pipe.zcard(key)
         pipe.expire(key, window)
         results = pipe.execute()
-        count = results[2]
+        count = int(results[2])
         remaining = limit - count
         if remaining < 0:
             return False, 0
         return True, remaining
 
 
-def get_rate_limiter():
-    settings = get_settings()
-    if settings.redis_url:
+def resolve_client_ip(request: Request) -> str:
+    cf_ip = request.headers.get("cf-connecting-ip")
+    if cf_ip:
+        return cf_ip
+
+    forwarded_for = request.headers.get("x-forwarded-for", "")
+    for raw_ip in forwarded_for.split(","):
+        candidate = raw_ip.strip()
+        if not candidate:
+            continue
         try:
-            return RedisRateLimiter(settings.redis_url)
-        except Exception:
-            pass
-    return InMemoryRateLimiter()
+            parsed = ipaddress.ip_address(candidate)
+        except ValueError:
+            continue
+        if parsed.is_global:
+            return candidate
+
+    return request.client.host if request.client else "unknown"
 
 
-# Singleton
 _limiter = None
 
 
 def get_limiter():
     global _limiter
-    if _limiter is None:
-        _limiter = get_rate_limiter()
+    if _limiter is not None:
+        return _limiter
+
+    settings = get_settings()
+    if settings.redis_url:
+        try:
+            _limiter = RedisRateLimiter(settings.redis_url)
+            return _limiter
+        except Exception:
+            pass
+
+    _limiter = InMemoryRateLimiter()
     return _limiter
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
-    """Rate limit only /api/* endpoints (not health checks)."""
+    """Rate-limit mutation endpoints. Health checks stay public."""
+
     async def dispatch(self, request: Request, call_next):
-        # Skip non-API routes
-        if not request.url.path.startswith("/api/"):
-            return await call_next(request)
-        if request.url.path in ("/api/usage",):
+        if not request.url.path.startswith("/api/") or request.method == "OPTIONS":
             return await call_next(request)
 
         settings = get_settings()
-        client_ip = request.client.host if request.client else "unknown"
-        limit_key = f"rizzr:rl:{client_ip}"
-
-        limiter = get_limiter()
-        allowed, remaining = limiter.check(
-            limit_key,
-            settings.rate_limit_free,
-            settings.rate_window_seconds,
-        )
+        client_ip = resolve_client_ip(request)
+        limit_key = f"rizzr:rl:{client_ip}:{request.url.path}"
+        allowed, remaining = get_limiter().check(limit_key, settings.rate_limit_free, settings.rate_window_seconds)
 
         if not allowed:
-            raise HTTPException(
+            return JSONResponse(
                 status_code=429,
-                detail={
-                    "error": "rate_limit_exceeded",
-                    "message": "Daily free limit reached. Upgrade to Pro for unlimited replies.",
-                    "reset_in_seconds": settings.rate_window_seconds,
-                }
+                content={
+                    "success": False,
+                    "error": {
+                        "code": "rate_limit_exceeded",
+                        "message": "Daily limit reached. Upgrade to Pro for unlimited replies.",
+                    },
+                },
+                headers={"X-RateLimit-Remaining": "0"},
             )
 
         response = await call_next(request)

@@ -63,6 +63,14 @@ Rizzr iOS should be treated as a production product from day one:
    - copy reply
    - add TTS preview behind API boundary
 
+## Phase 1 — Finesse real API path started
+
+- Backend exposes typed `/api/transcribe` and `/api/generate` endpoints with a shared `{success,data,error}` envelope.
+- iOS uploads recorded M4A audio as multipart form data to `/api/transcribe`.
+- iOS sends the returned transcript to `/api/generate`.
+- iOS renders the three returned reply cards: flirty, witty, sweet.
+- No App Store, account, Echo, Ghost, Vibe, or TTS production claims are wired yet.
+
 ## Backend/API dependency note
 
 The iOS app points to `https://api.rizzr.com`. If the backend is not deployed and healthy, native app flows that call the API will fail. The app foundation is ready, but the product path needs backend deployment/health verification before TestFlight.

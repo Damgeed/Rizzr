@@ -4,8 +4,8 @@ struct APIConfiguration: Equatable {
     let baseURL: URL
     let timeout: TimeInterval
 
-    static let production = APIConfiguration(baseURL: URL(string: "https://api.rizzr.com")!, timeout: 20)
-    static let local = APIConfiguration(baseURL: URL(string: "http://localhost:8000")!, timeout: 20)
+    static let production = APIConfiguration(baseURL: URL(string: "https://api.rizzr.com")!, timeout: 30)
+    static let local = APIConfiguration(baseURL: URL(string: "http://localhost:8000")!, timeout: 30)
 }
 
 enum APIError: LocalizedError, Equatable {
@@ -13,6 +13,7 @@ enum APIError: LocalizedError, Equatable {
     case statusCode(Int)
     case decodingFailed
     case emptyResponse
+    case server(String)
 
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,7 @@ enum APIError: LocalizedError, Equatable {
         case .statusCode(let code): "The request failed with status code \(code)."
         case .decodingFailed: "The response could not be decoded."
         case .emptyResponse: "The server returned an empty response."
+        case .server(let message): message
         }
     }
 }
@@ -39,28 +41,51 @@ final class RizzrAPIClient {
         encoder.keyEncodingStrategy = .convertToSnakeCase
     }
 
-    func generateReplies(_ request: GenerateRepliesRequest) async throws -> GenerateRepliesResponse {
-        try await post(path: "/api/generate", body: request)
+    func transcribeRecording(at fileURL: URL) async throws -> TranscribeResponse {
+        let audioData = try Data(contentsOf: fileURL)
+        let boundary = "RizzrBoundary-\(UUID().uuidString)"
+        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/transcribe"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = configuration.timeout
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = multipartBody(data: audioData, fileName: fileURL.lastPathComponent, mimeType: "audio/mp4", boundary: boundary)
+        return try await decodeEnvelope(request)
     }
 
-    private func post<Request: Encodable, Response: Decodable>(path: String, body: Request) async throws -> Response {
-        var request = URLRequest(url: configuration.baseURL.appending(path: path))
+    func generateReplies(_ requestBody: GenerateRepliesRequest) async throws -> GenerateRepliesResponse {
+        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/generate"))
         request.httpMethod = "POST"
         request.timeoutInterval = configuration.timeout
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpBody = try encoder.encode(body)
+        request.httpBody = try encoder.encode(requestBody)
+        return try await decodeEnvelope(request)
+    }
 
+    private func decodeEnvelope<Response: Decodable>(_ request: URLRequest) async throws -> Response {
         let (data, response) = try await session.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else { throw APIError.invalidResponse }
-        guard 200..<300 ~= httpResponse.statusCode else { throw APIError.statusCode(httpResponse.statusCode) }
         guard !data.isEmpty else { throw APIError.emptyResponse }
 
-        do {
-            return try decoder.decode(Response.self, from: data)
-        } catch {
-            throw APIError.decodingFailed
+        let envelope = try decoder.decode(APIEnvelope<Response>.self, from: data)
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw APIError.server(envelope.error?.message ?? "The request failed with status code \(httpResponse.statusCode).")
         }
+        guard envelope.success, let payload = envelope.data else {
+            throw APIError.server(envelope.error?.message ?? "The request failed.")
+        }
+        return payload
+    }
+
+    private func multipartBody(data: Data, fileName: String, mimeType: String, boundary: String) -> Data {
+        var body = Data()
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(data)
+        body.appendString("\r\n--\(boundary)--\r\n")
+        return body
     }
 }
 
@@ -70,5 +95,11 @@ private extension URL {
             return appending(path: path.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
         }
         return appendingPathComponent(path.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
+    }
+}
+
+private extension Data {
+    mutating func appendString(_ string: String) {
+        append(Data(string.utf8))
     }
 }

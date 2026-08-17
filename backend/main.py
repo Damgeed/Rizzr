@@ -1,66 +1,111 @@
-"""Rizzr — FastAPI Main Application
+"""Rizzr — FastAPI application entry point."""
+from __future__ import annotations
 
-Entry point: mounts routers, middleware, health checks.
-"""
-import time
-from fastapi import FastAPI
+import os
+
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.responses import JSONResponse
 
 from config import get_settings
-from middleware.security import setup_middleware, SecurityHeadersMiddleware, RequestSizeLimitMiddleware
 from middleware.rate_limit import RateLimitMiddleware
-from routers import transcribe, generate, tts
+from middleware.security import setup_middleware
+from routers import generate, transcribe
+from schemas import APIResponse, HealthData
 
 settings = get_settings()
 
 app = FastAPI(
     title=settings.app_name,
     version="1.0.0",
-    docs_url="/docs" if settings.debug else None,  # disable docs in prod
+    docs_url="/docs" if settings.debug else None,
     redoc_url=None,
 )
 
-# === Middleware (order matters: outermost first) ===
-# 1. CORS + security headers + request size limit
 setup_middleware(app)
-
-# 2. Rate limiting (only on /api/* routes)
 app.add_middleware(RateLimitMiddleware)
 
-# 3. Trusted hosts (production lockdown)
-if not settings.debug:
+if settings.is_production:
     app.add_middleware(
         TrustedHostMiddleware,
-        allowed_hosts=["rizzr.com", "www.rizzr.com", "*.rizzr.com", "*.up.railway.app"],
+        allowed_hosts=[
+            "rizzr.com",
+            "www.rizzr.com",
+            "api.rizzr.com",
+            "*.rizzr.com",
+            "*.up.railway.app",
+            "localhost",
+            "127.0.0.1",
+            "testserver",
+        ],
     )
 
-# === Routers ===
 app.include_router(transcribe.router)
 app.include_router(generate.router)
-app.include_router(tts.router)
 
 
-# === Health checks ===
-@app.get("/health")
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={
+            "success": False,
+            "error": {
+                "code": "validation_error",
+                "message": "Request validation failed.",
+            },
+        },
+    )
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    detail = exc.detail if isinstance(exc.detail, dict) else {}
+    code = str(detail.get("code") or "http_error")
+    message = str(detail.get("message") or exc.detail or "Request failed.")
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"success": False, "error": {"code": code, "message": message}},
+    )
+
+
+@app.exception_handler(RuntimeError)
+async def runtime_exception_handler(request: Request, exc: RuntimeError):
+    return JSONResponse(
+        status_code=503,
+        content={
+            "success": False,
+            "error": {
+                "code": "service_not_configured",
+                "message": str(exc) if settings.debug else "Service is not configured.",
+            },
+        },
+    )
+
+
+@app.get("/health", response_model=APIResponse[HealthData])
 async def health():
-    return {"status": "ok", "service": "rizzr-api", "version": "1.0.0"}
+    return APIResponse(
+        success=True,
+        data=HealthData(environment=settings.environment),
+    )
 
 
 @app.get("/")
 async def root():
     return {
-        "service": "Rizzr API",
-        "version": "1.0.0",
-        "docs": "/docs" if settings.debug else "disabled",
-        "endpoints": ["/api/transcribe", "/api/generate", "/api/tts", "/api/usage"],
+        "success": True,
+        "data": {
+            "service": "Rizzr API",
+            "version": "1.0.0",
+            "docs": "/docs" if settings.debug else "disabled",
+            "endpoints": ["/health", "/api/transcribe", "/api/generate"],
+        },
     }
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=int(__import__("os").getenv("PORT", 8000)),
-        reload=settings.debug,
-    )
+
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8000")))
