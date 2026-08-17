@@ -25,6 +25,16 @@ class Settings(BaseSettings):
         "http://localhost:8080",
         "http://localhost:3000",
     ]
+    allowed_hosts: list[str] = [
+        "rizzr.com",
+        "www.rizzr.com",
+        "api.rizzr.com",
+        "*.rizzr.com",
+        "*.up.railway.app",
+        "localhost",
+        "127.0.0.1",
+        "testserver",
+    ]
 
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_whisper_model: str = Field(default="whisper-1", alias="OPENAI_WHISPER_MODEL")
@@ -57,9 +67,9 @@ class Settings(BaseSettings):
 
     redis_url: str = Field(default="", alias="REDIS_URL")
 
-    @field_validator("allowed_origins", mode="before")
+    @field_validator("allowed_origins", "allowed_hosts", mode="before")
     @classmethod
-    def parse_allowed_origins(cls, value: str | list[str]) -> list[str]:
+    def parse_csv_list(cls, value: str | list[str]) -> list[str]:
         if isinstance(value, str):
             return [origin.strip() for origin in value.split(",") if origin.strip()]
         return value

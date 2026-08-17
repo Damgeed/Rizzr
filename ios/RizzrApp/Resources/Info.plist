@@ -12,6 +12,8 @@
     <true/>
     <key>NSMicrophoneUsageDescription</key>
     <string>Rizzr needs microphone access so you can record a voice note and generate reply suggestions.</string>
+    <key>RizzrAPIBaseURL</key>
+    <string>$(RIZZR_API_BASE_URL)</string>
     <key>UIApplicationSceneManifest</key>
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>

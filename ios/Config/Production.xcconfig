@@ -1,0 +1,3 @@
+# Production API base URL. Keep this swappable until the final Rizzr domain is locked.
+# xcconfig requires // escaping because // starts a comment.
+RIZZR_API_BASE_URL = https:/$()/api.rizzr.com

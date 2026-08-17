@@ -29,16 +29,7 @@ app.add_middleware(RateLimitMiddleware)
 if settings.is_production:
     app.add_middleware(
         TrustedHostMiddleware,
-        allowed_hosts=[
-            "rizzr.com",
-            "www.rizzr.com",
-            "api.rizzr.com",
-            "*.rizzr.com",
-            "*.up.railway.app",
-            "localhost",
-            "127.0.0.1",
-            "testserver",
-        ],
+        allowed_hosts=settings.allowed_hosts,
     )
 
 app.include_router(transcribe.router)

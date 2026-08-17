@@ -22,8 +22,12 @@ targets:
     resources:
       - path: RizzrApp/Resources
     settings:
+      configFiles:
+        Debug: Config/Production.xcconfig
+        Release: Config/Production.xcconfig
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.rizzr.app
+        RIZZR_API_BASE_URL: $(RIZZR_API_BASE_URL)
         INFOPLIST_FILE: RizzrApp/Resources/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_PREVIEWS: YES

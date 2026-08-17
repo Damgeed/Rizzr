@@ -4,7 +4,10 @@ struct APIConfiguration: Equatable {
     let baseURL: URL
     let timeout: TimeInterval
 
-    static let production = APIConfiguration(baseURL: URL(string: "https://api.rizzr.com")!, timeout: 30)
+    static let production = APIConfiguration(
+        baseURL: Bundle.main.rizzrAPIBaseURL ?? URL(string: "https://api.rizzr.com")!,
+        timeout: 30
+    )
     static let local = APIConfiguration(baseURL: URL(string: "http://localhost:8000")!, timeout: 30)
 }
 
@@ -86,6 +89,15 @@ final class RizzrAPIClient {
         body.append(data)
         body.appendString("\r\n--\(boundary)--\r\n")
         return body
+    }
+}
+
+private extension Bundle {
+    var rizzrAPIBaseURL: URL? {
+        guard let rawValue = object(forInfoDictionaryKey: "RizzrAPIBaseURL") as? String else { return nil }
+        let trimmedValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedValue.isEmpty, !trimmedValue.contains("$(") else { return nil }
+        return URL(string: trimmedValue)
     }
 }
 
