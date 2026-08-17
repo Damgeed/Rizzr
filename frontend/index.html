@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt50';
+    var v='hgt51';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -485,10 +485,10 @@
     }
     /* Mobile: tighten the gap between the mode-name head and the title */
     @media (max-width: 640px) {
-      .mode-panel__head { margin-bottom: 0.5rem; }
-      .mode-panel .layout { padding-top: 1rem; }
-      .mode-panel .mode-body { padding-top: 0.4rem; gap: 1.25rem; }
-      .mode-panel .hero-download { margin-top: 0.65rem; }
+      .mode-panel__head { margin-bottom: 0.35rem; }
+      .mode-panel .layout { padding-top: 0.8rem; }
+      .mode-panel .mode-body { padding-top: 0.25rem; gap: 1rem; }
+      .mode-panel .hero-download { margin-top: 0.5rem; }
     }
     /* Arrow buttons */
     .mode-arrow {
@@ -516,7 +516,10 @@
     #how-it-works .section-title, #faq .section-title { margin-bottom: 1.6rem; }
     #faq .section-eyebrow { margin-bottom: 0.6rem; }
     @media (max-width: 640px) {
-      #how-it-works .section-title, #faq .section-title { margin-bottom: 1.2rem; }
+      #how-it-works .section-title, #faq .section-title { margin-bottom: 1rem; }
+      .section { padding-top: 2.25rem; padding-bottom: 1.55rem; }
+      .panel-steps { margin-top: 1.6rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 5.8rem; }
     }
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
@@ -614,11 +617,8 @@
       .mode-arrow { width: 34px; height: 34px; top: 27%; }
       .mode-arrow svg { width: 17px; height: 17px; }
       /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
-      .panel-steps { margin-top: 2rem; }
-      /* Finesse panel content sits higher than the other three tabs (its phone demo is shorter),
-         leaving a big blank gap before the shared mode-dots. Add bottom padding so the dots sit
-         a consistent distance below the last step, matching Ghost/Echo/Vibe. */
-      .mode-panel.finesse .panel-steps { padding-bottom: 6.9rem; }
+      .panel-steps { margin-top: 1.6rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 5.8rem; }
       /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
       .mode-phone { height: 654px; }
       .mode-phone__screen { height: 100%; aspect-ratio: auto; }
