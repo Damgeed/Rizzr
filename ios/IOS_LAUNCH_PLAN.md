@@ -70,6 +70,8 @@ Rizzr iOS should be treated as a production product from day one:
 - iOS sends the returned transcript to `/api/generate`.
 - iOS renders the three returned reply cards: flirty, witty, sweet.
 - Reply cards support copy/share actions, copied-state feedback, and accessibility labels.
+- HomeView has a pro settings sheet that exposes build/API status and copies the API base URL.
+- The API base URL stays swappable via build settings while the final domain is undecided.
 - No App Store, account, Echo, Ghost, Vibe, or TTS production claims are wired yet.
 
 ## Backend/API dependency note

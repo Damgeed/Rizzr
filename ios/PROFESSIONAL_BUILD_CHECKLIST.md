@@ -30,6 +30,9 @@
 - [x] Generate replies via `/api/generate`
 - [x] Reply cards: Flirty/Witty/Sweet
 - [x] Copy reply
+- [x] Share reply
+- [x] Settings sheet with API/build info
+- [x] Domain remains swappable via build settings
 - [ ] TTS preview wiring
 - [x] Error states and retry UX
 - [x] Haptics + accessibility labels

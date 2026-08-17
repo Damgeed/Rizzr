@@ -35,6 +35,8 @@ final class RizzrAPIClient {
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
 
+    var baseURL: URL { configuration.baseURL }
+
     init(configuration: APIConfiguration, session: URLSession = .shared) {
         self.configuration = configuration
         self.session = session
