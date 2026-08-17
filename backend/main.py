@@ -9,7 +9,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from config import get_settings
 from middleware.security import setup_middleware, SecurityHeadersMiddleware, RequestSizeLimitMiddleware
 from middleware.rate_limit import RateLimitMiddleware
-from routers import transcribe, generate, tts, stripe
+from routers import transcribe, generate, tts
 
 settings = get_settings()
 
@@ -38,7 +38,6 @@ if not settings.debug:
 app.include_router(transcribe.router)
 app.include_router(generate.router)
 app.include_router(tts.router)
-app.include_router(stripe.router)
 
 
 # === Health checks ===
@@ -53,7 +52,7 @@ async def root():
         "service": "Rizzr API",
         "version": "1.0.0",
         "docs": "/docs" if settings.debug else "disabled",
-        "endpoints": ["/api/transcribe", "/api/generate", "/api/tts", "/api/checkout", "/api/webhook", "/api/usage"],
+        "endpoints": ["/api/transcribe", "/api/generate", "/api/tts", "/api/usage"],
     }
 
 

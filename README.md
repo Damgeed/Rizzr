@@ -18,7 +18,7 @@ rizzr/
 │   └── pages/        # Additional pages
 ├── backend/           # FastAPI (Railway)
 │   ├── main.py        # App entry + middleware
-│   ├── routers/       # transcribe, generate, tts, stripe
+│   ├── routers/       # transcribe, generate, tts
 │   ├── middleware/    # rate_limit, security
 │   ├── utils/         # helpers
 │   └── Dockerfile
@@ -39,7 +39,7 @@ rizzr/
 - **Frontend:** Vanilla HTML/CSS/JS, PWA, Web Audio API
 - **Backend:** FastAPI, Python 3.11+
 - **AI:** OpenAI Whisper, GLM-5.2 (kaiweb), ElevenLabs
-- **Payments:** Stripe Checkout + Webhooks
+- **Payments:** App Store / Google Play in-app purchases
 - **Deploy:** GitHub Pages (frontend) + Railway (backend) + Cloudflare (DNS/Tunnel)
 - **Security:** CORS lock, rate limiting, API key isolation, zero data persistence
 

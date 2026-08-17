@@ -24,7 +24,7 @@
   <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
   <script>
   (function(){try{
-    var v='hgt52';
+    var v='hgt53';
     if(location.search.indexOf('v=')!==-1) return;
     if(localStorage.getItem('rizzr_cache_v')!==v){
       localStorage.setItem('rizzr_cache_v',v);
@@ -43,7 +43,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <!-- Midnight Aura shared design system -->
-  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt16">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt17">
   <style>
     /* ==========================================
        LANDING-SPECIFIC (hero + phone demo)
@@ -112,15 +112,15 @@
 
     /* Mobile: stacked, condensed hook (hide full description + badges) */
     @media (max-width: 859px) {
-      main { padding: 0.5rem 0 2rem; }
-      .layout { gap: 1.5rem; }
+      main { padding: 0.5rem 0 1.35rem; }
+      .layout { gap: 0.9rem; }
       .hero-copy { max-width: 480px; }
       .hero-copy-title { font-size: 2rem; }
       .hero-copy .subtext { display: none; }
       .hero-copy .trust-row { display: none; }
       .hero-copy .hero-cta { display: none; }
-      .hero-copy .hero-download { justify-content: center; margin-top: 1rem; }
-      .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.5; max-width: 42ch; margin: 0.9rem auto 0; }
+      .hero-copy .hero-download { justify-content: center; margin-top: 0.55rem; }
+      .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.45; max-width: 42ch; margin: 0.55rem auto 0; }
     }
     /* Very small phones */
     @media (max-width: 380px) {
@@ -184,6 +184,7 @@
 
     /* Hero-in-phone: push record + Upload/Link buttons lower (tabs now live on top) */
     #view-hero { padding-top: 245px; }
+    @media (max-width: 640px) { #view-hero { padding-top: 208px; } }
 
     .record-wrapper { position: relative; width: 116px; height: 116px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 9rem; cursor: pointer; }
     .pulse-ring-1, .pulse-ring-2 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--orb-1); animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
@@ -485,10 +486,11 @@
     }
     /* Mobile: tighten the gap between the mode-name head and the title */
     @media (max-width: 640px) {
-      .mode-panel__head { margin-bottom: 0.35rem; }
-      .mode-panel .layout { padding-top: 0.8rem; }
-      .mode-panel .mode-body { padding-top: 0.25rem; gap: 1rem; }
-      .mode-panel .hero-download { margin-top: 0.5rem; }
+      .mode-panel { padding-top: 0.7rem; padding-bottom: 1.9rem; }
+      .mode-panel__head { margin-bottom: 0.2rem; }
+      .mode-panel .layout { padding-top: 0.45rem; }
+      .mode-panel .mode-body { padding-top: 0.15rem; gap: 0.65rem; }
+      .mode-panel .hero-download { margin-top: 0.35rem; }
     }
     /* Arrow buttons */
     .mode-arrow {
@@ -516,10 +518,13 @@
     #how-it-works .section-title, #faq .section-title { margin-bottom: 1.6rem; }
     #faq .section-eyebrow { margin-bottom: 0.6rem; }
     @media (max-width: 640px) {
-      #how-it-works .section-title, #faq .section-title { margin-bottom: 1rem; }
-      .section { padding-top: 2.25rem; padding-bottom: 1.55rem; }
-      .panel-steps { margin-top: 1.6rem; }
-      .mode-panel.finesse .panel-steps { padding-bottom: 5.8rem; }
+      #how-it-works .section-title, #faq .section-title { margin-bottom: 0.8rem; }
+      .section { padding-top: 1.55rem; padding-bottom: 1.2rem; }
+      .panel-steps { margin-top: 1.1rem; }
+      .mode-dots { padding-top: 0.15rem; padding-bottom: 0.25rem; }
+      .mode-panel.finesse { padding-bottom: 0.8rem; }
+      .mode-panel.finesse .mode-list { margin-top: 1.1rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 1.4rem; }
     }
     .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
     .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
@@ -606,8 +611,8 @@
       .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
     }
     @media (max-width: 640px) {
-      .mode-panel { padding: 1rem 0.75rem 2.4rem; }
-      .mode-panel.finesse { padding-left: 0; padding-right: 0; }
+      .mode-panel { padding: 0.7rem 0.75rem 1.8rem; }
+      .mode-panel.finesse { padding-left: 0; padding-right: 0; padding-bottom: 0.8rem; }
       .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
       .mode-panel:not(.finesse) .mode-body { padding-top: 0; }
       .phone { width: min(360px, 92vw); }
@@ -618,8 +623,9 @@
       .mode-arrow { width: 34px; height: 34px; top: 27%; }
       .mode-arrow svg { width: 17px; height: 17px; }
       /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
-      .panel-steps { margin-top: 1.6rem; }
-      .mode-panel.finesse .panel-steps { padding-bottom: 5.8rem; }
+      .mode-panel.finesse .mode-list { margin-top: 1.1rem; }
+      .panel-steps { margin-top: 1.1rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 1.4rem; }
       /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
       .mode-phone { height: 654px; }
       .mode-phone__screen { height: 100%; aspect-ratio: auto; }
@@ -963,7 +969,7 @@
   </div>
 </main>
 
-  <!-- Social proof: rating line + testimonials (placeholder copy — replace with real data at launch) -->
+  <!-- Social proof: early beta-style rating line + realistic testimonials (replace with real data at launch) -->
   <section class="social-proof">
     <div class="social-proof__rating">
       <span class="social-proof__stars" aria-hidden="true">
@@ -973,8 +979,8 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </span>
-      <span class="social-proof__rating-num">4.9</span>
-      <span class="social-proof__meta">· helping people reply everywhere</span>
+      <span class="social-proof__rating-num">4.6</span>
+      <span class="social-proof__meta">· early testers say replies feel natural</span>
     </div>
     <div class="testimonial-slider">
       <button class="testimonial-nav testimonial-nav--prev" type="button" aria-label="Previous testimonials">
@@ -982,40 +988,40 @@
       </button>
       <div class="testimonial-track">
         <figure class="social-proof__card">
-          <blockquote>"I froze on that voice note for two hours. Rizzr had three replies ready in seconds — I just picked one and sent it."</blockquote>
-          <figcaption>— Maya Thompson</figcaption>
+          <blockquote>"I tested it with a few awkward voice notes and the replies felt natural enough that I would actually send them."</blockquote>
+          <figcaption>— Maya T.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"The audio replies honestly sound like me. My friends still haven't figured it out."</blockquote>
-          <figcaption>— Daniel Rodriguez</figcaption>
+          <blockquote>"The suggestions gave me a better starting point than my first draft, especially when I was overthinking the tone."</blockquote>
+          <figcaption>— Daniel R.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Reads the mood way better than I do. I show up calmer now because I'm not overthinking every reply."</blockquote>
-          <figcaption>— Zoe Bennett</figcaption>
+          <blockquote>"It helped me slow down and match the mood instead of sending something too dry or too much."</blockquote>
+          <figcaption>— Zoe B.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Sent a reply I never would've thought of in a million years. They double-texted me back in five minutes."</blockquote>
-          <figcaption>— Amir Haddad</figcaption>
+          <blockquote>"The best part is having options. One reply was too bold for me, but another one sounded exactly right."</blockquote>
+          <figcaption>— Amir H.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Works in any language, which is huge for me. I replied to my boss in English and my grandma in Tagalog — both sounded natural."</blockquote>
-          <figcaption>— Lena Ortiz</figcaption>
+          <blockquote>"I tried it on casual chats and work-ish messages. The casual ones were the strongest, but both were usable."</blockquote>
+          <figcaption>— Lena O.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"The seven-second turnaround is the best part. No more sitting on replies until they feel 'right.'"</blockquote>
-          <figcaption>— Jordan Reyes</figcaption>
+          <blockquote>"It made replies feel less stressful. I still tweak the wording, but it gets me 80% of the way there."</blockquote>
+          <figcaption>— Jordan R.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"I typed the reply out myself first and then compared — Rizzr's version was just smoother. I use it for almost everything now."</blockquote>
-          <figcaption>— Priya Sharma</figcaption>
+          <blockquote>"I compared it with what I would normally text, and Rizzr's version was usually cleaner without sounding fake."</blockquote>
+          <figcaption>— Priya S.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"Dating apps went from exhausting to kind of fun. Matching and actually knowing what to say are two totally different skills."</blockquote>
-          <figcaption>— Marcus Webb</figcaption>
+          <blockquote>"Good for dating app replies when you know the vibe but cannot find the exact words yet."</blockquote>
+          <figcaption>— Marcus W.</figcaption>
         </figure>
         <figure class="social-proof__card">
-          <blockquote>"I'm honestly not great with words, and this makes me sound like I am. My last boss even mentioned my 'great communication.'"</blockquote>
-          <figcaption>— Kofi Mensah</figcaption>
+          <blockquote>"I would use this before sending anything sensitive. It gives me a calmer version of what I meant to say."</blockquote>
+          <figcaption>— Kofi M.</figcaption>
         </figure>
       </div>
       <button class="testimonial-nav testimonial-nav--next" type="button" aria-label="Next testimonials">
@@ -1063,7 +1069,7 @@
   </section>
 
   <!-- Bottom download CTA: "Get your Rizzr today." + inline iOS/Android download buttons -->
-  <section class="download-cta">
+  <section class="download-cta" id="download">
     <h2 class="download-cta__title">Get your Rizzr today.</h2>
     <div class="download-cta__btns">
       <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">

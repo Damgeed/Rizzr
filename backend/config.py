@@ -32,12 +32,6 @@ class Settings(BaseSettings):
     elevenlabs_voice_id: str = os.getenv("ELEVENLABS_VOICE_ID", "")
     elevenlabs_model: str = "eleven_multilingual_v2"
 
-    # Stripe
-    stripe_secret_key: str = os.getenv("STRIPE_SECRET_KEY", "")
-    stripe_webhook_secret: str = os.getenv("STRIPE_WEBHOOK_SECRET", "")
-    stripe_price_id: str = os.getenv("STRIPE_PRICE_ID", "")
-    stripe_price_annual_id: str = os.getenv("STRIPE_PRICE_ANNUAL_ID", "")
-    stripe_price_plus_id: str = os.getenv("STRIPE_PRICE_PLUS_ID", "")
 
     # Rate limiting
     rate_limit_free: int = 3          # 3 requests per day for free tier

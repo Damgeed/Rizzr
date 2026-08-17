@@ -19,7 +19,7 @@ A mobile-first PWA: record/upload a voice note → Whisper transcribes → LLM g
 | 5 | TTS voice preview (ElevenLabs) | ✅ backend ready |
 | 6 | 3 reply styles (Flirty/Witty/Chill) | ✅ in prompt |
 | 7 | Copy text + download voice | ✅ frontend ready |
-| 8 | Freemium paywall (3/day, $9.99/mo) | ✅ Stripe scaffolded |
+| 8 | Freemium paywall (3/day, $9.99/mo) | Planned via App Store / Google Play |
 | 9 | 3 themes (Sunset/Purple Dream/Neon Nights) | ✅ implemented |
 | 10 | Random taglines on refresh | ✅ implemented |
 | 11 | Multi-page (Home/Settings/Pricing/Privacy) | ✅ implemented |
@@ -35,7 +35,7 @@ A mobile-first PWA: record/upload a voice note → Whisper transcribes → LLM g
 - **Frontend:** Vanilla HTML/CSS/JS PWA → GitHub Pages
 - **Backend:** FastAPI → Railway → Cloudflare Tunnel
 - **AI:** OpenAI Whisper + GLM-5.2 (kaiweb) + ElevenLabs
-- **Payments:** Stripe Checkout + Webhooks
+- **Payments:** App Store / Google Play in-app purchases
 
 ## Security
 - API keys server-side only (zero frontend exposure)
