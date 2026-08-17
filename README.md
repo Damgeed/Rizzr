@@ -22,6 +22,10 @@ rizzr/
 │   ├── middleware/    # rate_limit, security
 │   ├── utils/         # helpers
 │   └── Dockerfile
+├── ios/               # Native SwiftUI iOS app foundation
+│   ├── project.yml    # XcodeGen project spec
+│   ├── RizzrApp/      # App, design system, features, networking, resources
+│   └── RizzrTests/    # Unit-test target scaffold
 ├── shared/            # Shared constants
 └── .github/workflows/ # CI/CD
 ```
@@ -37,6 +41,7 @@ rizzr/
 ## Tech Stack
 
 - **Frontend:** Vanilla HTML/CSS/JS, PWA, Web Audio API
+- **iOS:** Native SwiftUI, XcodeGen project spec, AVFoundation recorder foundation
 - **Backend:** FastAPI, Python 3.11+
 - **AI:** OpenAI Whisper, GLM-5.2 (kaiweb), ElevenLabs
 - **Payments:** App Store / Google Play in-app purchases

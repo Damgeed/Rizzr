@@ -1,0 +1,39 @@
+name: iOS Foundation Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate-ios-foundation:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate project spec and resources
+        run: |
+          ruby -e "require 'yaml'; YAML.load_file('ios/project.yml'); puts 'project_yml_ok'"
+          plutil -lint ios/RizzrApp/Resources/Info.plist
+          python3 -m json.tool ios/RizzrApp/Resources/Assets.xcassets/Contents.json >/dev/null
+          python3 -m json.tool ios/RizzrApp/Resources/Assets.xcassets/AccentColor.colorset/Contents.json >/dev/null
+          python3 -m json.tool ios/RizzrApp/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json >/dev/null
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          cd ios
+          xcodegen generate
+
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project ios/Rizzr.xcodeproj \
+            -scheme Rizzr \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
