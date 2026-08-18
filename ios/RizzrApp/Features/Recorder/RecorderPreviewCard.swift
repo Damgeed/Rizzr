@@ -6,22 +6,15 @@ import UIKit
 struct RecorderPreviewCard: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @State private var copiedReplyID: String?
-    @State private var selectedState: RecorderDisplayState = .start
-
-    private enum RecorderDisplayState: String, CaseIterable, Identifiable {
-        case start = "Start"
-        case recording = "Recording"
-        case results = "Results"
-
-        var id: String { rawValue }
-    }
 
     var body: some View {
         GlassCard {
             VStack(spacing: RizzrSpacing.lg) {
                 header
-                stateTabs
-                stateBody
+                recordButton
+                statusCopy
+                progressViz
+                repliesList
             }
             .frame(maxWidth: .infinity)
         }
@@ -29,114 +22,20 @@ struct RecorderPreviewCard: View {
 
     private var header: some View {
         VStack(spacing: RizzrSpacing.xs) {
-            Text("Replies ready")
+            Text(cardTitle)
                 .font(RizzrTypography.caption)
                 .foregroundStyle(RizzrColor.orbCyan)
                 .textCase(.uppercase)
                 .tracking(1.5)
 
-            stateLabel
-        }
-    }
-
-    private var stateTabs: some View {
-        HStack(spacing: RizzrSpacing.xs) {
-            ForEach(RecorderDisplayState.allCases) { state in
-                Button {
-                    selectedState = state
-                } label: {
-                    Text(state.rawValue)
-                        .font(RizzrTypography.caption)
-                        .foregroundStyle(selectedState == state ? .white : RizzrColor.textMuted)
-                        .padding(.horizontal, RizzrSpacing.md)
-                        .padding(.vertical, RizzrSpacing.xs)
-                        .background(selectedState == state ? RizzrColor.glassFill : Color.clear, in: Capsule())
-                        .overlay(
-                            Capsule().stroke(
-                                selectedState == state ? RizzrColor.glassBorder : Color.clear,
-                                lineWidth: 1
-                            )
-                        )
-                }
-                .buttonStyle(.plain)
-            }
+            Text(labelText)
+                .font(RizzrTypography.bodyStrong)
+                .foregroundStyle(RizzrColor.textPrimary)
+                .multilineTextAlignment(.center)
         }
     }
 
     @ViewBuilder
-    private var stateBody: some View {
-        switch selectedState {
-        case .start:
-            VStack(spacing: RizzrSpacing.lg) {
-                recordButton
-                helperText
-            }
-        case .recording:
-            VStack(spacing: RizzrSpacing.lg) {
-                recordingMeter
-                recordButton
-                helperText
-            }
-        case .results:
-            VStack(spacing: RizzrSpacing.lg) {
-                primaryAction
-                helperText
-                repliesList
-            }
-        }
-    }
-
-    private var recordingMeter: some View {
-        HStack(spacing: 5) {
-            ForEach(0..<7, id: \.self) { index in
-                Capsule()
-                    .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .bottom, endPoint: .top))
-                    .frame(width: 5, height: [18, 34, 58, 28, 44, 24, 50][index])
-            }
-        }
-        .padding(.vertical, RizzrSpacing.xs)
-    }
-
-    @ViewBuilder
-    private var primaryAction: some View {
-        switch viewModel.state {
-        case .ready:
-            Button {
-                Task { await viewModel.generateReplies() }
-            } label: {
-                Text("Generate replies")
-                    .font(RizzrTypography.bodyStrong)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, RizzrSpacing.lg)
-                    .padding(.vertical, RizzrSpacing.sm)
-                    .background(
-                        LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .topLeading, endPoint: .bottomTrailing),
-                        in: Capsule()
-                    )
-            }
-            .accessibilityLabel("Generate replies")
-
-        case .complete:
-            Button {
-                copiedReplyID = nil
-                viewModel.reset()
-                selectedState = .start
-            } label: {
-                Text("Record another")
-                    .font(RizzrTypography.bodyStrong)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, RizzrSpacing.lg)
-                    .padding(.vertical, RizzrSpacing.sm)
-                    .background(RizzrColor.glassFill, in: Capsule())
-                    .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
-            }
-            .accessibilityLabel("Record another voice note")
-
-        default:
-            recordButton
-        }
-    }
-
     private var recordButton: some View {
         Button {
             Task {
@@ -147,7 +46,6 @@ struct RecorderPreviewCard: View {
                     await viewModel.start()
                 }
             }
-            selectedState = viewModel.state == .recording ? .recording : .start
         } label: {
             ZStack {
                 Circle()
@@ -164,11 +62,40 @@ struct RecorderPreviewCard: View {
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
     }
 
-    private var helperText: some View {
+    private var statusCopy: some View {
         Text(helperCopy)
             .font(RizzrTypography.body)
             .foregroundStyle(RizzrColor.textMuted)
             .multilineTextAlignment(.center)
+    }
+
+    @ViewBuilder
+    private var progressViz: some View {
+        switch viewModel.state {
+        case .recording:
+            HStack(spacing: 5) {
+                ForEach(0..<7, id: \.self) { index in
+                    Capsule()
+                        .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .bottom, endPoint: .top))
+                        .frame(width: 5, height: [18, 34, 58, 28, 44, 24, 50][index])
+                }
+            }
+            .padding(.vertical, RizzrSpacing.xs)
+        case .complete:
+            EmptyView()
+        default:
+            RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)
+                .fill(RizzrColor.glassFill)
+                .frame(height: 4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)
+                        .fill(
+                            LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .leading, endPoint: .trailing)
+                        )
+                        .frame(width: 110, height: 4),
+                    alignment: .leading
+                )
+        }
     }
 
     @ViewBuilder
@@ -186,6 +113,17 @@ struct RecorderPreviewCard: View {
         }
     }
 
+    private var cardTitle: String {
+        switch viewModel.state {
+        case .idle, .recording, .ready, .processing, .transcribing, .generating:
+            "Quick reply"
+        case .complete:
+            "Replies ready"
+        case .failed:
+            "Try again"
+        }
+    }
+
     private var labelText: String {
         switch viewModel.state {
         case .idle: "Tap to record"
@@ -194,7 +132,7 @@ struct RecorderPreviewCard: View {
         case .processing: "Preparing recording…"
         case .transcribing: "Transcribing voice note…"
         case .generating: "Writing replies…"
-        case .complete: "Replies ready"
+        case .complete: "Pick the one that sounds most like you."
         case .failed: "Something went wrong"
         }
     }
@@ -214,7 +152,7 @@ struct RecorderPreviewCard: View {
         case .generating(let transcript):
             "Generating from: “\(transcript.prefix(80))”"
         case .complete:
-            "Pick the one that sounds most like you. Copy or share when ready."
+            "Copy or share when ready."
         case .failed(let message):
             message
         }
