@@ -36,18 +36,18 @@ struct RecorderPreviewCard: View {
 
             HStack(spacing: 16) {
                 Button { showAudioImporter = true } label: {
-                    Label("Upload audio", systemImage: "square.and.arrow.up")
+                    RizzrActionLabel(title: "Upload audio", systemImage: "arrow.up.to.line.compact")
                 }
                 .buttonStyle(RizzrGradientActionStyle())
 
                 Button { showTextInput = true } label: {
-                    Label("Type text", systemImage: "keyboard")
+                    RizzrActionLabel(title: "Type text", systemImage: "keyboard")
                 }
                 .buttonStyle(RizzrOutlineActionStyle())
             }
-            .font(.custom("Outfit", fixedSize: 17).weight(.black))
+            .font(.custom("Outfit", fixedSize: 16.5).weight(.black))
             .foregroundStyle(.white)
-            .padding(.top, 62)
+            .padding(.top, 54)
             .disabled(isBusy || viewModel.state == .recording)
             .opacity(shouldShowImportAction ? 1 : 0.45)
 
@@ -340,17 +340,54 @@ private struct RecordButtonStyle: ButtonStyle {
     }
 }
 
+private struct RizzrActionLabel: View {
+    let title: String
+    let systemImage: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: systemImage)
+                .font(.system(size: 17, weight: .black))
+                .symbolRenderingMode(.monochrome)
+            Text(title)
+                .font(.custom("Outfit", fixedSize: 16.5).weight(.black))
+                .tracking(-0.12)
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.84)
+    }
+}
+
 private struct RizzrGradientActionStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .labelStyle(.titleAndIcon)
-            .lineLimit(1)
-            .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 68)
+            .frame(height: 60)
             .background(RizzrReferenceGradient.gradient, in: Capsule())
-            .overlay(Capsule().stroke(Color.white.opacity(0.12), lineWidth: 1))
-            .shadow(color: Color(hex: 0xFF2F8F).opacity(configuration.isPressed ? 0.20 : 0.34), radius: 18, x: 0, y: 10)
+            .overlay(
+                Capsule()
+                    .stroke(
+                        LinearGradient(
+                            colors: [.white.opacity(0.42), .white.opacity(0.06)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.1
+                    )
+            )
+            .overlay(
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [.white.opacity(0.16), .clear],
+                            startPoint: .top,
+                            endPoint: .center
+                        )
+                    )
+                    .allowsHitTesting(false)
+            )
+            .shadow(color: Color(hex: 0xFF006E).opacity(configuration.isPressed ? 0.20 : 0.42), radius: 20, x: -4, y: 10)
+            .shadow(color: Color(hex: 0x5B00FF).opacity(configuration.isPressed ? 0.18 : 0.32), radius: 22, x: 7, y: 14)
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
@@ -359,13 +396,28 @@ private struct RizzrGradientActionStyle: ButtonStyle {
 private struct RizzrOutlineActionStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .labelStyle(.titleAndIcon)
-            .lineLimit(1)
-            .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 68)
-            .background(Color(hex: 0x0B0C12).opacity(configuration.isPressed ? 1 : 0.96), in: Capsule())
-            .overlay(Capsule().stroke(Color(hex: 0x343640), lineWidth: 1.4))
+            .frame(height: 60)
+            .background(
+                LinearGradient(
+                    colors: [Color(hex: 0x12121A).opacity(configuration.isPressed ? 1 : 0.98), Color(hex: 0x050507)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                in: Capsule()
+            )
+            .overlay(
+                Capsule()
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.30), Color(hex: 0xFF006E).opacity(0.24), Color(hex: 0x4A00FF).opacity(0.22)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.35
+                    )
+            )
+            .shadow(color: .black.opacity(0.34), radius: 16, x: 0, y: 10)
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
