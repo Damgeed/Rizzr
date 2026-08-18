@@ -25,6 +25,8 @@ class TTSRequest(BaseModel):
 async def tts(body: TTSRequest):
     settings = get_settings()
 
+    settings.require_elevenlabs_key()
+
     if not body.text.strip():
         raise HTTPException(status_code=400, detail="Empty text")
 

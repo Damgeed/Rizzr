@@ -1,5 +1,10 @@
 import Foundation
 
+enum ReplyContract {
+    static let supportedStyles: [ReplySuggestion.Style] = [.flirty, .witty, .sweet]
+    static let replyCount = 3
+}
+
 struct ReplySuggestion: Identifiable, Codable, Equatable {
     enum Style: String, Codable, CaseIterable {
         case flirty
@@ -30,7 +35,7 @@ struct GenerateRepliesRequest: Encodable, Equatable {
     let transcript: String
     let styles: [ReplySuggestion.Style]
 
-    init(transcript: String, styles: [ReplySuggestion.Style] = ReplySuggestion.Style.allCases) {
+    init(transcript: String, styles: [ReplySuggestion.Style] = ReplyContract.supportedStyles) {
         self.transcript = transcript
         self.styles = styles
     }

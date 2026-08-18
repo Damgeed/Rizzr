@@ -18,23 +18,27 @@ class Settings(BaseSettings):
     environment: Literal["development", "staging", "production"] = Field(default="production", alias="APP_ENV")
     debug: bool = Field(default=False, alias="DEBUG")
 
-    allowed_origins: list[str] = [
-        "https://rizzr.com",
-        "https://www.rizzr.com",
-        "https://damgeed.github.io",
-        "http://localhost:8080",
-        "http://localhost:3000",
-    ]
-    allowed_hosts: list[str] = [
-        "rizzr.com",
-        "www.rizzr.com",
-        "api.rizzr.com",
-        "*.rizzr.com",
-        "*.up.railway.app",
-        "localhost",
-        "127.0.0.1",
-        "testserver",
-    ]
+    allowed_origins: list[str] = Field(
+        default_factory=lambda: [
+            "https://rizzr.com",
+            "https://www.rizzr.com",
+            "https://damgeed.github.io",
+            "http://localhost:8080",
+            "http://localhost:3000",
+        ]
+    )
+    allowed_hosts: list[str] = Field(
+        default_factory=lambda: [
+            "rizzr.com",
+            "www.rizzr.com",
+            "api.rizzr.com",
+            "*.rizzr.com",
+            "*.up.railway.app",
+            "localhost",
+            "127.0.0.1",
+            "testserver",
+        ]
+    )
 
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_whisper_model: str = Field(default="whisper-1", alias="OPENAI_WHISPER_MODEL")
@@ -85,6 +89,10 @@ class Settings(BaseSettings):
     def require_llm_key(self) -> None:
         if not self.llm_api_key:
             raise RuntimeError("LLM_API_KEY is not configured")
+
+    def require_elevenlabs_key(self) -> None:
+        if not self.elevenlabs_api_key:
+            raise RuntimeError("ELEVENLABS_API_KEY is not configured")
 
 
 @lru_cache

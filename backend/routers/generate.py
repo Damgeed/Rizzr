@@ -12,10 +12,12 @@ from services.llm_client import LLMClientError, generate_chat_completion
 
 router = APIRouter(prefix="/api", tags=["replies"])
 
+EXPECTED_STYLES = ["flirty", "witty", "sweet"]
+
 
 class GenerateRequest(BaseModel):
     transcript: str = Field(min_length=1, max_length=5_000)
-    styles: list[str] = Field(default_factory=lambda: ["flirty", "witty", "sweet"])
+    styles: list[str] = Field(default_factory=lambda: EXPECTED_STYLES.copy())
 
 
 class ReplySuggestion(BaseModel):
@@ -46,6 +48,16 @@ async def generate(body: GenerateRequest):
     if not transcript:
         raise HTTPException(status_code=400, detail={"code": "empty_transcript", "message": "Transcript is required."})
 
+    requested_styles = [style.strip().lower() for style in body.styles]
+    if requested_styles != EXPECTED_STYLES:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "code": "unsupported_reply_styles",
+                "message": "Reply styles must be exactly flirty, witty, and sweet in order.",
+            },
+        )
+
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": transcript},
@@ -72,9 +84,8 @@ def parse_replies(content: str) -> list[ReplySuggestion]:
     if not isinstance(raw_replies, list) or len(raw_replies) != 3:
         raise ValueError("Reply provider must return exactly three replies.")
 
-    expected_styles = ["flirty", "witty", "sweet"]
     replies: list[ReplySuggestion] = []
-    for expected_style, raw_reply in zip(expected_styles, raw_replies, strict=True):
+    for expected_style, raw_reply in zip(EXPECTED_STYLES, raw_replies, strict=True):
         if not isinstance(raw_reply, dict):
             raise ValueError("Reply item must be an object.")
         style = str(raw_reply.get("style", "")).strip().lower()

@@ -5,6 +5,7 @@ final class VoiceRecorderViewModel: ObservableObject {
     enum State: Equatable {
         case idle
         case recording
+        case processing
         case ready(RecordingSession)
         case transcribing(RecordingSession)
         case generating(String)
