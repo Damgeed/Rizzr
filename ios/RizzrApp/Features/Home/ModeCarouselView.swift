@@ -38,8 +38,8 @@ struct ModeCarouselView: View {
                         RizzrHaptics.selection()
                     } label: {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 16).weight(.semibold))
-                            .foregroundStyle(selection.wrappedValue == mode ? RizzrColor.orbCoral : Color(hex: 0x777783))
+                            .font(.custom("Outfit", fixedSize: 16).weight(.bold))
+                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF2D6D) : Color(hex: 0x757582))
                             .frame(maxWidth: .infinity)
                             .frame(height: 37)
                             .contentShape(Rectangle())
@@ -57,7 +57,7 @@ struct ModeCarouselView: View {
                         .frame(height: 1)
 
                     Rectangle()
-                        .fill(RizzrColor.orbCoral)
+                        .fill(Color(hex: 0xFF2D6D))
                         .frame(width: tabWidth, height: 2)
                         .offset(x: tabWidth * CGFloat(selection.wrappedValue.index))
                         .animation(.snappy(duration: 0.26), value: selection.wrappedValue)

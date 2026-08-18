@@ -4,9 +4,9 @@ import UIKit
 #endif
 
 enum RizzrColor {
-    static let background = Color(hex: 0x050508)
-    static let orbCoral = Color(hex: 0xFF3366)
-    static let orbViolet = Color(hex: 0x7000FF)
+    static let background = Color(hex: 0x030305)
+    static let orbCoral = Color(hex: 0xFF2D6D)
+    static let orbViolet = Color(hex: 0x6E22FF)
     static let orbCyan = Color(hex: 0x00D4FF)
     static let textPrimary = Color.white
     static let textMuted = Color(hex: 0xA1A1AA)
@@ -35,7 +35,7 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
-    static let logo = outfit(size: 29, weight: .bold)
+    static let logo = outfit(size: 34, weight: .heavy)
     static let hero = outfit(size: 39, weight: .bold)
     static let display = outfit(size: 32, weight: .bold)
     static let title = outfit(size: 24, weight: .bold)
@@ -44,7 +44,7 @@ enum RizzrTypography {
     static let caption = outfit(size: 12, weight: .semibold)
 
     static func outfit(size: CGFloat, weight: Font.Weight) -> Font {
-        .custom("Outfit-Thin", fixedSize: size).weight(weight)
+        .custom("Outfit", fixedSize: size).weight(weight)
     }
 }
 

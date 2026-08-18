@@ -26,7 +26,7 @@ struct RecorderPreviewCard: View {
                 .tracking(1.6)
                 .foregroundStyle(Color(hex: 0x8F8F99))
                 .shadow(color: .black.opacity(0.75), radius: 10, x: 0, y: 5)
-                .padding(.top, 26)
+                .padding(.top, 28)
 
             readyAction
                 .padding(.top, 22)
@@ -47,7 +47,7 @@ struct RecorderPreviewCard: View {
             }
             .font(.custom("Outfit", fixedSize: 15).weight(.semibold))
             .foregroundStyle(.white)
-            .padding(.top, 82)
+            .padding(.top, 86)
             .disabled(isBusy || viewModel.state == .recording)
             .opacity(shouldShowImportAction ? 1 : 0.45)
 
@@ -127,9 +127,9 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 159, height: 159)
-                    .shadow(color: Color(hex: 0xFF3366).opacity(0.26), radius: 18, x: -8, y: -5)
-                    .shadow(color: Color(hex: 0x7000FF).opacity(0.30), radius: 28, x: 12, y: 15)
+                    .frame(width: 166, height: 166)
+                    .shadow(color: Color(hex: 0xFF2D6D).opacity(0.36), radius: 22, x: -8, y: -5)
+                    .shadow(color: Color(hex: 0x5B22FF).opacity(0.42), radius: 32, x: 12, y: 16)
 
                 Circle()
                     .fill(
@@ -140,11 +140,11 @@ struct RecorderPreviewCard: View {
                             endRadius: 118
                         )
                     )
-                    .frame(width: 159, height: 159)
+                    .frame(width: 166, height: 166)
                     .blendMode(.screen)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 53, weight: .regular))
+                    .font(.system(size: 56, weight: .semibold))
                     .foregroundStyle(.white)
             }
         }
@@ -276,7 +276,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF3366), Color(hex: 0x7E1BFF), Color(hex: 0x3428D8)],
+            colors: [Color(hex: 0xFF2D6D), Color(hex: 0xA12BFF), Color(hex: 0x302CDB)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
