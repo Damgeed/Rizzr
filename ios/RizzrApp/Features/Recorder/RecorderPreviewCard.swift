@@ -10,6 +10,7 @@ struct RecorderPreviewCard: View {
     @State private var previewReplyID: String?
     @State private var previewPlayer: AVAudioPlayer?
     @State private var previewError: String?
+    @State private var previewingReplyText: String?
 
     var body: some View {
         GlassCard {
@@ -189,6 +190,7 @@ struct RecorderPreviewCard: View {
 
     private func preview(_ reply: ReplySuggestion) {
         previewError = nil
+        previewingReplyText = reply.text
         Task {
             do {
                 let url = try await viewModel.generateAudioPreview(for: reply.text)
@@ -199,9 +201,20 @@ struct RecorderPreviewCard: View {
                     previewPlayer = player
                     previewReplyID = reply.id
                 }
+                let duration = max(player.duration, 0.5)
+                try await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                await MainActor.run {
+                    if previewReplyID == reply.id {
+                        previewReplyID = nil
+                    }
+                    if previewingReplyText == reply.text {
+                        previewingReplyText = nil
+                    }
+                }
             } catch {
                 await MainActor.run {
                     previewError = error.localizedDescription
+                    previewingReplyText = nil
                 }
             }
         }
@@ -232,6 +245,7 @@ private struct ReplyCard: View {
                 }
                 .buttonStyle(.plain)
                 .foregroundStyle(isPreviewing ? RizzrColor.orbCyan : RizzrColor.textMuted)
+                .disabled(isPreviewing)
                 .accessibilityLabel(isPreviewing ? "Playing audio preview" : "Preview audio")
 
                 Button(action: onCopy) {
@@ -255,6 +269,12 @@ private struct ReplyCard: View {
                 .font(RizzrTypography.body)
                 .foregroundStyle(RizzrColor.textPrimary)
                 .textSelection(.enabled)
+
+            if previewingReplyText == reply.text {
+                Text("Playing")
+                    .font(RizzrTypography.caption)
+                    .foregroundStyle(RizzrColor.orbCyan)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(RizzrSpacing.md)

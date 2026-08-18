@@ -92,7 +92,7 @@ async def root():
             "service": "Rizzr API",
             "version": "1.0.0",
             "docs": "/docs" if settings.debug else "disabled",
-            "endpoints": ["/health", "/api/transcribe", "/api/generate"],
+            "endpoints": ["/health", "/api/transcribe", "/api/generate", "/api/tts"],
         },
     }
 
