@@ -38,11 +38,11 @@ struct ModeCarouselView: View {
                         RizzrHaptics.selection()
                     } label: {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 18).weight(selection.wrappedValue == mode ? .black : .heavy))
+                            .font(.custom("Outfit", fixedSize: 20).weight(selection.wrappedValue == mode ? .black : .heavy))
                             .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF006E) : Color(hex: 0x83838D))
                             .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF006E).opacity(0.44) : .clear, radius: 12, x: 0, y: 6)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 39)
+                            .frame(height: 43)
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)

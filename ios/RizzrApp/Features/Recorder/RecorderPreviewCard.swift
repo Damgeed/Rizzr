@@ -22,8 +22,8 @@ struct RecorderPreviewCard: View {
             recordButton
 
             Text(labelText)
-                .font(.custom("Outfit", fixedSize: 13).weight(.black))
-                .tracking(2.65)
+                .font(.custom("Outfit", fixedSize: 17).weight(.black))
+                .tracking(3.05)
                 .foregroundStyle(Color(hex: 0xB7B7C6))
                 .shadow(color: .black.opacity(0.8), radius: 12, x: 0, y: 6)
                 .padding(.top, 31)
@@ -45,7 +45,7 @@ struct RecorderPreviewCard: View {
                 }
                 .buttonStyle(RizzrOutlineActionStyle())
             }
-            .font(.custom("Outfit", fixedSize: 16.5).weight(.heavy))
+            .font(.custom("Outfit", fixedSize: 17.5).weight(.heavy))
             .foregroundStyle(.white)
             .padding(.top, 62)
             .disabled(isBusy || viewModel.state == .recording)
@@ -127,7 +127,7 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 214, height: 214)
+                    .frame(width: 184, height: 184)
                     .overlay(
                         Circle()
                             .stroke(
@@ -139,8 +139,8 @@ struct RecorderPreviewCard: View {
                                 lineWidth: 1.2
                             )
                     )
-                    .shadow(color: Color(hex: 0xFF2F8F).opacity(0.60), radius: 30, x: -10, y: -6)
-                    .shadow(color: Color(hex: 0x7B18FF).opacity(0.76), radius: 50, x: 16, y: 24)
+                    .shadow(color: Color(hex: 0xFF2F8F).opacity(0.68), radius: 28, x: -10, y: -6)
+                    .shadow(color: Color(hex: 0x7B18FF).opacity(0.82), radius: 44, x: 15, y: 22)
                     .shadow(color: Color(hex: 0xFF0A78).opacity(0.18), radius: 8, x: 0, y: 2)
 
                 Circle()
@@ -149,14 +149,14 @@ struct RecorderPreviewCard: View {
                             colors: [.white.opacity(0.18), .clear],
                             center: .topLeading,
                             startRadius: 4,
-                            endRadius: 118
+                            endRadius: 104
                         )
                     )
-                    .frame(width: 214, height: 214)
+                    .frame(width: 184, height: 184)
                     .blendMode(.screen)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
-                    .font(.system(size: viewModel.state == .recording ? 70 : 82, weight: .black))
+                    .font(.system(size: viewModel.state == .recording ? 58 : 66, weight: .black))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
             }
@@ -313,12 +313,12 @@ private struct FeatureBadge: View {
     var body: some View {
         VStack(spacing: 9) {
             Image(systemName: icon)
-                .font(.system(size: 24, weight: .semibold))
+                .font(.system(size: 25, weight: .bold))
                 .symbolRenderingMode(.monochrome)
                 .foregroundStyle(Color(hex: 0xA5A2AE))
                 .frame(height: 27)
             Text(title)
-                .font(.custom("Outfit", fixedSize: 13.5).weight(.heavy))
+                .font(.custom("Outfit", fixedSize: 14.5).weight(.heavy))
                 .foregroundStyle(Color(hex: 0xA5A2AE))
                 .lineLimit(1)
                 .minimumScaleFactor(0.82)
@@ -342,7 +342,7 @@ private struct RizzrGradientActionStyle: ButtonStyle {
             .lineLimit(1)
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 66)
+            .frame(height: 68)
             .background(RizzrReferenceGradient.gradient, in: Capsule())
             .overlay(Capsule().stroke(Color.white.opacity(0.12), lineWidth: 1))
             .shadow(color: Color(hex: 0xFF2F8F).opacity(configuration.isPressed ? 0.20 : 0.34), radius: 18, x: 0, y: 10)
@@ -358,7 +358,7 @@ private struct RizzrOutlineActionStyle: ButtonStyle {
             .lineLimit(1)
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 66)
+            .frame(height: 68)
             .background(Color(hex: 0x0B0C12).opacity(configuration.isPressed ? 1 : 0.96), in: Capsule())
             .overlay(Capsule().stroke(Color(hex: 0x343640), lineWidth: 1.4))
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
