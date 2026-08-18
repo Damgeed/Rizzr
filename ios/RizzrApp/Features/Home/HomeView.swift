@@ -13,8 +13,8 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 header
                     .padding(.horizontal, 25)
-                    .padding(.top, 10)
-                    .padding(.bottom, 30)
+                    .padding(.top, 8)
+                    .padding(.bottom, 26)
 
                 ModeCarouselView(
                     featureFlags: environment.featureFlags,
@@ -36,14 +36,15 @@ struct HomeView: View {
             Text("Rizzr")
                 .font(RizzrTypography.logo)
                 .foregroundStyle(.white)
-                .tracking(-0.9)
+                .tracking(-1.25)
+                .shadow(color: Color(hex: 0xFF1F6F).opacity(0.16), radius: 18, x: 0, y: 8)
 
             Spacer()
 
             HStack(spacing: 18) {
                 Button { showSavedReplies = true } label: {
                     Image(systemName: "clock")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.system(size: 25, weight: .bold))
                         .foregroundStyle(.white)
                         .frame(width: 28, height: 34)
                 }
@@ -52,7 +53,7 @@ struct HomeView: View {
 
                 Button { showSettings = true } label: {
                     Image(systemName: "gearshape")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.system(size: 25, weight: .bold))
                         .foregroundStyle(.white)
                         .frame(width: 28, height: 34)
                 }
@@ -66,25 +67,25 @@ struct HomeView: View {
 private struct RizzrReferenceBackground: View {
     var body: some View {
         ZStack {
-            Color(hex: 0x010103)
+            Color(hex: 0x000002)
 
             LinearGradient(
-                colors: [Color(hex: 0x06050A), Color(hex: 0x020204), Color.black],
+                colors: [Color(hex: 0x07040D), Color(hex: 0x010103), Color.black],
                 startPoint: .top,
                 endPoint: .bottom
             )
 
             Circle()
-                .fill(RadialGradient(colors: [Color(hex: 0x45119B).opacity(0.38), .clear], center: .center, startRadius: 0, endRadius: 230))
-                .frame(width: 390, height: 390)
-                .blur(radius: 78)
-                .offset(x: 156, y: 372)
+                .fill(RadialGradient(colors: [Color(hex: 0x7B18FF).opacity(0.30), .clear], center: .center, startRadius: 0, endRadius: 250))
+                .frame(width: 430, height: 430)
+                .blur(radius: 86)
+                .offset(x: 160, y: 356)
 
             Circle()
-                .fill(RadialGradient(colors: [Color(hex: 0x062B66).opacity(0.24), .clear], center: .center, startRadius: 0, endRadius: 205))
-                .frame(width: 340, height: 340)
-                .blur(radius: 82)
-                .offset(x: -178, y: 388)
+                .fill(RadialGradient(colors: [Color(hex: 0xFF1F6F).opacity(0.16), Color(hex: 0x090016).opacity(0.05), .clear], center: .center, startRadius: 0, endRadius: 220))
+                .frame(width: 360, height: 360)
+                .blur(radius: 88)
+                .offset(x: -172, y: 382)
         }
         .ignoresSafeArea()
         .accessibilityHidden(true)

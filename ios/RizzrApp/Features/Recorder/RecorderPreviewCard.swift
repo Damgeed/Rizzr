@@ -22,11 +22,11 @@ struct RecorderPreviewCard: View {
             recordButton
 
             Text(labelText)
-                .font(.custom("Outfit", fixedSize: 13).weight(.heavy))
-                .tracking(1.95)
-                .foregroundStyle(Color(hex: 0x9A9AA5))
-                .shadow(color: .black.opacity(0.75), radius: 10, x: 0, y: 5)
-                .padding(.top, 28)
+                .font(.custom("Outfit", fixedSize: 13).weight(.black))
+                .tracking(2.15)
+                .foregroundStyle(Color(hex: 0xA8A8B3))
+                .shadow(color: .black.opacity(0.8), radius: 12, x: 0, y: 6)
+                .padding(.top, 30)
 
             readyAction
                 .padding(.top, 22)
@@ -47,7 +47,7 @@ struct RecorderPreviewCard: View {
             }
             .font(.custom("Outfit", fixedSize: 15).weight(.semibold))
             .foregroundStyle(.white)
-            .padding(.top, 86)
+            .padding(.top, 82)
             .disabled(isBusy || viewModel.state == .recording)
             .opacity(shouldShowImportAction ? 1 : 0.45)
 
@@ -127,9 +127,10 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 174, height: 174)
-                    .shadow(color: Color(hex: 0xFF1F6F).opacity(0.48), radius: 24, x: -8, y: -5)
-                    .shadow(color: Color(hex: 0x6B18FF).opacity(0.52), radius: 36, x: 12, y: 17)
+                    .frame(width: 182, height: 182)
+                    .overlay(Circle().stroke(Color.white.opacity(0.12), lineWidth: 1))
+                    .shadow(color: Color(hex: 0xFF1F79).opacity(0.58), radius: 28, x: -9, y: -6)
+                    .shadow(color: Color(hex: 0x5B12FF).opacity(0.62), radius: 42, x: 14, y: 20)
 
                 Circle()
                     .fill(
@@ -140,12 +141,13 @@ struct RecorderPreviewCard: View {
                             endRadius: 118
                         )
                     )
-                    .frame(width: 174, height: 174)
+                    .frame(width: 182, height: 182)
                     .blendMode(.screen)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 58, weight: .bold))
+                    .font(.system(size: 61, weight: .black))
                     .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.18), radius: 6, x: 0, y: 3)
             }
         }
         .buttonStyle(RecordButtonStyle())
@@ -276,7 +278,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF1F6F), Color(hex: 0xA92DFF), Color(hex: 0x4724F2)],
+            colors: [Color(hex: 0xFF1F79), Color(hex: 0xB321FF), Color(hex: 0x4A19FF)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -329,8 +331,8 @@ private struct RizzrGradientActionStyle: ButtonStyle {
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
             .frame(height: 56)
-            .background(RizzrReferenceGradient.gradient, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .shadow(color: Color(hex: 0xFF3366).opacity(configuration.isPressed ? 0.18 : 0.26), radius: 15, x: 0, y: 8)
+            .background(RizzrReferenceGradient.gradient, in: RoundedRectangle(cornerRadius: 17, style: .continuous))
+            .shadow(color: Color(hex: 0xFF1F79).opacity(configuration.isPressed ? 0.20 : 0.32), radius: 17, x: 0, y: 9)
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
@@ -344,8 +346,8 @@ private struct RizzrOutlineActionStyle: ButtonStyle {
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
             .frame(height: 56)
-            .background(Color(hex: 0x101014).opacity(configuration.isPressed ? 0.92 : 0.76), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.white.opacity(0.18), lineWidth: 1))
+            .background(Color(hex: 0x08080D).opacity(configuration.isPressed ? 0.96 : 0.88), in: RoundedRectangle(cornerRadius: 17, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 17, style: .continuous).stroke(Color.white.opacity(0.23), lineWidth: 1.1))
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
