@@ -114,7 +114,7 @@ struct RecorderPreviewCard: View {
                     )
                     .frame(width: 194, height: 194)
 
-                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
+                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
                     .font(.system(size: 48, weight: .medium))
                     .foregroundStyle(RizzrColor.orbCoral)
             }

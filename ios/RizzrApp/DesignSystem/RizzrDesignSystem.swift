@@ -35,32 +35,16 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
-    static let logo = outfit(size: 29, weight: .bold, textStyle: .title1)
-    static let hero = outfit(size: 39, weight: .bold, textStyle: .largeTitle)
-    static let display = outfit(size: 32, weight: .bold, textStyle: .largeTitle)
-    static let title = outfit(size: 24, weight: .bold, textStyle: .title2)
-    static let body = outfit(size: 16, weight: .regular, textStyle: .body)
-    static let bodyStrong = outfit(size: 16, weight: .semibold, textStyle: .body)
-    static let caption = outfit(size: 12, weight: .semibold, textStyle: .caption1)
+    static let logo = outfit(size: 29, weight: .bold)
+    static let hero = outfit(size: 39, weight: .bold)
+    static let display = outfit(size: 32, weight: .bold)
+    static let title = outfit(size: 24, weight: .bold)
+    static let body = outfit(size: 16, weight: .regular)
+    static let bodyStrong = outfit(size: 16, weight: .semibold)
+    static let caption = outfit(size: 12, weight: .semibold)
 
-    static func outfit(size: CGFloat, weight: Font.Weight, textStyle: UIFont.TextStyle = .body) -> Font {
-        #if canImport(UIKit)
-        let uiWeight: UIFont.Weight
-        if weight == .bold { uiWeight = .bold }
-        else if weight == .semibold { uiWeight = .semibold }
-        else if weight == .medium { uiWeight = .medium }
-        else if weight == .light { uiWeight = .light }
-        else { uiWeight = .regular }
-
-        let descriptor = UIFontDescriptor(fontAttributes: [
-            .family: "Outfit",
-            .traits: [UIFontDescriptor.TraitKey.weight: uiWeight]
-        ])
-        let font = UIFont(descriptor: descriptor, size: size)
-        return Font(UIFontMetrics(forTextStyle: textStyle).scaledFont(for: font))
-        #else
-        return .custom("Outfit-Thin", size: size).weight(weight)
-        #endif
+    static func outfit(size: CGFloat, weight: Font.Weight) -> Font {
+        .custom("Outfit-Thin", fixedSize: size).weight(weight)
     }
 }
 

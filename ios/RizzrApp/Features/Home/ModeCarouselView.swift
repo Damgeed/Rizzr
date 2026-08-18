@@ -208,15 +208,39 @@ private struct GhostPicker: View {
     @Binding var period: String
     var body: some View {
         HStack(spacing: 0) {
-            Picker("Day", selection: $day) { Text("Today").tag("Today"); Text("Tomorrow").tag("Tomorrow") }
+            GhostPickerColumn(primary: day, secondary: day == "Today" ? "Tomorrow" : "Today") {
+                day = day == "Today" ? "Tomorrow" : "Today"
+            }
             Divider().overlay(Color.white.opacity(0.24)).frame(height: 72)
-            Picker("Time", selection: $hour) { Text("9:41").tag("9:41"); Text("10:42").tag("10:42") }
+            GhostPickerColumn(primary: hour, secondary: hour == "9:41" ? "10:42" : "9:41") {
+                hour = hour == "9:41" ? "10:42" : "9:41"
+            }
             Divider().overlay(Color.white.opacity(0.24)).frame(height: 72)
-            Picker("Period", selection: $period) { Text("AM").tag("AM"); Text("PM").tag("PM") }
+            GhostPickerColumn(primary: period, secondary: period == "AM" ? "PM" : "AM") {
+                period = period == "AM" ? "PM" : "AM"
+            }
         }
-        .pickerStyle(.wheel).frame(height: 108).clipped()
+        .frame(height: 108).clipped()
         .background(Color.black.opacity(0.15), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.white.opacity(0.28)))
+    }
+}
+
+private struct GhostPickerColumn: View {
+    let primary: String
+    let secondary: String
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 15) {
+                Text(primary).font(RizzrTypography.bodyStrong).foregroundStyle(.white)
+                Text(secondary).font(RizzrTypography.body).foregroundStyle(Color.white.opacity(0.48))
+            }
+            .monospacedDigit()
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 

@@ -13,7 +13,7 @@ struct HomeView: View {
                 header
                     .padding(.horizontal, 25)
                     .padding(.top, 10)
-                    .padding(.bottom, 18)
+                    .padding(.bottom, 50)
                 ModeCarouselView(
                     featureFlags: environment.featureFlags,
                     recorderViewModel: recorderViewModel,
