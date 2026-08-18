@@ -22,9 +22,9 @@ struct RecorderPreviewCard: View {
             recordButton
 
             Text(labelText)
-                .font(.custom("Outfit", fixedSize: 17).weight(.black))
-                .tracking(3.05)
-                .foregroundStyle(Color(hex: 0xB7B7C6))
+                .font(.custom("Outfit", fixedSize: 16).weight(.black))
+                .tracking(3.35)
+                .foregroundStyle(Color(hex: 0xC2C1CF))
                 .shadow(color: .black.opacity(0.8), radius: 12, x: 0, y: 6)
                 .padding(.top, 31)
 
@@ -45,7 +45,7 @@ struct RecorderPreviewCard: View {
                 }
                 .buttonStyle(RizzrOutlineActionStyle())
             }
-            .font(.custom("Outfit", fixedSize: 17.5).weight(.heavy))
+            .font(.custom("Outfit", fixedSize: 17).weight(.black))
             .foregroundStyle(.white)
             .padding(.top, 62)
             .disabled(isBusy || viewModel.state == .recording)
@@ -127,7 +127,7 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 184, height: 184)
+                    .frame(width: 200, height: 200)
                     .overlay(
                         Circle()
                             .stroke(
@@ -139,9 +139,9 @@ struct RecorderPreviewCard: View {
                                 lineWidth: 1.2
                             )
                     )
-                    .shadow(color: Color(hex: 0xFF2F8F).opacity(0.68), radius: 28, x: -10, y: -6)
-                    .shadow(color: Color(hex: 0x7B18FF).opacity(0.82), radius: 44, x: 15, y: 22)
-                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.18), radius: 8, x: 0, y: 2)
+                    .shadow(color: Color(hex: 0xFF006E).opacity(0.74), radius: 31, x: -11, y: -7)
+                    .shadow(color: Color(hex: 0x5B00FF).opacity(0.88), radius: 48, x: 16, y: 24)
+                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.24), radius: 10, x: 0, y: 2)
 
                 Circle()
                     .fill(
@@ -149,14 +149,19 @@ struct RecorderPreviewCard: View {
                             colors: [.white.opacity(0.18), .clear],
                             center: .topLeading,
                             startRadius: 4,
-                            endRadius: 104
+                            endRadius: 112
                         )
                     )
-                    .frame(width: 184, height: 184)
+                    .frame(width: 200, height: 200)
                     .blendMode(.screen)
 
+                Circle()
+                    .stroke(Color.white.opacity(0.10), lineWidth: 8)
+                    .frame(width: 174, height: 174)
+                    .blur(radius: 0.5)
+
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
-                    .font(.system(size: viewModel.state == .recording ? 58 : 66, weight: .black))
+                    .font(.system(size: viewModel.state == .recording ? 62 : 72, weight: .black))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
             }
@@ -289,7 +294,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF2F8F), Color(hex: 0xD318D9), Color(hex: 0x8418FF)],
+            colors: [Color(hex: 0xFF006E), Color(hex: 0xC100FF), Color(hex: 0x4A00FF)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -313,13 +318,13 @@ private struct FeatureBadge: View {
     var body: some View {
         VStack(spacing: 9) {
             Image(systemName: icon)
-                .font(.system(size: 25, weight: .bold))
+                .font(.system(size: 25, weight: .heavy))
                 .symbolRenderingMode(.monochrome)
-                .foregroundStyle(Color(hex: 0xA5A2AE))
+                .foregroundStyle(Color(hex: 0xB1AFBB))
                 .frame(height: 27)
             Text(title)
-                .font(.custom("Outfit", fixedSize: 14.5).weight(.heavy))
-                .foregroundStyle(Color(hex: 0xA5A2AE))
+                .font(.custom("Outfit", fixedSize: 14.5).weight(.black))
+                .foregroundStyle(Color(hex: 0xB1AFBB))
                 .lineLimit(1)
                 .minimumScaleFactor(0.82)
         }
