@@ -72,6 +72,7 @@ Rizzr iOS should be treated as a production product from day one:
 - Reply cards support copy/share actions, copied-state feedback, and accessibility labels.
 - App icon and in-app BrandMark are now tuned toward a cleaner, more premium look.
 - The icon is intentionally minimal and professional; the brand mark is used in Home and Settings.
+- Local saved-reply vault persists favorites on-device and is accessible from Home and Settings.
 - TTS preview is wired behind the backend `/api/tts` boundary and reply cards can fetch/play an audio preview.
 - No App Store, account, Echo, Ghost, or Vibe production claims are wired yet.
 

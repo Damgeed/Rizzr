@@ -34,6 +34,7 @@
 - [x] Reply card copy/share + haptics
 - [x] Settings sheet with build/API info
 - [x] Domain remains swappable via build settings
+- [x] Local saved replies/vault
 - [x] TTS preview wiring
 - [x] Error states and retry UX
 - [x] Accessibility labels

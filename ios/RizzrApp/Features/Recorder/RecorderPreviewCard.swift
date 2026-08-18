@@ -6,6 +6,7 @@ import UIKit
 
 struct RecorderPreviewCard: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
+    @ObservedObject var savedRepliesStore: SavedRepliesStore
     @State private var copiedReplyID: String?
     @State private var previewReplyID: String?
     @State private var previewPlayer: AVAudioPlayer?
@@ -118,8 +119,10 @@ struct RecorderPreviewCard: View {
                         reply: reply,
                         isCopied: copiedReplyID == reply.id,
                         isPreviewing: previewReplyID == reply.id,
+                        isSaved: savedRepliesStore.isSaved(reply),
                         onCopy: { copy(reply) },
-                        onPreview: { preview(reply) }
+                        onPreview: { preview(reply) },
+                        onToggleSaved: { savedRepliesStore.toggle(reply) }
                     )
                 }
             }
@@ -225,8 +228,10 @@ private struct ReplyCard: View {
     let reply: ReplySuggestion
     let isCopied: Bool
     let isPreviewing: Bool
+    let isSaved: Bool
     let onCopy: () -> Void
     let onPreview: () -> Void
+    let onToggleSaved: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: RizzrSpacing.sm) {
@@ -256,6 +261,14 @@ private struct ReplyCard: View {
                 .buttonStyle(.plain)
                 .foregroundStyle(isCopied ? RizzrColor.orbCyan : RizzrColor.textMuted)
                 .accessibilityLabel(isCopied ? "Copied reply" : "Copy reply")
+
+                Button(action: onToggleSaved) {
+                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                        .font(.system(size: 15, weight: .semibold))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(isSaved ? RizzrColor.orbCoral : RizzrColor.textMuted)
+                .accessibilityLabel(isSaved ? "Remove saved reply" : "Save reply")
 
                 ShareLink(item: reply.text) {
                     Image(systemName: "square.and.arrow.up")

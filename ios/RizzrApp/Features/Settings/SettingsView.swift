@@ -8,6 +8,7 @@ struct SettingsView: View {
     @State private var copiedValue: String?
     @State private var deleteAfterReply = true
     @State private var voiceReplies = false
+    @State private var showSavedReplies = false
 
     var body: some View {
         NavigationStack {
@@ -23,6 +24,10 @@ struct SettingsView: View {
             .background(RizzrBackground())
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showSavedReplies) {
+                SavedRepliesView()
+                    .environmentObject(environment.savedRepliesStore)
+            }
         }
     }
 
@@ -98,7 +103,27 @@ struct SettingsView: View {
             }
             .tint(RizzrColor.orbCoral)
 
-            nativeRow(icon: "bolt.heart.fill", title: "Default mode", value: "Finesse")
+            Button {
+                showSavedReplies = true
+            } label: {
+                HStack(spacing: RizzrSpacing.sm) {
+                    Image(systemName: "bookmark.fill")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(RizzrColor.orbCoral)
+                        .frame(width: 24)
+                    Text("Saved replies")
+                        .font(RizzrTypography.body)
+                        .foregroundStyle(RizzrColor.textPrimary)
+                    Spacer()
+                    Text("\(environment.savedRepliesStore.savedReplies.count)")
+                        .font(RizzrTypography.caption)
+                        .foregroundStyle(RizzrColor.textMuted)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(RizzrColor.textMuted.opacity(0.7))
+                }
+            }
+            .buttonStyle(.plain)
             nativeRow(icon: "globe", title: "Language", value: "Auto")
         } header: {
             sectionLabel("Preferences")

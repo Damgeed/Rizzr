@@ -4,6 +4,7 @@ struct HomeView: View {
     @EnvironmentObject private var environment: AppEnvironment
     @StateObject private var recorderViewModel = VoiceRecorderViewModel()
     @State private var showSettings = false
+    @State private var showSavedReplies = false
 
     var body: some View {
         NavigationStack {
@@ -14,7 +15,10 @@ struct HomeView: View {
                     VStack(spacing: RizzrSpacing.lg) {
                         header
                         ModeCarouselView(featureFlags: environment.featureFlags)
-                        RecorderPreviewCard(viewModel: recorderViewModel)
+                        RecorderPreviewCard(
+                            viewModel: recorderViewModel,
+                            savedRepliesStore: environment.savedRepliesStore
+                        )
                     }
                     .padding(.horizontal, RizzrSpacing.md)
                     .padding(.top, RizzrSpacing.lg)
@@ -23,7 +27,14 @@ struct HomeView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        showSavedReplies = true
+                    } label: {
+                        Image(systemName: "bookmark.fill")
+                    }
+                    .accessibilityLabel("Open saved replies")
+
                     Button {
                         showSettings = true
                     } label: {
@@ -35,6 +46,10 @@ struct HomeView: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
                     .environmentObject(environment)
+            }
+            .sheet(isPresented: $showSavedReplies) {
+                SavedRepliesView()
+                    .environmentObject(environment.savedRepliesStore)
             }
         }
         .task {

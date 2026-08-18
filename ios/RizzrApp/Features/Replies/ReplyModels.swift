@@ -7,7 +7,7 @@ struct ReplySuggestion: Identifiable, Codable, Equatable {
         case sweet
     }
 
-    var id: String { style.rawValue }
+    var id: String { "\(style.rawValue)-\(text)" }
 
     let style: Style
     let text: String
