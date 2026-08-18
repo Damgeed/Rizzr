@@ -31,8 +31,10 @@ targets:
         INFOPLIST_FILE: RizzrApp/Resources/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_PREVIEWS: YES
+        TARGETED_DEVICE_FAMILY: "1"
     postCompileScripts:
       - name: SwiftLint
+        basedOnDependencyAnalysis: false
         script: |
           if command -v swiftlint >/dev/null; then
             swiftlint

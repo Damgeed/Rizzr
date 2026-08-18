@@ -23,7 +23,7 @@ struct RizzrBackground: View {
                 aura(RizzrColor.orbViolet, diameter: width * 0.60, opacity: 0.50)
                     .position(
                         x: width * 0.80 + drift(width * 0.60, amount: 0.05),
-                        y: height * 0.80 + width * 0.30 + drift(width * 0.60, amount: -0.05)
+                        y: height * 1.20 - width * 0.30 + drift(width * 0.60, amount: -0.05)
                     )
 
                 // CSS: 40vw, top 40%, left 40%.
@@ -37,7 +37,7 @@ struct RizzrBackground: View {
             .onAppear { isFloating = !reduceMotion }
         }
         .ignoresSafeArea()
-        .overlay { RizzrNoiseOverlay().opacity(0.055).ignoresSafeArea() }
+        .overlay { RizzrNoiseOverlay().opacity(0.14).ignoresSafeArea() }
         .accessibilityHidden(true)
     }
 
@@ -70,10 +70,10 @@ private struct RizzrNoiseOverlay: View {
     var body: some View {
         Canvas { context, size in
             var generator = SeededGenerator(seed: 0x52495A5A52)
-            for _ in 0..<Int((size.width * size.height) / 160) {
+            for _ in 0..<Int((size.width * size.height) / 28) {
                 let x = CGFloat.random(in: 0...size.width, using: &generator)
                 let y = CGFloat.random(in: 0...size.height, using: &generator)
-                let alpha = Double.random(in: 0.04...0.16, using: &generator)
+                let alpha = Double.random(in: 0.025...0.11, using: &generator)
                 context.fill(Path(CGRect(x: x, y: y, width: 0.7, height: 0.7)), with: .color(.white.opacity(alpha)))
             }
         }

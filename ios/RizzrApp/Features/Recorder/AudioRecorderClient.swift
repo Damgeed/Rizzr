@@ -37,7 +37,7 @@ final class AVAudioRecorderClient: NSObject, AudioRecorderClient, AVAudioRecorde
 
     func requestPermission() async -> Bool {
         await withCheckedContinuation { continuation in
-            AVAudioSession.sharedInstance().requestRecordPermission { allowed in
+            AVAudioApplication.requestRecordPermission { allowed in
                 continuation.resume(returning: allowed)
             }
         }
@@ -47,7 +47,7 @@ final class AVAudioRecorderClient: NSObject, AudioRecorderClient, AVAudioRecorde
         guard await requestPermission() else { throw AudioRecorderError.permissionDenied }
 
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.playAndRecord, mode: .spokenAudio, options: [.defaultToSpeaker, .allowBluetooth])
+        try session.setCategory(.playAndRecord, mode: .spokenAudio, options: [.defaultToSpeaker, .allowBluetoothHFP])
         try session.setActive(true)
 
         let url = FileManager.default.temporaryDirectory
