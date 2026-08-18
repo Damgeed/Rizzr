@@ -62,7 +62,9 @@ struct RizzrBackground: View {
             )
             .frame(width: diameter, height: diameter)
             .blur(radius: 80)
-            .drawingGroup(opaque: false, colorMode: .linear)
+            // CSS gradients blend in the display color space; non-linear rendering
+            // keeps the coral/violet/cyan falloff aligned with the web artwork.
+            .drawingGroup(opaque: false, colorMode: .nonLinear)
     }
 }
 

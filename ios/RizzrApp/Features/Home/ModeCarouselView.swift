@@ -48,12 +48,27 @@ struct ModeCarouselView: View {
 }
 
 private struct ScreenLayout<Content: View>: View {
+    let horizontalPadding: CGFloat
+    let topPadding: CGFloat
     let content: Content
-    init(@ViewBuilder content: () -> Content) { self.content = content() }
+    init(
+        horizontalPadding: CGFloat,
+        topPadding: CGFloat = 66,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.horizontalPadding = horizontalPadding
+        self.topPadding = topPadding
+        self.content = content()
+    }
     var body: some View {
         ScrollView(showsIndicators: false) {
-            content.frame(maxWidth: .infinity).padding(.horizontal, 26).padding(.top, 58).padding(.bottom, 36)
+            content
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, horizontalPadding)
+                .padding(.top, topPadding)
+                .padding(.bottom, 36)
         }
+        .scrollBounceBehavior(.basedOnSize)
     }
 }
 
@@ -78,7 +93,7 @@ private struct FinesseModeView: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @ObservedObject var savedRepliesStore: SavedRepliesStore
     var body: some View {
-        ScreenLayout {
+        ScreenLayout(horizontalPadding: 24) {
             VStack(spacing: 48) {
                 ModeTitle("Perfect replies,\nzero panic.")
                 RecorderPreviewCard(viewModel: viewModel, savedRepliesStore: savedRepliesStore)
@@ -90,7 +105,7 @@ private struct FinesseModeView: View {
 private struct EchoModeView: View {
     @State private var showTextInput = false
     var body: some View {
-        ScreenLayout {
+        ScreenLayout(horizontalPadding: 36) {
             VStack(spacing: 0) {
                 ModeTitle("Sound like\nyou.")
                 SpectrumWaveform().frame(height: 118).padding(.top, 72)
@@ -109,10 +124,10 @@ private struct GhostModeView: View {
     @State private var hour = "9:41"
     @State private var period = "AM"
     var body: some View {
-        ScreenLayout {
+        ScreenLayout(horizontalPadding: 30) {
             VStack(spacing: 0) {
                 ModeTitle("Your exit,\nright on cue.", subtitle: "Schedule a fake incoming call.")
-                GhostPicker(day: $day, hour: $hour, period: $period).padding(.top, 45)
+                GhostPicker(day: $day, hour: $hour, period: $period).padding(.top, 37)
                 OutlinePill(title: "Set fake call", icon: "phone") { RizzrHaptics.success() }.padding(.top, 68)
                 Label("Calls are local to your device.\nNo one is notified.", systemImage: "shield")
                     .font(RizzrTypography.caption).foregroundStyle(Color.white.opacity(0.5)).padding(.top, 34)
@@ -126,7 +141,7 @@ private struct VibeModeView: View {
     @State private var showTextInput = false
     @State private var showImporter = false
     var body: some View {
-        ScreenLayout {
+        ScreenLayout(horizontalPadding: 24) {
             VStack(spacing: 0) {
                 ModeTitle("Read the\nroom.")
                 AudioOrb(isRecording: isRecording) {

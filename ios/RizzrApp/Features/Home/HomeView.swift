@@ -42,7 +42,7 @@ struct HomeView: View {
                 Image(systemName: "gearshape")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.white)
-                    .frame(width: 42, height: 42)
+                    .frame(width: 40, height: 40)
                     .background(Color.white.opacity(0.055), in: Circle())
                     .overlay(Circle().stroke(Color.white.opacity(0.07)))
             }
