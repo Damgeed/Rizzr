@@ -49,7 +49,7 @@ final class RizzrAPIClient {
     func transcribeRecording(at fileURL: URL) async throws -> TranscribeResponse {
         let audioData = try Data(contentsOf: fileURL)
         let boundary = "RizzrBoundary-\(UUID().uuidString)"
-        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/transcribe"))
+        var request = URLRequest(url: configuration.baseURL.appendingAPIPath("/api/transcribe"))
         request.httpMethod = "POST"
         request.timeoutInterval = configuration.timeout
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -59,7 +59,7 @@ final class RizzrAPIClient {
     }
 
     func generateReplies(_ requestBody: GenerateRepliesRequest) async throws -> GenerateRepliesResponse {
-        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/generate"))
+        var request = URLRequest(url: configuration.baseURL.appendingAPIPath("/api/generate"))
         request.httpMethod = "POST"
         request.timeoutInterval = configuration.timeout
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -69,7 +69,7 @@ final class RizzrAPIClient {
     }
 
     func generateAudioPreview(for text: String) async throws -> URL {
-        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/tts"))
+        var request = URLRequest(url: configuration.baseURL.appendingAPIPath("/api/tts"))
         request.httpMethod = "POST"
         request.timeoutInterval = configuration.timeout
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -122,11 +122,8 @@ private extension Bundle {
 }
 
 private extension URL {
-    func appending(path: String) -> URL {
-        if #available(iOS 16.0, *) {
-            return appending(path: path.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
-        }
-        return appendingPathComponent(path.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
+    func appendingAPIPath(_ path: String) -> URL {
+        appendingPathComponent(path.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
     }
 }
 
