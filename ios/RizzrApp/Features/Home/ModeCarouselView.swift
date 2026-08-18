@@ -65,6 +65,8 @@ private struct ModeTitle: View {
         VStack(spacing: 44) {
             Text(text).font(RizzrTypography.hero).foregroundStyle(.white).multilineTextAlignment(.center)
                 .tracking(-1.25).lineSpacing(-5)
+                .minimumScaleFactor(0.78)
+                .accessibilityAddTraits(.isHeader)
             if let subtitle {
                 Text(subtitle).font(RizzrTypography.body).foregroundStyle(Color.white.opacity(0.62)).multilineTextAlignment(.center)
             }
@@ -171,13 +173,26 @@ private struct AudioOrb: View {
 }
 
 private struct SpectrumWaveform: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let heights: [CGFloat] = [10,18,29,42,64,37,51,76,44,32,49,58,40,52,65,47,35,51,70,48,30,43,59,39,27,17,11]
     var body: some View {
-        HStack(spacing: 4) {
-            ForEach(Array(heights.enumerated()), id: \.offset) { index, height in
-                Capsule().fill(LinearGradient(colors: spectrumColor(index), startPoint: .bottom, endPoint: .top)).frame(width: 3, height: height)
+        TimelineView(.animation(minimumInterval: reduceMotion ? 1 : 1.0 / 24.0, paused: reduceMotion)) { timeline in
+            let phase = timeline.date.timeIntervalSinceReferenceDate
+            HStack(spacing: 4) {
+                ForEach(Array(heights.enumerated()), id: \.offset) { index, height in
+                    Capsule()
+                        .fill(LinearGradient(colors: spectrumColor(index), startPoint: .bottom, endPoint: .top))
+                        .frame(width: 3, height: animatedHeight(height, index: index, phase: phase))
+                }
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Seven second voice waveform")
+    }
+    private func animatedHeight(_ height: CGFloat, index: Int, phase: TimeInterval) -> CGFloat {
+        guard !reduceMotion else { return height }
+        let pulse = 0.90 + 0.10 * sin(phase * 2.4 + Double(index) * 0.54)
+        return max(8, height * pulse)
     }
     private func spectrumColor(_ index: Int) -> [Color] {
         let p = Double(index) / Double(heights.count)
@@ -224,7 +239,7 @@ struct OutlinePill: View {
             Label(title, systemImage: icon).font(RizzrTypography.bodyStrong).foregroundStyle(.white)
                 .frame(maxWidth: .infinity).frame(height: 52)
                 .background(Color.white.opacity(0.025), in: Capsule()).overlay(Capsule().stroke(Color.white.opacity(0.22)))
-        }.buttonStyle(PressScaleStyle())
+        }.buttonStyle(PressScaleStyle()).contentShape(Capsule())
     }
 }
 
@@ -260,7 +275,9 @@ private struct RizzrTextInputSheet: View {
 
 struct PressScaleStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.scaleEffect(configuration.isPressed ? 0.965 : 1)
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.965 : 1)
+            .brightness(configuration.isPressed ? 0.08 : 0)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
 }
