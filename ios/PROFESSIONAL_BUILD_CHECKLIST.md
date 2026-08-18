@@ -27,6 +27,7 @@
 - [x] Microphone permission UX
 - [x] Recording quality validation
 - [x] Upload recorded M4A to `/api/transcribe`
+- [x] Upload/import audio file
 - [x] Generate replies via `/api/generate`
 - [x] Reply cards: Flirty/Witty/Sweet
 - [x] Copy reply

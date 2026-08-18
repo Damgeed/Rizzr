@@ -68,6 +68,7 @@ Rizzr iOS should be treated as a production product from day one:
 - Backend exposes typed `/api/transcribe` and `/api/generate` endpoints with a shared `{success,data,error}` envelope.
 - iOS uploads recorded M4A audio as multipart form data to `/api/transcribe`.
 - iOS sends the returned transcript to `/api/generate`.
+- iOS can import an audio file through a native file picker and process it through the same transcribe/generate flow.
 - iOS renders the three returned reply cards: flirty, witty, sweet.
 - Reply cards support copy/share actions, copied-state feedback, and accessibility labels.
 - App icon and in-app BrandMark are now tuned toward a cleaner, more premium look.

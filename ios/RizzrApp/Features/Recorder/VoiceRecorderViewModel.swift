@@ -46,6 +46,30 @@ final class VoiceRecorderViewModel: ObservableObject {
         }
     }
 
+    func importRecording(from fileURL: URL) async {
+        let didStartAccessing = fileURL.startAccessingSecurityScopedResource()
+        defer {
+            if didStartAccessing {
+                fileURL.stopAccessingSecurityScopedResource()
+            }
+        }
+
+        do {
+            let importedURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent("rizzr-import-\(UUID().uuidString)")
+                .appendingPathExtension(fileURL.pathExtension.isEmpty ? "m4a" : fileURL.pathExtension)
+            if FileManager.default.fileExists(atPath: importedURL.path) {
+                try FileManager.default.removeItem(at: importedURL)
+            }
+            try FileManager.default.copyItem(at: fileURL, to: importedURL)
+            let recording = RecordingSession(url: importedURL, duration: 1.0, createdAt: Date())
+            lastRecording = recording
+            state = .ready(recording)
+        } catch {
+            state = .failed(error.localizedDescription)
+        }
+    }
+
     func generateReplies() async {
         guard let apiClient, let recording = lastRecording else { return }
         do {

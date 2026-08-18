@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import UniformTypeIdentifiers
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -12,12 +13,14 @@ struct RecorderPreviewCard: View {
     @State private var previewPlayer: AVAudioPlayer?
     @State private var previewError: String?
     @State private var previewingReplyText: String?
+    @State private var showAudioImporter = false
 
     var body: some View {
         GlassCard {
             VStack(spacing: RizzrSpacing.lg) {
                 header
                 recordButton
+                importAction
                 statusCopy
                 progressViz
                 repliesList
@@ -29,6 +32,19 @@ struct RecorderPreviewCard: View {
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+        .fileImporter(
+            isPresented: $showAudioImporter,
+            allowedContentTypes: [.audio, .mpeg4Audio, .mp3, .wav],
+            allowsMultipleSelection: false
+        ) { result in
+            switch result {
+            case .success(let urls):
+                guard let url = urls.first else { return }
+                Task { await viewModel.importRecording(from: url) }
+            case .failure(let error):
+                previewError = error.localizedDescription
+            }
         }
     }
 
@@ -72,6 +88,24 @@ struct RecorderPreviewCard: View {
         }
         .disabled(isBusy)
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
+    }
+
+    private var importAction: some View {
+        Button {
+            showAudioImporter = true
+        } label: {
+            Label("Upload audio", systemImage: "tray.and.arrow.up")
+                .font(RizzrTypography.caption)
+                .foregroundStyle(RizzrColor.textPrimary)
+                .padding(.horizontal, RizzrSpacing.md)
+                .padding(.vertical, RizzrSpacing.xs)
+                .background(RizzrColor.glassFill, in: Capsule())
+                .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .disabled(isBusy || viewModel.state == .recording)
+        .opacity(shouldShowImportAction ? 1 : 0)
+        .accessibilityLabel("Upload audio file")
     }
 
     private var statusCopy: some View {
@@ -171,6 +205,15 @@ struct RecorderPreviewCard: View {
             "Copy or preview audio when ready."
         case .failed(let message):
             message
+        }
+    }
+
+    private var shouldShowImportAction: Bool {
+        switch viewModel.state {
+        case .idle, .ready, .failed:
+            true
+        default:
+            false
         }
     }
 
