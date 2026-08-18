@@ -36,14 +36,14 @@ struct HomeView: View {
             Text("Rizzr")
                 .font(RizzrTypography.logo)
                 .foregroundStyle(.white)
-                .tracking(-0.35)
+                .tracking(-0.9)
 
             Spacer()
 
             HStack(spacing: 18) {
                 Button { showSavedReplies = true } label: {
-                    Image(systemName: "clock.arrow.circlepath")
-                        .font(.system(size: 23, weight: .medium))
+                    Image(systemName: "clock")
+                        .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: 28, height: 34)
                 }
@@ -52,7 +52,7 @@ struct HomeView: View {
 
                 Button { showSettings = true } label: {
                     Image(systemName: "gearshape")
-                        .font(.system(size: 24, weight: .medium))
+                        .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: 28, height: 34)
                 }
@@ -66,10 +66,10 @@ struct HomeView: View {
 private struct RizzrReferenceBackground: View {
     var body: some View {
         ZStack {
-            Color(hex: 0x050506)
+            Color(hex: 0x010103)
 
             LinearGradient(
-                colors: [Color(hex: 0x07070A), Color(hex: 0x040407), Color.black],
+                colors: [Color(hex: 0x06050A), Color(hex: 0x020204), Color.black],
                 startPoint: .top,
                 endPoint: .bottom
             )

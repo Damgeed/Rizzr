@@ -38,8 +38,8 @@ struct ModeCarouselView: View {
                         RizzrHaptics.selection()
                     } label: {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 16).weight(.bold))
-                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF2D6D) : Color(hex: 0x757582))
+                            .font(.custom("Outfit", fixedSize: 17).weight(.heavy))
+                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF1F6F) : Color(hex: 0x73737D))
                             .frame(maxWidth: .infinity)
                             .frame(height: 37)
                             .contentShape(Rectangle())
@@ -53,12 +53,12 @@ struct ModeCarouselView: View {
                 let tabWidth = proxy.size.width / CGFloat(RizzrMode.allCases.count)
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .fill(Color.white.opacity(0.12))
+                        .fill(Color.white.opacity(0.16))
                         .frame(height: 1)
 
                     Rectangle()
-                        .fill(Color(hex: 0xFF2D6D))
-                        .frame(width: tabWidth, height: 2)
+                        .fill(Color(hex: 0xFF1F6F))
+                        .frame(width: tabWidth, height: 3)
                         .offset(x: tabWidth * CGFloat(selection.wrappedValue.index))
                         .animation(.snappy(duration: 0.26), value: selection.wrappedValue)
                 }
@@ -77,7 +77,7 @@ private struct FinesseModeView: View {
         ScrollView(showsIndicators: false) {
             RecorderPreviewCard(viewModel: viewModel, savedRepliesStore: savedRepliesStore)
                 .padding(.horizontal, 26)
-                .padding(.top, 97)
+                .padding(.top, 88)
                 .padding(.bottom, 34)
         }
     }

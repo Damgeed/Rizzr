@@ -22,9 +22,9 @@ struct RecorderPreviewCard: View {
             recordButton
 
             Text(labelText)
-                .font(.custom("Outfit", fixedSize: 14).weight(.bold))
-                .tracking(1.6)
-                .foregroundStyle(Color(hex: 0x8F8F99))
+                .font(.custom("Outfit", fixedSize: 13).weight(.heavy))
+                .tracking(1.95)
+                .foregroundStyle(Color(hex: 0x9A9AA5))
                 .shadow(color: .black.opacity(0.75), radius: 10, x: 0, y: 5)
                 .padding(.top, 28)
 
@@ -127,9 +127,9 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 166, height: 166)
-                    .shadow(color: Color(hex: 0xFF2D6D).opacity(0.36), radius: 22, x: -8, y: -5)
-                    .shadow(color: Color(hex: 0x5B22FF).opacity(0.42), radius: 32, x: 12, y: 16)
+                    .frame(width: 174, height: 174)
+                    .shadow(color: Color(hex: 0xFF1F6F).opacity(0.48), radius: 24, x: -8, y: -5)
+                    .shadow(color: Color(hex: 0x6B18FF).opacity(0.52), radius: 36, x: 12, y: 17)
 
                 Circle()
                     .fill(
@@ -140,11 +140,11 @@ struct RecorderPreviewCard: View {
                             endRadius: 118
                         )
                     )
-                    .frame(width: 166, height: 166)
+                    .frame(width: 174, height: 174)
                     .blendMode(.screen)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 56, weight: .semibold))
+                    .font(.system(size: 58, weight: .bold))
                     .foregroundStyle(.white)
             }
         }
@@ -276,7 +276,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF2D6D), Color(hex: 0xA12BFF), Color(hex: 0x302CDB)],
+            colors: [Color(hex: 0xFF1F6F), Color(hex: 0xA92DFF), Color(hex: 0x4724F2)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
