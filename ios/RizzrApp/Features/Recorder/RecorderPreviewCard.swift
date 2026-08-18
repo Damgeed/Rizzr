@@ -20,13 +20,19 @@ struct RecorderPreviewCard: View {
     @State private var isBreathing = false
 
     var body: some View {
-        VStack(spacing: RizzrSpacing.lg) {
+        VStack(spacing: 0) {
             recordButton
             statusCopy
+                .padding(.top, 22)
             progressViz
             readyAction
+                .padding(.top, 20)
+            finesseDivider
+                .padding(.top, 60)
+                .padding(.bottom, 30)
             inputActions
             repliesList
+                .padding(.top, 24)
             if let previewError {
                 Text(previewError)
                     .font(RizzrTypography.caption)
@@ -76,21 +82,6 @@ struct RecorderPreviewCard: View {
         .onAppear { isBreathing = !reduceMotion }
     }
 
-    private var header: some View {
-        VStack(spacing: RizzrSpacing.xs) {
-            Text(cardTitle)
-                .font(RizzrTypography.caption)
-                .foregroundStyle(RizzrColor.orbCyan)
-                .textCase(.uppercase)
-                .tracking(1.5)
-
-            Text(labelText)
-                .font(RizzrTypography.bodyStrong)
-                .foregroundStyle(RizzrColor.textPrimary)
-                .multilineTextAlignment(.center)
-        }
-    }
-
     @ViewBuilder
     private var recordButton: some View {
         Button {
@@ -106,14 +97,14 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .stroke(RizzrColor.orbCoral.opacity(0.24), lineWidth: 1)
-                    .frame(width: 184, height: 184)
+                    .frame(width: 194, height: 194)
                     .scaleEffect(isBreathing && viewModel.state == .idle ? 1.14 : 0.92)
                     .opacity(isBreathing && viewModel.state == .idle ? 0 : 0.8)
 
                 Circle()
                     .fill(Color.black.opacity(0.16))
                     .frame(width: 164, height: 164)
-                    .overlay(Circle().stroke(Color.white.opacity(0.28), lineWidth: 1))
+                    .overlay(Circle().stroke(Color.white.opacity(0.46), lineWidth: 1))
 
                 Circle()
                     .trim(from: 0.06, to: 0.94)
@@ -121,10 +112,10 @@ struct RecorderPreviewCard: View {
                         AngularGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet, RizzrColor.orbCoral], center: .center),
                         style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [2, 7])
                     )
-                    .frame(width: 182, height: 182)
+                    .frame(width: 194, height: 194)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 42, weight: .medium))
+                    .font(.system(size: 48, weight: .medium))
                     .foregroundStyle(RizzrColor.orbCoral)
             }
         }
@@ -146,7 +137,7 @@ struct RecorderPreviewCard: View {
                 Label("Type text", systemImage: "text.alignleft")
             }
         }
-        .font(RizzrTypography.caption)
+        .font(RizzrTypography.bodyStrong)
         .foregroundStyle(RizzrColor.textPrimary)
         .buttonStyle(FinesseSecondaryButtonStyle())
         .disabled(isBusy || viewModel.state == .recording)
@@ -168,10 +159,18 @@ struct RecorderPreviewCard: View {
     }
 
     private var statusCopy: some View {
-        Text(helperCopy)
+        Text(labelText)
             .font(RizzrTypography.body)
-            .foregroundStyle(RizzrColor.textMuted)
+            .foregroundStyle(Color.white.opacity(0.66))
             .multilineTextAlignment(.center)
+    }
+
+    private var finesseDivider: some View {
+        HStack(spacing: 16) {
+            Rectangle().fill(Color.white.opacity(0.13)).frame(height: 1)
+            Text("OR").font(RizzrTypography.caption).foregroundStyle(Color.white.opacity(0.55))
+            Rectangle().fill(Color.white.opacity(0.13)).frame(height: 1)
+        }
     }
 
     @ViewBuilder
@@ -231,7 +230,7 @@ struct RecorderPreviewCard: View {
         case .processing: "Preparing recording…"
         case .transcribing: "Transcribing voice note…"
         case .generating: "Writing replies…"
-        case .complete: "Pick the one that sounds most like you."
+        case .complete: "Replies ready"
         case .failed: "Something went wrong"
         }
     }

@@ -22,7 +22,7 @@ struct RizzrBackground: View {
                 // CSS: 60vw, bottom -20%, right -10%.
                 aura(RizzrColor.orbViolet, diameter: width * 0.60, opacity: 0.50)
                     .position(
-                        x: width * 1.20 + drift(width * 0.60, amount: 0.05),
+                        x: width * 0.80 + drift(width * 0.60, amount: 0.05),
                         y: height * 0.80 + width * 0.30 + drift(width * 0.60, amount: -0.05)
                     )
 

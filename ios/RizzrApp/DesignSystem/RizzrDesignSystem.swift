@@ -35,7 +35,8 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
-    static let hero = outfit(size: 36, weight: .bold)
+    static let logo = outfit(size: 29, weight: .bold)
+    static let hero = outfit(size: 39, weight: .bold)
     static let display = outfit(size: 32, weight: .bold)
     static let title = outfit(size: 24, weight: .bold)
     static let body = outfit(size: 16, weight: .regular)
