@@ -9,19 +9,29 @@ struct RizzrBackground: View {
         GeometryReader { proxy in
             let width = proxy.size.width
             let height = proxy.size.height
-            let reference = max(width, height)
-
             ZStack {
                 RizzrColor.background
 
-                aura(RizzrColor.orbCoral, diameter: reference * 0.72, opacity: 0.50)
-                    .position(x: width * (isFloating ? 0.04 : -0.08), y: height * (isFloating ? 0.08 : -0.02))
+                // CSS: 50vw, top -10%, left -10%.
+                aura(RizzrColor.orbCoral, diameter: width * 0.50, opacity: 0.50)
+                    .position(
+                        x: width * 0.15 + drift(width * 0.50, amount: -0.05),
+                        y: -height * 0.10 + width * 0.25 + drift(width * 0.50, amount: -0.05)
+                    )
 
-                aura(RizzrColor.orbViolet, diameter: reference * 0.84, opacity: 0.50)
-                    .position(x: width * (isFloating ? 0.92 : 1.05), y: height * (isFloating ? 0.86 : 1.02))
+                // CSS: 60vw, bottom -20%, right -10%.
+                aura(RizzrColor.orbViolet, diameter: width * 0.60, opacity: 0.50)
+                    .position(
+                        x: width * 1.20 + drift(width * 0.60, amount: 0.05),
+                        y: height * 0.80 + width * 0.30 + drift(width * 0.60, amount: -0.05)
+                    )
 
-                aura(RizzrColor.orbCyan, diameter: reference * 0.56, opacity: 0.30)
-                    .position(x: width * (isFloating ? 0.48 : 0.62), y: height * (isFloating ? 0.52 : 0.40))
+                // CSS: 40vw, top 40%, left 40%.
+                aura(RizzrColor.orbCyan, diameter: width * 0.40, opacity: 0.30)
+                    .position(
+                        x: width * 0.60 + drift(width * 0.40, amount: -0.05),
+                        y: height * 0.40 + width * 0.20 + drift(width * 0.40, amount: 0.10)
+                    )
             }
             .animation(reduceMotion ? nil : .easeInOut(duration: 20).repeatForever(autoreverses: true), value: isFloating)
             .onAppear { isFloating = !reduceMotion }
@@ -29,6 +39,10 @@ struct RizzrBackground: View {
         .ignoresSafeArea()
         .overlay { RizzrNoiseOverlay().opacity(0.055).ignoresSafeArea() }
         .accessibilityHidden(true)
+    }
+
+    private func drift(_ diameter: CGFloat, amount: CGFloat) -> CGFloat {
+        isFloating ? diameter * amount : 0
     }
 
     private func aura(_ color: Color, diameter: CGFloat, opacity: Double) -> some View {
@@ -47,7 +61,7 @@ struct RizzrBackground: View {
                 )
             )
             .frame(width: diameter, height: diameter)
-            .blur(radius: 42)
+            .blur(radius: 80)
             .drawingGroup(opaque: false, colorMode: .linear)
     }
 }
