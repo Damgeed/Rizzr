@@ -84,6 +84,19 @@ final class VoiceRecorderViewModel: ObservableObject {
         }
     }
 
+    func generateReplies(from text: String) async {
+        guard let apiClient else { return }
+        let transcript = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !transcript.isEmpty else { return }
+        do {
+            state = .generating(transcript)
+            let generated = try await apiClient.generateReplies(GenerateRepliesRequest(transcript: transcript))
+            state = .complete(generated.replies)
+        } catch {
+            state = .failed(error.localizedDescription)
+        }
+    }
+
     func generateAudioPreview(for text: String) async throws -> URL {
         guard let apiClient else {
             throw NSError(domain: "Rizzr", code: -1, userInfo: [NSLocalizedDescriptionKey: "API client unavailable."])

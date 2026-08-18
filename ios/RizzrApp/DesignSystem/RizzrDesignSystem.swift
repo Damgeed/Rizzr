@@ -1,4 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 enum RizzrColor {
     static let background = Color(hex: 0x050508)
@@ -16,6 +19,7 @@ enum RizzrColor {
 enum RizzrRadius {
     static let small: CGFloat = 12
     static let medium: CGFloat = 20
+    static let large: CGFloat = 28
     static let phone: CGFloat = 46
     static let pill: CGFloat = 999
 }
@@ -31,6 +35,7 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
+    static let hero = outfit(size: 36, weight: .bold)
     static let display = outfit(size: 32, weight: .bold)
     static let title = outfit(size: 24, weight: .bold)
     static let body = outfit(size: 16, weight: .regular)
@@ -38,7 +43,22 @@ enum RizzrTypography {
     static let caption = outfit(size: 12, weight: .semibold)
 
     static func outfit(size: CGFloat, weight: Font.Weight) -> Font {
-        .custom("Outfit-Thin", size: size).weight(weight)
+        #if canImport(UIKit)
+        let uiWeight: UIFont.Weight
+        if weight == .bold { uiWeight = .bold }
+        else if weight == .semibold { uiWeight = .semibold }
+        else if weight == .medium { uiWeight = .medium }
+        else if weight == .light { uiWeight = .light }
+        else { uiWeight = .regular }
+
+        let descriptor = UIFontDescriptor(fontAttributes: [
+            .family: "Outfit",
+            .traits: [UIFontDescriptor.TraitKey.weight: uiWeight]
+        ])
+        return Font(UIFont(descriptor: descriptor, size: size))
+        #else
+        return .custom("Outfit-Thin", size: size).weight(weight)
+        #endif
     }
 }
 
