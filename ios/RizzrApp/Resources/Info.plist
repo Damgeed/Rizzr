@@ -22,6 +22,8 @@
     <string>$(CURRENT_PROJECT_VERSION)</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+    <key>UIRequiresFullScreen</key>
+    <true/>
     <key>NSMicrophoneUsageDescription</key>
     <string>Rizzr needs microphone access so you can record a voice note and generate reply suggestions.</string>
     <key>UIAppFonts</key>
