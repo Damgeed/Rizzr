@@ -68,6 +68,24 @@ final class RizzrAPIClient {
         return try await decodeEnvelope(request)
     }
 
+    func generateAudioPreview(for text: String) async throws -> URL {
+        var request = URLRequest(url: configuration.baseURL.appending(path: "/api/tts"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = configuration.timeout
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("audio/mpeg", forHTTPHeaderField: "Accept")
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["text": text, "voice_id": "default"])
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse else { throw APIError.invalidResponse }
+        guard 200..<300 ~= httpResponse.statusCode else {
+            let message = String(data: data, encoding: .utf8) ?? "TTS failed."
+            throw APIError.server(message)
+        }
+        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("rizzr-tts-\(UUID().uuidString).mp3")
+        try data.write(to: fileURL, options: .atomic)
+        return fileURL
+    }
+
     private func decodeEnvelope<Response: Decodable>(_ request: URLRequest) async throws -> Response {
         let (data, response) = try await session.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else { throw APIError.invalidResponse }

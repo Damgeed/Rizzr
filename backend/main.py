@@ -11,7 +11,7 @@ from starlette.responses import JSONResponse
 from config import get_settings
 from middleware.rate_limit import RateLimitMiddleware
 from middleware.security import setup_middleware
-from routers import generate, transcribe
+from routers import generate, transcribe, tts
 from schemas import APIResponse, HealthData
 
 settings = get_settings()
@@ -34,6 +34,7 @@ if settings.is_production:
 
 app.include_router(transcribe.router)
 app.include_router(generate.router)
+app.include_router(tts.router)
 
 
 @app.exception_handler(RequestValidationError)

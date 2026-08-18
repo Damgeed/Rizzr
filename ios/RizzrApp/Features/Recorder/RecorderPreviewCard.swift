@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -6,6 +7,9 @@ import UIKit
 struct RecorderPreviewCard: View {
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @State private var copiedReplyID: String?
+    @State private var previewReplyID: String?
+    @State private var previewPlayer: AVAudioPlayer?
+    @State private var previewError: String?
 
     var body: some View {
         GlassCard {
@@ -15,6 +19,12 @@ struct RecorderPreviewCard: View {
                 statusCopy
                 progressViz
                 repliesList
+                if let previewError {
+                    Text(previewError)
+                        .font(RizzrTypography.caption)
+                        .foregroundStyle(RizzrColor.textMuted)
+                        .multilineTextAlignment(.center)
+                }
             }
             .frame(maxWidth: .infinity)
         }
@@ -106,7 +116,9 @@ struct RecorderPreviewCard: View {
                     ReplyCard(
                         reply: reply,
                         isCopied: copiedReplyID == reply.id,
-                        onCopy: { copy(reply) }
+                        isPreviewing: previewReplyID == reply.id,
+                        onCopy: { copy(reply) },
+                        onPreview: { preview(reply) }
                     )
                 }
             }
@@ -152,7 +164,7 @@ struct RecorderPreviewCard: View {
         case .generating(let transcript):
             "Generating from: “\(transcript.prefix(80))”"
         case .complete:
-            "Copy or share when ready."
+            "Copy or preview audio when ready."
         case .failed(let message):
             message
         }
@@ -174,12 +186,34 @@ struct RecorderPreviewCard: View {
         copiedReplyID = reply.id
         #endif
     }
+
+    private func preview(_ reply: ReplySuggestion) {
+        previewError = nil
+        Task {
+            do {
+                let url = try await viewModel.generateAudioPreview(for: reply.text)
+                let player = try AVAudioPlayer(contentsOf: url)
+                player.prepareToPlay()
+                player.play()
+                await MainActor.run {
+                    previewPlayer = player
+                    previewReplyID = reply.id
+                }
+            } catch {
+                await MainActor.run {
+                    previewError = error.localizedDescription
+                }
+            }
+        }
+    }
 }
 
 private struct ReplyCard: View {
     let reply: ReplySuggestion
     let isCopied: Bool
+    let isPreviewing: Bool
     let onCopy: () -> Void
+    let onPreview: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: RizzrSpacing.sm) {
@@ -190,6 +224,15 @@ private struct ReplyCard: View {
                     .textCase(.uppercase)
 
                 Spacer()
+
+                Button(action: onPreview) {
+                    Label(isPreviewing ? "Playing" : "Play", systemImage: isPreviewing ? "speaker.wave.2.fill" : "play.fill")
+                        .labelStyle(.iconOnly)
+                        .font(.system(size: 15, weight: .semibold))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(isPreviewing ? RizzrColor.orbCyan : RizzrColor.textMuted)
+                .accessibilityLabel(isPreviewing ? "Playing audio preview" : "Preview audio")
 
                 Button(action: onCopy) {
                     Label(isCopied ? "Copied" : "Copy", systemImage: isCopied ? "checkmark" : "doc.on.doc")
