@@ -12,9 +12,9 @@ struct HomeView: View {
 
             VStack(spacing: 0) {
                 header
-                    .padding(.horizontal, 25)
-                    .padding(.top, 8)
-                    .padding(.bottom, 26)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 10)
+                    .padding(.bottom, 24)
 
                 ModeCarouselView(
                     featureFlags: environment.featureFlags,
@@ -34,28 +34,28 @@ struct HomeView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("Rizzr")
-                .font(RizzrTypography.logo)
+                .font(.custom("Outfit", fixedSize: 43).weight(.black))
                 .foregroundStyle(.white)
-                .tracking(-1.25)
-                .shadow(color: Color(hex: 0xFF1F6F).opacity(0.16), radius: 18, x: 0, y: 8)
+                .tracking(-1.45)
+                .shadow(color: Color(hex: 0xFF1F79).opacity(0.24), radius: 18, x: 0, y: 8)
 
             Spacer()
 
-            HStack(spacing: 18) {
+            HStack(spacing: 19) {
                 Button { showSavedReplies = true } label: {
                     Image(systemName: "clock")
-                        .font(.system(size: 25, weight: .bold))
+                        .font(.system(size: 25, weight: .black))
                         .foregroundStyle(.white)
-                        .frame(width: 28, height: 34)
+                        .frame(width: 30, height: 34)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Open history")
 
                 Button { showSettings = true } label: {
                     Image(systemName: "gearshape")
-                        .font(.system(size: 25, weight: .bold))
+                        .font(.system(size: 25, weight: .black))
                         .foregroundStyle(.white)
-                        .frame(width: 28, height: 34)
+                        .frame(width: 30, height: 34)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Open settings")
@@ -67,22 +67,22 @@ struct HomeView: View {
 private struct RizzrReferenceBackground: View {
     var body: some View {
         ZStack {
-            Color(hex: 0x000002)
+            Color(hex: 0x000001)
 
             LinearGradient(
-                colors: [Color(hex: 0x07040D), Color(hex: 0x010103), Color.black],
+                colors: [Color(hex: 0x09020D), Color(hex: 0x010103), Color.black],
                 startPoint: .top,
                 endPoint: .bottom
             )
 
             Circle()
-                .fill(RadialGradient(colors: [Color(hex: 0x7B18FF).opacity(0.30), .clear], center: .center, startRadius: 0, endRadius: 250))
+                .fill(RadialGradient(colors: [Color(hex: 0x7512FF).opacity(0.34), .clear], center: .center, startRadius: 0, endRadius: 250))
                 .frame(width: 430, height: 430)
                 .blur(radius: 86)
                 .offset(x: 160, y: 356)
 
             Circle()
-                .fill(RadialGradient(colors: [Color(hex: 0xFF1F6F).opacity(0.16), Color(hex: 0x090016).opacity(0.05), .clear], center: .center, startRadius: 0, endRadius: 220))
+                .fill(RadialGradient(colors: [Color(hex: 0xFF006E).opacity(0.20), Color(hex: 0x11001D).opacity(0.06), .clear], center: .center, startRadius: 0, endRadius: 220))
                 .frame(width: 360, height: 360)
                 .blur(radius: 88)
                 .offset(x: -172, y: 382)

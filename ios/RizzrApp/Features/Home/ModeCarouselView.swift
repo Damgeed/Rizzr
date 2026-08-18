@@ -38,9 +38,9 @@ struct ModeCarouselView: View {
                         RizzrHaptics.selection()
                     } label: {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 18).weight(.black))
-                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF1F79) : Color(hex: 0x74747F))
-                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF1F79).opacity(0.32) : .clear, radius: 12, x: 0, y: 6)
+                            .font(.custom("Outfit", fixedSize: 18).weight(.heavy))
+                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF0A78) : Color(hex: 0x74747F))
+                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF0A78).opacity(0.36) : .clear, radius: 12, x: 0, y: 6)
                             .frame(maxWidth: .infinity)
                             .frame(height: 39)
                             .contentShape(Rectangle())
@@ -54,12 +54,12 @@ struct ModeCarouselView: View {
                 let tabWidth = proxy.size.width / CGFloat(RizzrMode.allCases.count)
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .fill(Color.white.opacity(0.18))
+                        .fill(Color.white.opacity(0.20))
                         .frame(height: 1)
 
                     Rectangle()
-                        .fill(Color(hex: 0xFF1F79))
-                        .frame(width: tabWidth, height: 3.5)
+                        .fill(Color(hex: 0xFF0A78))
+                        .frame(width: tabWidth, height: 3)
                         .offset(x: tabWidth * CGFloat(selection.wrappedValue.index))
                         .animation(.snappy(duration: 0.26), value: selection.wrappedValue)
                 }
@@ -78,7 +78,7 @@ private struct FinesseModeView: View {
         ScrollView(showsIndicators: false) {
             RecorderPreviewCard(viewModel: viewModel, savedRepliesStore: savedRepliesStore)
                 .padding(.horizontal, 26)
-                .padding(.top, 84)
+                .padding(.top, 76)
                 .padding(.bottom, 34)
         }
     }
