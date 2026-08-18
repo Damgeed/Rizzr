@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Rizzr turns your voice notes into confident, natural replies that sound like you — in seconds.">
+  <title>Rizzr | AI Voice-Note Reply Coach</title>
+  <!-- Social / share meta (Open Graph + Twitter Card) for the share-loop -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Rizzr">
+  <meta property="og:title" content="Rizzr — Perfect replies, zero panic.">
+  <meta property="og:description" content="Got a voice note? Rizzr it. Send a voice note and get 3 confident, natural replies back in seconds.">
+  <meta property="og:url" content="https://damgeed.github.io/Rizzr/">
+  <meta property="og:image" content="https://damgeed.github.io/Rizzr/assets/img/og-card.png?v=1">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Rizzr — AI voice-note reply coach">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rizzr — Perfect replies, zero panic.">
+  <meta name="twitter:description" content="Got a voice note? Rizzr it. Get 3 confident, natural replies back in seconds.">
+  <meta name="twitter:image" content="https://damgeed.github.io/Rizzr/assets/img/og-card.png?v=1">
+  <meta name="twitter:domain" content="damgeed.github.io">
+  <!-- Cache-buster: force one fresh reload w/ version marker to bust stale GH Pages HTML cache -->
+  <script>
+  (function(){try{
+    var v='hgt63';
+    if(location.search.indexOf('v=')!==-1) return;
+    if(localStorage.getItem('rizzr_cache_v')!==v){
+      localStorage.setItem('rizzr_cache_v',v);
+      // Preserve the existing query string (e.g. ?action=record) so PWA shortcuts survive the cache-buster redirect
+      var sep = location.search ? (location.search.indexOf('?')===0 ? '&' : '?') : '?';
+      location.replace(location.pathname + (location.search || '') + sep + 'v=' + v);
+    }
+  }catch(e){}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=4">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=3">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Midnight Aura shared design system -->
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt17">
+  <style>
+    /* ==========================================
+       LANDING-SPECIFIC (hero + phone demo)
+       Midnight Aura / rizzgeminiPRO untouched
+       ========================================== */
+    main {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 1rem 1.5rem 2rem; position: relative; z-index: 10;
+    }
+    .layout { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2.2rem; }
+
+    /* Left: hero copy — side-by-side on desktop, condensed hook on mobile */
+    .hero-copy { width: 100%; max-width: 720px; text-align: center; }
+    .hero-copy-title {
+      font-size: 3.2rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.04em;
+      background: linear-gradient(to bottom right, #fff, #a1a1aa);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-copy .subtext { color: var(--text-muted); font-size: 1.125rem; line-height: 1.5; max-width: 52ch; margin: 1.1rem auto 0; }
+    /* Short hook: mobile-only, hidden on desktop */
+    .hero-copy .hook { display: none; }
+
+    /* Hero CTA buttons (desktop only) */
+    .hero-copy .hero-cta {
+      display: flex; gap: 0.9rem; margin-top: 1.8rem; flex-wrap: wrap;
+    }
+    .hero-copy .hero-cta .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.6rem; font-size: 1rem; font-weight: 600;
+      border-radius: 16px;
+    }
+    .hero-copy .btn-pill-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font); font-size: 1rem; font-weight: 600;
+      color: var(--text-main);
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      padding: 0.85rem 1.6rem; border-radius: 16px;
+      cursor: pointer; transition: var(--transition);
+    }
+    .hero-copy .btn-pill-cta:hover {
+      background: var(--glass-hover); border-color: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Store download badges (iOS/Android) — .store-btn is defined in shared midnight-aura.css */
+    /* Download row: sits below title/description in every mode panel */
+    .hero-download {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.1rem;
+    }
+    .hero-copy .hero-download { justify-content: flex-start; }
+
+    /* Desktop: side-by-side (copy left, phone right) */
+    @media (min-width: 860px) {
+      .layout { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; }
+      .hero-copy { flex: 0 1 46%; max-width: none; text-align: left; margin-top: 10.9rem; }
+      .mode-panel.finesse .demo { margin-left: auto; width: auto; }
+      .mode-panel.finesse .layout { padding-top: 0; align-items: flex-start; }
+      .mode-panel.finesse .demo .phone { margin-right: auto; }
+      .hero-copy-title { font-size: 2.8rem; white-space: nowrap; letter-spacing: -0.035em; line-height: 1.1; }
+      .hero-copy .subtext { margin: 1.1rem 0 0; }
+      .hero-copy .hook { display: none; }
+      /* Professional trust badges: left-aligned under the description (Bud reverted to left) */
+      .hero-copy .trust-row { justify-content: flex-start; margin-top: 1.6rem; }
+      /* Remove the LIVE/soon pills + in-phone duplication handled below */
+    }
+
+    /* Mobile: stacked, condensed hook (hide full description + badges) */
+    @media (max-width: 859px) {
+      main { padding: 0.5rem 0 1.35rem; }
+      .layout { gap: 0.9rem; }
+      .hero-copy { max-width: 480px; }
+      .hero-copy-title { font-size: 2rem; }
+      .hero-copy .subtext { display: none; }
+      .hero-copy .trust-row { display: none; }
+      .hero-copy .hero-cta { display: none; }
+      .hero-copy .hero-download { justify-content: center; margin-top: 0.55rem; }
+      .hero-copy .hook { display: block; color: var(--text-muted); font-size: 1rem; line-height: 1.45; max-width: 42ch; margin: 0.55rem auto 0; }
+    }
+    /* Very small phones */
+    @media (max-width: 380px) {
+      .hero-copy-title { font-size: 2rem; }
+      .hero-copy .hook { font-size: 0.9rem; }
+    }
+
+    /* Right: phone demo */
+    .demo { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .state-tabs {
+      position: absolute; top: 50px; left: 50%; transform: translateX(-50%); z-index: 6;
+      display: inline-flex; gap: 4px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      padding: 4px; border-radius: 999px; backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px -10px rgba(0,0,0,0.5);
+    }
+    .state-tabs button {
+      appearance: none; border: none; background: transparent; color: var(--text-muted);
+      font-family: var(--font); font-size: 12.5px; font-weight: 600;
+      padding: 8px 15px; border-radius: 999px; cursor: pointer; transition: color .25s ease, background .25s ease;
+    }
+    .state-tabs button.active { background: var(--orb-1); color: #fff; box-shadow: 0 6px 18px -6px rgba(255,51,102,0.6); }
+    .state-tabs button:not(.active):hover { color: var(--text-main); }
+
+    .phone {
+      position: relative; width: min(340px, 82vw); height: 654px; border-radius: 46px; padding: 12px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 60px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
+      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    }
+    .phone__screen {
+      position: relative; width: 100%; height: 100%; border-radius: 36px; overflow: hidden;
+      background: #07070d; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .phone__notch {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 5;
+      width: 96px; height: 24px; background: #0a0a0f;
+      border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.5);
+    }
+    /* iPhone-style camera lens inside the Dynamic Island */
+    .phone__notch::after {
+      content: ''; position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+      width: 12px; height: 12px; border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #2b3a5a 0%, #0e1526 42%, #000 72%);
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.35), 0 0 3px rgba(90,140,255,0.25);
+    }
+
+    .view-state {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; opacity: 0; pointer-events: none; padding: 30px 20px 24px;
+      transition: opacity 0.4s ease, transform 0.4s ease; transform: translateY(10px);
+    }
+      .view-state.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+      .phone-record-status,
+      .visualizer,
+      .phone-timer,
+      .btn-stop-scale,
+      .phone-results-header,
+      .cards-container,
+      .reset-btn { position: relative; z-index: 2; }
+
+    /* Hero-in-phone: push record + Upload/Link buttons lower (tabs now live on top) */
+    #view-hero { padding-top: 245px; }
+    @media (max-width: 640px) { #view-hero { padding-top: 208px; } }
+
+    .record-wrapper { position: relative; width: 116px; height: 116px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 9rem; cursor: pointer; }
+    .pulse-ring-1, .pulse-ring-2 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--orb-1); animation: pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+    .pulse-ring-2 { animation-delay: 1.25s; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
+    .btn-record {
+      position: relative; z-index: 2; width: 84px; height: 84px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border: none;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 30px rgba(255,51,102,0.4), inset 0 0 20px rgba(255,255,255,0.2);
+      color: white; cursor: pointer; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .record-wrapper:hover .btn-record { transform: scale(1.05); }
+    .record-wrapper:active .btn-record { transform: scale(0.95); }
+    .record-hint { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+    .phone-actions { display: flex; gap: 0.6rem; width: 100%; margin-top: 1.2rem; }
+    .btn-pill {
+      flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(12px);
+      color: var(--text-main); padding: 0.7rem 0.6rem; border-radius: var(--radius-pill);
+      font-family: inherit; font-size: 0.75rem; font-weight: 500;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem; cursor: pointer; transition: var(--transition);
+    }
+    .btn-pill:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    /* Gradient "Upload audio" in-phone button — matches the hero .btn-primary gradient */
+    .btn-pill-primary {
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2));
+      border-color: transparent; color: #fff;
+      box-shadow: 0 8px 30px -8px rgba(255,51,102,0.5);
+    }
+    .btn-pill-primary:hover { background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border-color: transparent; filter: brightness(1.1); }
+    .phone-trust { display: flex; justify-content: center; gap: 0.9rem; width: 100%; border-top: 1px solid var(--glass-border); padding-top: 0.9rem; margin-top: 1rem; }
+
+    /* RECORDING inside phone */
+    .phone-record-status { font-size: 0.92rem; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.55rem; padding: 0.5rem 1.1rem; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); width: fit-content; margin-left: auto; margin-right: auto; color: var(--text, #fff); }
+    .recording-dot { width: 9px; height: 9px; background: var(--orb-1); border-radius: 50%; animation: blink 1s infinite alternate; box-shadow: 0 0 0 4px rgba(255,81,107,0.15), 0 0 12px rgba(255,81,107,0.6); flex-shrink: 0; }
+    #view-recording .phone-record-status::after { content: ''; width: 4px; height: 4px; border-radius: 99px; background: currentColor; opacity: 0.6; margin-left: 0.2rem; box-shadow: 9px 0 0 currentColor, 18px 0 0 currentColor; animation: typing 1.1s steps(1) infinite; }
+    @keyframes typing { 0%{ box-shadow: 2px 0 0 transparent, 9px 0 0 transparent, 18px 0 0 transparent; } 30%{ box-shadow: 2px 0 0 currentColor, 9px 0 0 transparent, 18px 0 0 transparent; } 60%{ box-shadow: 2px 0 0 currentColor, 9px 0 0 currentColor, 18px 0 0 transparent; } 100%{ box-shadow: 2px 0 0 currentColor, 9px 0 0 currentColor, 18px 0 0 currentColor; } }
+    @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0.25; } }
+    .visualizer { display: flex; align-items: center; justify-content: center; gap: 5px; height: 74px; margin-bottom: 1.5rem; position: relative; }
+    .visualizer::before { content: ''; position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; transform: translate(-50%,-50%); border-radius: 50%; border: 1px solid rgba(255,193,94,0.18); animation: rec-pulse 1.6s ease-out infinite; }
+    @keyframes rec-pulse { 0% { transform: translate(-50%,-50%) scale(0.55); opacity: 0.9; } 100% { transform: translate(-50%,-50%) scale(1.5); opacity: 0; } }
+    .bar { width: 5px; background: linear-gradient(to top, var(--orb-2), var(--orb-1)); border-radius: 99px; transform-origin: center; animation: eq 0.55s ease-in-out infinite alternate; }
+    .bar:nth-child(1) { height: 30%; animation-delay: 0.05s; }
+    .bar:nth-child(2) { height: 62%; animation-delay: 0.2s; }
+    .bar:nth-child(3) { height: 100%; animation-delay: 0.35s; }
+    .bar:nth-child(4) { height: 46%; animation-delay: 0.1s; }
+    .bar:nth-child(5) { height: 82%; animation-delay: 0.3s; }
+    .bar:nth-child(6) { height: 38%; animation-delay: 0.25s; }
+    .bar:nth-child(7) { height: 94%; animation-delay: 0.15s; }
+    @keyframes eq { 0% { transform: scaleY(0.35); } 100% { transform: scaleY(1); } }
+    .phone-timer { font-variant-numeric: tabular-nums; font-size: 2rem; font-weight: 300; letter-spacing: 0.04em; margin-bottom: 1.4rem; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.35rem 1.1rem; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); }
+    .phone-timer b { font-weight: 700; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--orb-1); opacity: 0.9; }
+    .btn-stop-scale {
+      flex: none; width: auto; margin: 0 auto; height: 38px; line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2)); border: none;
+      color: #160d10; font-weight: 700; padding: 0 1rem 0 0.5rem; font-size: 0.82rem;
+      letter-spacing: 0.01em; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(255,193,94,0.22);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .btn-stop-scale .stop-chip {
+      width: 24px; height: 24px; border-radius: 999px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #160d10; color: #fff;
+    }
+    .btn-stop-scale .stop-chip svg { width: 9px; height: 9px; display: block; }
+    .btn-stop-scale:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(255,193,94,0.3); }
+    .btn-stop-scale:active { transform: translateY(0) scale(0.98); }
+    .btn-stop-scale .stop-chip { animation: stopPulse 1.8s ease-in-out infinite; }
+    @keyframes stopPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.35); } 50% { box-shadow: 0 0 0 4px rgba(255,255,255,0); } }
+
+    /* RESULTS inside phone */
+    .phone-results { justify-content: flex-start; padding-top: 108px; overflow-y: auto; }
+    .phone-results-header { margin-bottom: 1rem; text-align: center; width: 100%; }
+    .phone-results-header h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .phone-results-header p { font-size: 0.75rem; }
+    .cards-container { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; margin-bottom: 1.2rem; }
+    .reply-card {
+      background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(20px);
+      border-radius: var(--radius-md); padding: 0.95rem 1rem; text-align: left;
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .reply-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--card-color); opacity: 0.8; }
+    .reply-card.flirty { --card-color: var(--orb-1); }
+    .reply-card.witty { --card-color: var(--orb-2); }
+    .reply-card.sweet { --card-color: var(--orb-3); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .vibe-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--card-color); background: color-mix(in srgb, var(--card-color) 15%, transparent); padding: 0.25rem 0.6rem; border-radius: 6px; }
+    .card-text { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.8rem; color: #fff; }
+    .card-actions { display: flex; gap: 0.4rem; }
+    .btn-play, .btn-copy { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 0.5rem 0.7rem; border-radius: var(--radius-pill); color: white; font-family: inherit; font-size: 0.72rem; font-weight: 500; display: flex; align-items: center; gap: 0.35rem; cursor: pointer; transition: var(--transition); }
+    .btn-play { flex: 1; justify-content: center; }
+    .btn-play:hover { background: color-mix(in srgb, var(--card-color) 20%, rgba(0,0,0,0.3)); border-color: var(--card-color); }
+    .btn-copy:hover { background: rgba(255,255,255,0.1); }
+    .reset-btn { color: var(--text-muted); background: transparent; border: none; font-family: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: 0.8; transition: opacity 0.2s; }
+    .reset-btn:hover { opacity: 1; color: white; }
+    svg { flex-shrink: 0; }
+
+    /* ==========================================
+       HOW IT WORKS — 3 steps (merged from zip)
+       ========================================== */
+    .section {
+      width: 100%; max-width: 1080px; margin: 0 auto;
+      padding: 4.5rem 1.5rem 2.5rem; position: relative; z-index: 10;
+    }
+    .section-eyebrow {
+      display: inline-block; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.9rem;
+    }
+    .section-title {
+      font-size: 2.1rem; font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
+      background: linear-gradient(to bottom right, #fff, #a1a1aa);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 2.4rem; max-width: 20ch; white-space: nowrap;
+    }
+    @media (max-width: 520px) {
+      .section-title { font-size: clamp(1.05rem, 4.7vw, 1.6rem); white-space: nowrap; }
+    }
+    /* Mobile: center TITLES (keep eyebrow labels left-aligned) + tighten gaps */
+    @media (max-width: 640px) {
+      .section { padding: 2.6rem 1.25rem 1.8rem; }
+      .section-title { margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 2rem; }
+    }
+    /* Steps: stacked on mobile, 3-across on desktop */
+    .steps { display: flex; flex-direction: column; gap: 1.4rem; text-align: left; }
+    .step {
+      position: relative; padding-left: 70px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); padding: 1.6rem 1.5rem 1.6rem 78px;
+      backdrop-filter: blur(20px); transition: var(--transition);
+    }
+    .step:hover { background: var(--glass-hover); transform: translateY(-3px); }
+    .step-num {
+      position: absolute; left: 20px; top: 20px;
+      font-family: var(--font); font-weight: 700; font-size: 1.5rem; font-style: italic;
+      color: transparent; -webkit-text-stroke: 1.5px var(--orb-1); width: 34px;
+    }
+    .step h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.45rem; }
+    .step p { color: var(--text-muted); font-size: 0.93rem; line-height: 1.5; max-width: 44ch; }
+    @media (min-width: 860px) {
+      .steps { flex-direction: row; gap: 1.2rem; }
+      .step { flex: 1; padding: 2rem 1.6rem 1.8rem 1.6rem; padding-left: 1.6rem; text-align: left; }
+      .step-num { position: static; display: block; margin-bottom: 0.8rem; font-size: 1.9rem; }
+    }
+
+    /* Shared FAQ */
+    .faq { display: flex; flex-direction: column; gap: 0.8rem; max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); backdrop-filter: blur(20px);
+      transition: var(--transition);
+    }
+    .faq-item:hover { background: var(--glass-hover); }
+    .faq-item summary {
+      cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.3rem; font-weight: 600; font-size: 1rem; color: var(--text-main);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '＋'; font-size: 1.2rem; color: var(--orb-1); transition: var(--transition); }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p { padding: 0 1.3rem 1.2rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.55; }
+    .faq-item p strong { color: var(--text-main); }
+
+    /* ==========================================
+       V2 FEATURES — MVP + v2 story
+       ========================================== */
+    .v2-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+    .v2-card {
+      display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md); padding: 1.2rem 1.2rem;
+      backdrop-filter: blur(20px); transition: var(--transition);
+    }
+    .v2-card:hover { background: var(--glass-hover); transform: translateY(-3px); border-color: rgba(255,255,255,0.16); }
+    .v2-ic {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; margin-bottom: 0.8rem;
+      display: flex; align-items: center; justify-content: center; color: #fff;
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5);
+    }
+    .v2-ic svg { width: 22px; height: 22px; }
+    .v2-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; line-height: 1.25; }
+    .v2-card p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.45; }
+    .v2-tag { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.18rem 0.45rem; border-radius: 999px; margin-left: 0.4rem; vertical-align: middle; display: inline-block; transform: translateY(-1px); }
+    @media (min-width: 860px) {
+      .v2-grid { gap: 1rem; }
+      .v2-card { padding: 1.4rem 1.4rem; }
+    }
+
+    /* ==========================================
+       V2 FEATURED — Fake-call bailout (the hook)
+       ========================================== */
+    .v2-featured {
+      display: flex; flex-direction: column; align-items: center; gap: 1.6rem; text-align: center;
+      background: linear-gradient(160deg, rgba(255,106,92,.10), rgba(255,193,94,.06));
+      border: 1px solid rgba(255,106,92,.35);
+      border-radius: 20px; padding: 2rem 1.5rem 2.2rem; margin-bottom: 1.6rem;
+      position: relative; overflow: hidden; backdrop-filter: blur(20px);
+    }
+    .v2-featured::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 340px; height: 340px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,106,92,.22), transparent 70%);
+      pointer-events: none;
+    }
+    .v2-featured-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #FFC15E; padding: 0.3rem 0.8rem; border-radius: 999px;
+      border: 1px solid rgba(255,193,94,.3); background: rgba(255,193,94,.08);
+    }
+    .v2-featured h3 { font-size: 1.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .v2-featured h3 em { font-style: italic; font-weight: 700; background: linear-gradient(135deg,#FF6A5C,#FFC15E); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .v2-featured p { color: var(--text-muted); font-size: 0.98rem; line-height: 1.55; max-width: 46ch; }
+    .v2-featured .phone-cta { font-size: 0.75rem; font-weight: 600; color: #a1a1aa; margin-top: 0.4rem; }
+    @media (min-width: 860px) {
+      .v2-featured { flex-direction: row; text-align: left; justify-content: space-between; gap: 2rem; padding: 2.2rem 2.4rem; }
+      .v2-featured .copy { flex: 1; }
+      .v2-featured p { max-width: 52ch; }
+    }
+    .v2-featured-phone { flex-shrink: 0; }
+    /* Mini ringing phone mockup */
+    .mini-phone {
+      position: relative; width: 120px; height: 218px; margin: 0 auto;
+      background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.16); border-radius: 26px; padding: 8px;
+      box-shadow: 0 18px 44px -18px rgba(0,0,0,.7);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .mini-phone .call-pill {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: #FFC15E; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid rgba(255,193,94,.35);
+    }
+    .mini-phone .caller {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .mini-phone .avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg,#FF6A5C,#FFC15E);
+      display: flex; align-items: center; justify-content: center; color: #170D16;
+      box-shadow: 0 0 24px -6px rgba(255,106,92,.6);
+    }
+    .mini-phone .caller-name { font-size: 0.72rem; font-weight: 700; }
+    .mini-phone .caller-num { font-size: 0.6rem; color: #a1a1aa; }
+    .mini-phone .inc-ring { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; }
+    .mini-phone .ring-bar { width: 4px; height: 20px; background: linear-gradient(to top,#FF6A5C,#FFC15E); border-radius: 99px; animation: ringeq .7s ease-in-out infinite alternate; }
+    .mini-phone .ring-bar:nth-child(2) { animation-delay: .15s; }
+    .mini-phone .ring-bar:nth-child(3) { animation-delay: .3s; }
+    .mini-phone .ring-bar:nth-child(4) { animation-delay: .45s; }
+    @keyframes ringeq { 0% { transform: scaleY(.35); opacity: .6; } 100% { transform: scaleY(1); opacity: 1; } }
+    .mini-phone .inner-chat {
+      width: 88%; height: 60px; background: rgba(0,0,0,.25); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; color: #a1a1aa; margin-top: 6px; letter-spacing: .03em;
+    }
+
+    /* ==========================================
+       MODE CAROUSEL — swipe left/right between modes
+       ========================================== */
+    main { display: block; padding: 0; overflow: hidden; }
+    .mode-wrap { position: relative; width: 100%; }
+    .mode-track {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+      scrollbar-width: none; gap: 0;
+    }
+    .mode-track::-webkit-scrollbar { display: none; }
+    .mode-panel {
+      flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
+      min-height: 100vh; padding: 1rem 1.5rem 3rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      width: 100%;
+    }
+    .mode-panel .layout { width: 100%; max-width: 1080px; margin: 0 auto; padding-top: 2.5rem; }
+    /* All 4 mode labels anchor to the same top position so Finesse/Ghost/Echo/Vibe
+       heads sit at identical height (top-anchored, snug under the nav). */
+    .mode-panel { min-height: 0; }
+    .mode-panel.finesse { justify-content: flex-start; padding-top: 1rem; min-height: 0; }
+    .mode-panel.finesse .mode-panel__head { margin-top: 0; }
+    .mode-panel__head {
+      align-self: center; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;
+    }
+    body .mode-panel .mode-name {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--orb-1), var(--orb-2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .mode-state { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.28rem 0.7rem; border-radius: 999px; }
+    .mode-state.live { background: linear-gradient(135deg,#ff3366,#7000ff); color: #fff; }
+    .mode-state.soon { color: #FFC15E; border: 1px solid rgba(255,193,94,.3); }
+    .mode-track .hero-copy { max-width: 720px; text-align: center; }
+    /* Desktop: description left-aligned (uniform across modes) */
+    @media (min-width: 860px) {
+      .mode-track .hero-copy { text-align: left; }
+      .mode-track .hero-copy .subtext { margin-left: 0; }
+    }
+    /* Mobile: tighten the gap between the mode-name head and the title */
+    @media (max-width: 640px) {
+      .mode-panel { padding-top: 0.7rem; padding-bottom: 1.9rem; }
+      .mode-panel__head { margin-bottom: 0.2rem; }
+      .mode-panel:not(.finesse) .mode-panel__head { margin-top: 0.3rem; }
+      .mode-panel .layout { padding-top: 0.45rem; }
+      .mode-panel .mode-body { padding-top: 0.15rem; gap: 0.65rem; }
+      .mode-panel .hero-download { margin-top: 0.35rem; margin-bottom: 0.85rem; }
+      .mode-panel.finesse .demo { margin-top: 0.5rem; }
+      .mode-panel:not(.finesse) .mode-phone { margin-top: -0.6rem; }
+    }
+    /* Arrow buttons */
+    .mode-arrow {
+      position: absolute; top: 40%; transform: translateY(-50%); z-index: 20;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      color: var(--text-main); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; backdrop-filter: blur(12px); transition: var(--transition);
+      box-shadow: 0 8px 24px -12px rgba(0,0,0,0.6);
+    }
+    .mode-arrow:hover { background: var(--glass-hover); color: var(--orb-1); transform: translateY(-50%) scale(1.06); }
+    .mode-arrow--left { left: 12px; }
+    .mode-arrow--right { right: 12px; }
+    .mode-arrow:disabled { opacity: 0.35; cursor: default; }
+    /* Dots */
+    .mode-dots { display: flex; justify-content: center; gap: 8px; padding: 0.4rem 0 0.4rem; }
+    /* Tighten gap between dots and THE FLOW below */
+    #how-it-works { padding-top: 0.6rem; padding-bottom: 0.5rem; }
+    /* Tighten gap between THE FLOW and FAQ: pull FAQ head up + tighten flow title/eyebrow margins */
+    #faq { padding-top: 1rem; }
+    #how-it-works .section-eyebrow { margin-bottom: 0.9rem; }
+    /* Tighten gap between phone template bottom and the dots */
+    .mode-panel.finesse { padding-bottom: 1.25rem; }
+    /* Tighten the shared section header spacing feeding the dots→flow→faq gaps */
+    #how-it-works .section-title, #faq .section-title { margin-bottom: 1.6rem; }
+    #faq .section-eyebrow { margin-bottom: 0.6rem; }
+    @media (max-width: 640px) {
+      #how-it-works .section-title, #faq .section-title { margin-bottom: 0.8rem; }
+      .section { padding-top: 1.55rem; padding-bottom: 1.2rem; }
+      .panel-steps { margin-top: 1.1rem; }
+      .mode-dots { padding-top: 0.15rem; padding-bottom: 0.25rem; }
+      .mode-panel.finesse { padding-bottom: 0.8rem; }
+      .mode-panel.finesse .mode-list { margin-top: 4.8rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 1.4rem; }
+    }
+    .mode-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
+    .mode-dots span.on { background: linear-gradient(135deg,#ff3366,#7000ff); transform: scale(1.2); }
+    /* Panels 2-4 shared content */
+    .mode-title { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; text-align: center; max-width: none; white-space: nowrap; }
+    .mode-title em { font-style: italic; }
+    /* Uniformity: Finesse hero title/desc match the shared .mode-title/.mode-desc sizes */
+    .hero-copy-title { font-size: 2.8rem; letter-spacing: -0.035em; line-height: 1.1; }
+    .hero-copy .subtext { font-size: 1.05rem; }
+    .mode-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; text-align: center; max-width: 46ch; margin: 1rem auto 1.1rem; }
+    .mode-list { list-style: none; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.7rem; width: 100%; max-width: 100%; margin: 4.8rem auto 0; }
+    .mode-list li {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      padding: 0.7rem 1rem; border-radius: 12px; font-size: 0.92rem; color: var(--text-main);
+      backdrop-filter: blur(12px);
+      white-space: nowrap; flex: 0 1 auto;
+    }
+    .mode-list li::before { content: '▸'; color: var(--orb-1); font-weight: 700; }
+    .panel-steps { width: 100%; max-width: 1080px; margin: 2.4rem auto 0; }
+    /* ---- SOON mode panels: left-aligned text + phone mockup ---- */
+    .mode-panel .mode-body {
+      width: 100%; max-width: 1080px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: 2rem; text-align: center;
+    }
+    .mode-panel__text { display: flex; flex-direction: column; align-items: center; }
+    /* Phone mockup (shared with all modes) */
+    .mode-phone {
+      width: min(340px, 82vw); height: 654px; flex: none;
+      background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)); border: 1px solid var(--glass-border);
+      border-radius: 46px; padding: 12px; box-shadow: 0 20px 60px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
+      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    }
+    .mode-phone__screen {
+      position: relative; border-radius: 36px; overflow: hidden; width: 100%; height: 100%;
+      background: #07070d; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 30px 20px 22px;
+    }
+    .mode-phone__notch {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 96px; height: 24px; background: #0a0a0f;
+      border-radius: 999px; z-index: 3; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .mode-phone__notch::after {
+      content: ''; position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+      width: 12px; height: 12px; border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #2b3a5a 0%, #0e1526 42%, #000 72%);
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.35), 0 0 3px rgba(90,140,255,0.25);
+    }
+    /* Ghost — fake-call screen */
+    .call-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .call-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg,#7000ff,#9b6bff); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.5rem; box-shadow: 0 10px 28px -8px rgba(112,0,255,0.7); }
+    .call-name { font-weight: 700; font-size: 0.95rem; }
+    .call-sub { font-size: 0.62rem; color: #a1a1aa; letter-spacing: 0.08em; text-transform: uppercase; }
+    .inc-ring { display: flex; align-items: center; justify-content: center; gap: 5px; height: 22px; margin: 2px 0 4px; }
+    .inc-ring .bar { width: 4px; height: 22px; border-radius: 99px; background: linear-gradient(to top,#FF6A5C,#FFC15E); animation: ringeq .7s ease-in-out infinite alternate; }
+    .inc-ring .bar:nth-child(2) { animation-delay: .15s; }
+    .inc-ring .bar:nth-child(3) { animation-delay: .3s; }
+    .inc-ring .bar:nth-child(4) { animation-delay: .45s; }
+    .call-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .call-btn { font-size: 0.6rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: #fff; }
+    .call-btn.abort { background: linear-gradient(135deg,#ff3366,#ff6a8a); border-color: transparent; }
+    /* Echo — voice player */
+    .voice-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 100%; }
+    .voice-wave { display: flex; align-items: center; gap: 3px; height: 34px; justify-content: center; }
+    .voice-wave .bar { width: 4px; border-radius: 99px; background: linear-gradient(to top,#FF8FB1,#FF6A5C); animation: ringeq .8s ease-in-out infinite alternate; }
+    .voice-wave .bar:nth-child(1){height:14px}.voice-wave .bar:nth-child(2){height:26px;animation-delay:.1s}.voice-wave .bar:nth-child(3){height:20px;animation-delay:.2s}.voice-wave .bar:nth-child(4){height:30px;animation-delay:.3s}.voice-wave .bar:nth-child(5){height:16px;animation-delay:.4s}
+    .voice-lab { font-size: 0.66rem; color: #a1a1aa; }
+    .voice-chip { font-size: 0.6rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: #fff; }
+    /* Vibe — mood read */
+    .mood-screen { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 100%; }
+    .mood-scale { width: 100%; position: relative; margin-top: 4px; }
+    .mood-track { height: 6px; border-radius: 999px; background: linear-gradient(90deg,#3162ff,#7c7cff,#ffffff,#FFC15E,#ff5c5c); opacity: 0.9; }
+    .mood-marker { position: absolute; top: -5px; left: 78%; width: 3px; height: 16px; background: #fff; border-radius: 999px; box-shadow: 0 0 10px rgba(255,255,255,0.7); }
+    .mood-tags { display: flex; justify-content: space-between; width: 100%; font-size: 0.55rem; color: #a1a1aa; margin-top: 6px; }
+    .mood-badge { font-size: 0.66rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: linear-gradient(135deg,#FFC15E,#FF8FB1); color: #170D16; }
+    /* SOON panels: text left, phone right on desktop */
+    @media (min-width: 860px) {
+      .mode-panel .mode-body { flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem; text-align: left; }
+      .mode-panel__text { align-items: flex-start; margin-top: -5.6rem; }
+      .mode-body .mode-title, .mode-body .mode-desc, .mode-body .mode-list { text-align: left; }
+      .mode-body .mode-desc, .mode-body .mode-list { margin-left: 0; }
+      /* bullets moved after the phone in DOM; lay out horizontally across the full row width on desktop */
+      .mode-body .mode-list { order: 3; flex: 1 1 100%; width: 100%; max-width: 100%; margin: 0 auto 0 0; justify-content: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .mode-panel { padding: 0.7rem 0.75rem 1.8rem; }
+      .mode-panel.finesse { padding-left: 0; padding-right: 0; padding-bottom: 0.8rem; }
+      .mode-panel.finesse .layout { padding-left: 0; padding-right: 0; }
+      .mode-panel:not(.finesse) .mode-body { padding-top: 0; }
+      .phone { width: min(360px, 92vw); }
+      .hero-copy-title { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; }
+      .mode-title { font-size: 2rem; white-space: normal; line-height: 1.15; letter-spacing: -0.02em; }
+      .mode-desc { font-size: 1rem; line-height: 1.45; max-width: 42ch; margin: 0.55rem auto; }
+      .mode-panel:not(.finesse) .mode-panel__text { margin-top: 0.45rem; }
+      /* Smaller arrows on mobile */
+      .mode-arrow { width: 34px; height: 34px; top: 27%; }
+      .mode-arrow svg { width: 17px; height: 17px; }
+      /* Keep titles + descriptions on top (matching Finesse/reply layout): phone below, steps after */
+      .mode-panel.finesse .mode-list { margin-top: 4.8rem; }
+      .panel-steps { margin-top: 1.1rem; }
+      .mode-panel.finesse .panel-steps { padding-bottom: 1.4rem; }
+      /* Match Ghost/Echo/Vibe phone height to the Reply phone on mobile */
+      .mode-phone { height: 654px; }
+      .mode-phone__screen { height: 100%; aspect-ratio: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layer -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
+
+  <!-- Header -->
+  <header class="nav-header">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="pricing.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5Z"/><path d="M9 12l2 2 4-4"/></svg>Pricing</a>
+      <a href="settings.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h0a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg>Settings</a>
+      <a href="privacy.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5Z"/></svg>Privacy</a>
+    </nav>
+    <div class="freemium-badge">3 Free Replies</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+  <div class="mode-wrap">
+    <button class="mode-arrow mode-arrow--left" type="button" onclick="scrollModes(-1)" aria-label="Previous mode">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="mode-arrow mode-arrow--right" type="button" onclick="scrollModes(1)" aria-label="Next mode">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <div class="mode-track" id="modeTrack">
+
+      <section class="mode-panel finesse">
+        <div class="mode-panel__head">
+          <span class="mode-name">Finesse</span>
+          <span class="mode-state live">Live</span>
+        </div>
+        <div class="layout">
+      <!-- LEFT: hero copy -->
+      <div class="hero-copy">
+        <h1 class="hero-copy-title" data-rotating-title>Don't think. Just Rizzr it.</h1>
+        <p class="subtext">Rizzr turns your voice notes into confident, natural replies that sound like you.</p>
+        <p class="hook">Send a voice note. Rizzr writes 3 perfect replies back — in seconds.</p>
+        <div class="trust-row">
+          <span class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="15.5" r="1.3"/></svg>
+            No Signup
+          </span>
+          <span class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+            ~7s Results
+          </span>
+          <span class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
+            Any Language
+          </span>
+        </div>
+        <div class="hero-download">
+          <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+            <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+          </a>
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+            <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: phone demo -->
+      <div class="demo">
+        <div class="phone">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+
+            <!-- State tabs at the very top, inside the phone -->
+            <div class="state-tabs" role="tablist" aria-label="Preview app states">
+              <button type="button" class="active" data-state="hero" onclick="switchState('hero')">Start</button>
+              <button type="button" data-state="recording" onclick="switchState('recording')">Recording</button>
+              <button type="button" data-state="results" onclick="switchState('results')">Results</button>
+            </div>
+
+            <!-- STATE 1: HERO -->
+            <section id="view-hero" class="view-state active">
+              <div class="record-wrapper" onclick="switchState('recording')">
+                <div class="pulse-ring-1"></div>
+                <div class="pulse-ring-2"></div>
+                <button class="btn-record">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="record-hint">Tap to Record</p>
+              <div class="phone-actions">
+                <button class="btn-pill btn-pill-primary" onclick="switchState('results')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload audio
+                </button>
+                <button class="btn-pill" onclick="switchState('results')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  Paste link
+                </button>
+              </div>
+              <div class="phone-trust">
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="15.5" r="1.3"/></svg>No Signup</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>~7s Results</span>
+                <span class="badge-item" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;font-size:0.6rem;color:var(--text-muted);font-weight:500;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Any Language</span>
+              </div>
+            </section>
+
+            <!-- STATE 2: RECORDING -->
+            <section id="view-recording" class="view-state">
+              <div class="phone-record-status">
+                <div class="recording-dot"></div>
+                Listening to their message...
+              </div>
+              <div class="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+              </div>
+              <div class="phone-timer"><b>LIVE</b>00:04</div>
+              <button class="btn-pill btn-stop-scale" onclick="switchState('results')"><span class="stop-chip"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/></svg></span>Stop and Generate</button>
+            </section>
+
+            <!-- STATE 3: RESULTS -->
+            <section id="view-results" class="view-state phone-results">
+              <div class="phone-results-header">
+                <h2>Pick your vibe</h2>
+                <p class="subtext">Listen to the preview or copy the text directly.</p>
+              </div>
+              <div class="cards-container">
+                <div class="reply-card flirty">
+                  <div class="card-top"><span class="vibe-tag">Flirty</span></div>
+                  <p class="card-text">"You owe me a drink for that text. When are we making it happen?"</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+                <div class="reply-card witty">
+                  <div class="card-top"><span class="vibe-tag">Witty</span></div>
+                  <p class="card-text">"I'd reply with something clever, but I feel like my silence builds mystery."</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+                <div class="reply-card sweet">
+                  <div class="card-top"><span class="vibe-tag">Sweet</span></div>
+                  <p class="card-text">"That actually just made my whole day. Tell me more about it."</p>
+                  <div class="card-actions">
+                    <button class="btn-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Note</button>
+                    <button class="btn-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <button class="reset-btn" onclick="switchState('hero')">← Start a new recording</button>
+            </section>
+
+          </div>
+        </div>
+      </div>
+      </div>
+      <ul class="mode-list">
+              <li>Three vibes — flirty, witty, sweet</li>
+              <li>Tuned to their tone, not a cold template</li>
+              <li>Copy or send — no composing needed</li>
+            </ul>
+      <div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Record or drop it in</h3><p>Hold the mic, upload a file, or paste a link to the voice note you got.</p></li>
+          <li class="step"><span class="step-num">02</span><h3>Rizzr listens</h3><p>We transcribe it and read the tone — what they said and how they said it.</p></li>
+          <li class="step"><span class="step-num">03</span><h3>Pick your reply</h3><p>Flirty, witty, or sweet — each one written out and read aloud. Copy or send.</p></li>
+        </ol>
+      </div>
+      </section>
+
+      <section class="mode-panel ghost">
+        <div class="mode-panel__head">
+          <span class="mode-name">Ghost</span>
+          <span class="mode-state soon">Soon</span>
+        </div>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <h2 class="mode-title">I want a graceful out</h2>
+            <p class="mode-desc">Fake call rings in right on cue — so you can exit awkward talks with zero explanation.</p>
+            <div class="hero-download">
+              <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+                <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+                <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+              </a>
+            </div>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="call-screen">
+                <div class="call-avatar">M</div>
+                <div class="call-name">Mom</div>
+                <div class="call-sub">Emergency</div>
+                <div class="inc-ring"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+                <div class="call-actions">
+                  <span class="call-btn">Decline</span>
+                  <span class="call-btn abort">Answer</span>
+                </div>
+                <div style="margin-top:8px;font-size:0.6rem;color:#a1a1aa;max-width:180px;">"Sorry, I have to take this."</div>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+<ul class="mode-list">
+              <li>Fake-call bailout — a believable ring-in</li>
+              <li>Ghost fade — drift out on your own terms</li>
+              <li>One tap. No awkwardness. No follow-up texts.</li>
+            </ul>
+<div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Set the signal</h3><p>Pick a believable contact and how long till the fake call rings in.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>It rings in</h3><p>A natural call screen appears at the perfect moment — real sounding, on cue.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Take the out</h3><p>Answer and duck out gracefully. No explanation needed, no follow-up texts.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="mode-panel echo">
+        <div class="mode-panel__head">
+          <span class="mode-name">Echo</span>
+          <span class="mode-state soon">Soon</span>
+        </div>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <h2 class="mode-title">Sound like me, not a robot</h2>
+            <p class="mode-desc">Audio replies read in YOUR voice — cloned and tuned to you, not a generic text-to-speech voice.</p>
+            <div class="hero-download">
+              <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+                <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+                <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+              </a>
+            </div>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="voice-screen">
+                <div class="voice-wave"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+                <div class="voice-lab">Replaying your reply</div>
+                <span class="voice-chip" style="display:inline-flex;align-items:center;gap:5px"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg> In your voice</span>
+                <span class="voice-chip" style="margin-top:2px">Saved to vault</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+<ul class="mode-list">
+              <li>Voice clone tuned to how you talk</li>
+              <li>Audio replies that sound like you sent them</li>
+              <li>Vault — your saved replies &amp; favorites live here</li>
+            </ul>
+<div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Drop a voice note</h3><p>Send the note you want to answer back as audio.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>Echo tunes your clone</h3><p>Your own voice is cloned and matched to the moment — not a robot reading text.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Send an audio reply</h3><p>Play it, tweak it, or send it wearing your voice — they'll think you said it yourself.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="mode-panel vibe">
+        <div class="mode-panel__head">
+          <span class="mode-name">Vibe</span>
+          <span class="mode-state soon">Soon</span>
+        </div>
+        <div class="mode-body">
+          <div class="mode-panel__text">
+            <h2 class="mode-title">How are they really feeling?</h2>
+            <p class="mode-desc">Reads how they sound — annoyed, excited, cold — and tunes every reply to match the mood.</p>
+            <div class="hero-download">
+              <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+                <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+                <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+              </a>
+            </div>
+          </div>
+          <div class="mode-phone">
+            <div class="mode-phone__screen">
+              <div class="mode-phone__notch"></div>
+              <div class="mood-screen">
+                <div class="mood-badge">Feels: Excited</div>
+                <div class="mood-scale">
+                  <div class="mood-track"></div>
+                  <div class="mood-marker"></div>
+                  <div class="mood-tags"><span>Cold</span><span>Neutral</span><span>Excited</span></div>
+                </div>
+                <div style="margin-top:8px;font-size:0.62rem;color:#a1a1aa;max-width:180px;line-height:1.4;">Reply tuned to match the energy.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+<ul class="mode-list">
+              <li>Emotion detection on the original note</li>
+              <li>Replies tuned to the mood, not generic</li>
+              <li>Say the right thing, every time</li>
+            </ul>
+<div class="panel-steps">
+        <ol class="steps">
+          <li class="step"><span class="step-num">01</span><h3>Hear the note</h3><p>Drop the voice note you need to read the room on.</p></li>
+            <li class="step"><span class="step-num">02</span><h3>Read the mood</h3><p>Vibe detects the emotion — cold, neutral, excited — from how they actually sound.</p></li>
+            <li class="step"><span class="step-num">03</span><h3>Reply in tune</h3><p>Get a reply that matches their energy, so you never say the wrong thing.</p></li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <div class="mode-dots" id="modeDots">
+      <span class="on"></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</main>
+
+  <!-- Social proof: early beta-style rating line + realistic testimonials (replace with real data at launch) -->
+  <section class="social-proof">
+    <div class="social-proof__rating">
+      <span class="social-proof__stars" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc15e" stroke="#ffc15e" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      <span class="social-proof__rating-num">4.6</span>
+      <span class="social-proof__meta">· early testers say replies feel natural</span>
+    </div>
+    <div class="testimonial-slider">
+      <button class="testimonial-nav testimonial-nav--prev" type="button" aria-label="Previous testimonials">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="testimonial-track">
+        <figure class="social-proof__card">
+          <blockquote>"I tested it with a few awkward voice notes and the replies felt natural enough that I would actually send them."</blockquote>
+          <figcaption>— Maya T.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"The suggestions gave me a better starting point than my first draft, especially when I was overthinking the tone."</blockquote>
+          <figcaption>— Daniel R.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"It helped me slow down and match the mood instead of sending something too dry or too much."</blockquote>
+          <figcaption>— Zoe B.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"The best part is having options. One reply was too bold for me, but another one sounded exactly right."</blockquote>
+          <figcaption>— Amir H.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"I tried it on casual chats and work-ish messages. The casual ones were the strongest, but both were usable."</blockquote>
+          <figcaption>— Lena O.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"It made replies feel less stressful. I still tweak the wording, but it gets me 80% of the way there."</blockquote>
+          <figcaption>— Jordan R.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"I compared it with what I would normally text, and Rizzr's version was usually cleaner without sounding fake."</blockquote>
+          <figcaption>— Priya S.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"Good for dating app replies when you know the vibe but cannot find the exact words yet."</blockquote>
+          <figcaption>— Marcus W.</figcaption>
+        </figure>
+        <figure class="social-proof__card">
+          <blockquote>"I would use this before sending anything sensitive. It gives me a calmer version of what I meant to say."</blockquote>
+          <figcaption>— Kofi M.</figcaption>
+        </figure>
+      </div>
+      <button class="testimonial-nav testimonial-nav--next" type="button" aria-label="Next testimonials">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="testimonial-dots" role="tablist" aria-label="Testimonial pages"></div>
+  </section>
+
+  <!-- Shared FAQ — applies to all four modes -->
+  <section class="section" id="faq">
+    <span class="section-eyebrow">FAQ</span>
+    <h2 class="section-title">Questions, answered.</h2>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>Which modes are available now?</summary>
+        <p><strong>Finesse</strong> (reply) is live. <strong>Ghost</strong>, <strong>Echo</strong> and <strong>Vibe</strong> are in the works — they share the same voice→AI→reply engine, so they'll arrive on top of what already works.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need an account to use Rizzr?</summary>
+        <p>No signup needed. You get 3 free replies per day, then it's a flat <strong>$9.99/mo</strong> for unlimited use.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work in any language?</summary>
+        <p>Yes — Rizzr transcribes the voice note, reads the tone, and writes a reply in the same language the note was sent in.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How are audio replies made?</summary>
+        <p>By default replies come back as text you can copy or send. Audio replies in your own voice arrive with the <strong>Echo</strong> mode.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is my voice data private?</summary>
+        <p>Your voice notes are processed and not sold or shared. You control what's kept in your vault.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Pricing band: price anchor + CTA -->
+  <section class="pricing-band">
+    <div class="pricing-band__copy">
+      <p class="pricing-band__price"><strong>$9.99</strong><span>/mo</span></p>
+      <p class="pricing-band__desc">Pro — unlimited replies · 3 free tries · cancel anytime</p>
+    </div>
+    <a class="pricing-band__cta" href="pricing.html">View pricing</a>
+  </section>
+
+  <!-- Bottom download CTA: "Get your Rizzr today." + inline iOS/Android download buttons -->
+  <section class="download-cta" id="download">
+    <h2 class="download-cta__title">Get your Rizzr today.</h2>
+    <div class="download-cta__btns">
+      <a class="store-btn" href="https://apps.apple.com/us/app/rizzr/idXXXXXXXXXX" target="_blank" rel="noopener" aria-label="Download on the App Store">
+        <img src="assets/img/app-store-badge.svg" alt="Download on the App Store">
+      </a>
+      <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rizzr.app" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <img src="assets/img/google-play-badge.png" alt="Get it on Google Play">
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__links">
+      <a href="index.html" class="footer__link">Home</a>
+      <a href="pricing.html" class="footer__link">Pricing</a>
+      <a href="settings.html" class="footer__link">Settings</a>
+      <a href="privacy.html" class="footer__link">Privacy</a>
+    </div>
+    <p>Rizzr — AI voice-note reply coach. Made with care</p>
+  </footer>
+
+  <script>
+    // ---- Rotating hero title (random on each refresh) ----
+    var ROTATING_TITLES = [
+      "Don't think. Just Rizzr it.",
+      "Perfect replies, zero panic."
+    ];
+    (function rotateTitle() {
+      var i = Math.floor(Math.random() * ROTATING_TITLES.length);
+      document.querySelectorAll('[data-rotating-title]').forEach(function(el) {
+        el.innerHTML = ROTATING_TITLES[i];
+      });
+    })();
+
+    function switchState(targetId) {
+      var sections = document.querySelectorAll('.view-state');
+      for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
+      var targets = document.querySelectorAll('#view-' + targetId);
+      for (var k = 0; k < targets.length; k++) targets[k].classList.add('active');
+      var tabs = document.querySelectorAll('.state-tabs button');
+      for (var j = 0; j < tabs.length; j++) tabs[j].classList.toggle('active', tabs[j].getAttribute('data-state') === targetId);
+      if (targetId === 'recording') {
+        var timers = document.querySelectorAll('.phone-timer');
+        var sec = 0;
+        for (var t = 0; t < timers.length; t++) timers[t].innerText = '00:00';
+        if (window.recInterval) clearInterval(window.recInterval);
+        window.recInterval = setInterval(function() {
+          sec += 1;
+          var label = (sec < 10 ? '00:0' : '00:') + sec;
+          for (var m = 0; m < timers.length; m++) timers[m].innerText = label;
+          if (sec >= 5) { clearInterval(window.recInterval); switchState('results'); }
+        }, 1000);
+      } else {
+        clearInterval(window.recInterval);
+      }
+    }
+    // ---- PWA shortcut: ?action=record (from manifest shortcut tap) jumps straight to recording ----
+    (function() {
+      try {
+        var p = new URLSearchParams(window.location.search);
+        if (p.get('action') === 'record' && typeof switchState === 'function') {
+          switchState('recording');
+        }
+      } catch (e) {}
+    })();
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
+    // ---- Fixed nav: frosted glass on scroll ----
+    (function() {
+      var header = document.querySelector('.nav-header');
+      if (!header) return;
+      function onScroll() {
+        header.classList.toggle('is-scrolled', window.scrollY > 12);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+    // ---- Mobile hamburger nav toggle ----
+    (function() {
+      var toggle = document.getElementById('navToggle');
+      var links = document.getElementById('navLinks');
+      if (!toggle || !links) return;
+      function closeNav() {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      toggle.addEventListener('click', function() {
+        var open = links.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      // close when clicking anywhere outside the nav
+      document.addEventListener('click', function(e) {
+        if (!links.classList.contains('open')) return;
+        if (links.contains(e.target) || toggle.contains(e.target)) return;
+        closeNav();
+      });
+      // close when a link is chosen
+      Array.prototype.slice.call(links.querySelectorAll('a')).forEach(function(a) {
+        a.addEventListener('click', closeNav);
+      });
+    })();
+    // ---- Mode carousel: left/right arrows + dots (seamless infinite 360) ----
+    (function() {
+      var track = document.getElementById('modeTrack');
+      if (!track) return;
+      var dots = Array.prototype.slice.call(document.querySelectorAll('#modeDots span'));
+      var leftBtn = document.querySelector('.mode-arrow--left');
+      var rightBtn = document.querySelector('.mode-arrow--right');
+      var N = dots.length;                 // real panel count (4)
+      var real = Array.prototype.slice.call(track.children);
+      // Clone the full set 3x so the loop can wrap invisibly: [set0][set1][set2].
+      // The middle set (indices N..2N-1) is the "real" window we snap back into.
+      track.innerHTML = '';
+      for (var copy = 0; copy < 3; copy++) {
+        real.forEach(function(p){ track.appendChild(p.cloneNode(true)); });
+      }
+      var TOTAL = track.children.length;   // 3N
+
+      function page() {
+        var i = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+        return Math.max(0, Math.min(i, TOTAL - 1));
+      }
+      function activePage() { return ((page() % N) + N) % N; }
+      function sync() {
+        var a = activePage();
+        dots.forEach(function(d, idx) { d.classList.toggle('on', idx === a); });
+      }
+      window.scrollModes = function(dir) {
+        var i = page();
+        var target = i + dir;   // may exceed ring into clones, then we snap back
+        track.scrollTo({ left: target * track.clientWidth, behavior: 'smooth' });
+      };
+      // Start at the middle (real) set so the first panel is actual content, not a clone
+      track.scrollLeft = N * track.clientWidth;
+      sync();
+
+      // Snap back to the real set whenever user lands in the clone zones (invisible: identical copy)
+      var snapTimer = null;
+      function maybeSnap(){
+        var i = page();
+        // middle real set is indices [N, 2N-1]
+        if (i >= 2 * N) {
+          // landed in the AFTER clone zone -> snap to the same logical page in the real zone
+          snapTo(i - N);
+        } else if (i < N) {
+          // landed in the BEFORE clone zone -> snap to the same logical page
+          snapTo(i + N);
+        }
+      }
+      function snapTo(targetIndex){
+        track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'auto' });
+        dots.forEach(function(d, idx) { d.classList.toggle('on', idx === ((targetIndex % N) + N) % N); });
+      }
+      track.addEventListener('scroll', function(){
+        sync();
+        // debounce so we only snap after the scrolling settles OR at the immediate boundary
+        if (snapTimer) clearTimeout(snapTimer);
+        snapTimer = setTimeout(maybeSnap, 150);
+      }, { passive: true });
+      if (leftBtn) leftBtn.addEventListener('click', function(){ window.scrollModes(-1); });
+      if (rightBtn) rightBtn.addEventListener('click', function(){ window.scrollModes(1); });
+      window.addEventListener('resize', sync);
+    })();
+
+    // --- Bottom testimonial slider: the 6 extra quotes, 3 at a time, slides between windows ---
+    (function() {
+      var slider = document.querySelector('.testimonial-slider');
+      if (!slider) return;
+      var track = slider.querySelector('.testimonial-track');
+      var prev = slider.querySelector('.testimonial-nav--prev');
+      var next = slider.querySelector('.testimonial-nav--next');
+      var dotsWrap = document.querySelector('.testimonial-dots');
+      if (!track || !dotsWrap) return;
+      var cards = Array.prototype.slice.call(track.children);
+      var perPage = window.innerWidth <= 640 ? 1 : 3;
+      var total = cards.length;                          // 6
+      var pages = Math.max(1, Math.ceil(total / perPage));
+      var idx = 0;                                       // 0..pages-1
+
+      function pitch(){
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        return (cards[0].getBoundingClientRect().width + gap) || (slider.clientWidth / perPage);
+      }
+      function go(i){
+        idx = ((i % pages) + pages) % pages;
+        track.style.transition = 'transform 0.7s cubic-bezier(0.35, 0.1, 0.25, 1)';
+        track.style.transform = 'translateX(' + (-idx * perPage * pitch()) + 'px)';
+        syncDots();
+      }
+      function step(dir){ go(idx + dir); }
+      function buildDots(){
+        dotsWrap.innerHTML = '';
+        for (var i = 0; i < pages; i++){
+          (function(k){
+            var d = document.createElement('span');
+            d.addEventListener('click', function(){ go(k); });
+            dotsWrap.appendChild(d);
+          })(i);
+        }
+      }
+      function syncDots(){
+        var ds = Array.prototype.slice.call(dotsWrap.children);
+        ds.forEach(function(d, k){ d.classList.toggle('on', k === idx); });
+      }
+      // Rebuild per-page on resize (mobile = 1 card / view, desktop = 3)
+      function onResize(){
+        perPage = window.innerWidth <= 640 ? 1 : 3;
+        pages = Math.max(1, Math.ceil(total / perPage));
+        buildDots();
+        go(0);
+      }
+      buildDots();
+      if (prev) prev.addEventListener('click', function(){ step(-1); });
+      if (next) next.addEventListener('click', function(){ step(1); });
+      window.addEventListener('resize', onResize);
+      // Auto-advance between the two windows every 5s
+      setInterval(function(){ step(1); }, 5000);
+      go(0);
+    })();
+
+  </script>
+</body>
+</html>

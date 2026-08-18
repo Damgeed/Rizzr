@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Rizzr settings — manage your account, privacy, and plan.">
+  <title>Settings | Rizzr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=4">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=3">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/midnight-aura.css?v=hgt17">
+  <style>
+    /* Settings-specific */
+    .settings-section { display: flex; flex-direction: column; }
+    .settings-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .settings-hint { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; }
+    .settings-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--glass-border);
+      font-size: 0.9rem;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-value { color: var(--text-muted); font-size: 0.85rem; text-align: right; }
+    .settings-badge { font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); white-space: nowrap; }
+    .settings-badge--on { background: rgba(74, 222, 128, 0.12); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.25); }
+    .settings-badge--free { background: rgba(255, 193, 94, 0.12); color: #FFC15E; border: 1px solid rgba(255, 193, 94, 0.28); }
+    .settings-upgrade { margin-top: 1.1rem; }
+    .settings-upgrade .btn { gap: 0.45rem; }
+    .settings-upgrade .store-row { display: flex; justify-content: center; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+    .settings-upgrade .app-store-note { text-align: center; color: var(--text-muted); font-size: 0.78rem; margin-top: 0.7rem; line-height: 1.5; }
+    .settings-link { color: var(--text-main); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+    .settings-link:hover { color: var(--orb-1); }
+    /* Plan card: highlighted when Pro */
+    .plan-card { border: 1px solid rgba(255, 51, 102, 0.35); box-shadow: 0 0 40px -14px rgba(255, 51, 102, 0.4); }
+    /* Preferences: segmented-ish leading switch row */
+    .pref-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--glass-border); }
+    .pref-row:last-child { border-bottom: none; }
+    .pref-row .pref-label { display: flex; flex-direction: column; gap: 0.15rem; }
+    .pref-row .pref-name { font-size: 0.9rem; font-weight: 500; }
+    .pref-row .pref-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+
+    /* Mobile: keep rows from overflowing on narrow screens */
+    @media (max-width: 480px) {
+      .settings-row { flex-wrap: wrap; row-gap: 0.35rem; }
+      .settings-row .settings-label { min-width: 0; flex: 1 1 auto; }
+      .settings-value { text-align: right; }
+      .settings-upgrade .btn { padding: 0.8rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layer -->
+  <div class="bg-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
+
+  <!-- Header -->
+  <header class="nav-header">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+      <span>Rizzr</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="pricing.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5Z"/><path d="M9 12l2 2 4-4"/></svg>Pricing</a>
+      <a href="settings.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h0a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg>Settings</a>
+      <a href="privacy.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5Z"/></svg>Privacy</a>
+    </nav>
+    <div class="freemium-badge">3 Free Replies</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="page-container">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-sub">Your plan, preferences and privacy — no account needed.</p>
+
+    <!-- PRIVACY -->
+    <div class="glass-card settings-section">
+      <div class="settings-title">🔒 Privacy</div>
+      <div class="settings-row">
+        <span>Audio auto-deleted after processing</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
+      </div>
+      <div class="settings-row">
+        <span>No conversation history stored</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
+      </div>
+      <div class="settings-row">
+        <span>Zero data sold to third parties</span>
+        <span class="settings-badge settings-badge--on">✓ Always on</span>
+      </div>
+    </div>
+
+    <!-- YOUR PLAN -->
+    <div class="glass-card settings-section plan-card">
+      <div class="settings-title">⭐ Your Plan</div>
+      <div class="settings-hint"><strong>No account needed.</strong> Your plan and purchases live in the App Store or Google Play — that's how subscriptions renew on mobile.</div>
+      <div class="settings-row">
+        <span class="settings-label">Current plan</span>
+        <span class="settings-badge settings-badge--free">Free · 3 replies</span>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">Replies used today</span>
+        <span class="settings-value" data-free-count>0 / 3</span>
+      </div>
+      <div class="settings-upgrade">
+        <a href="index.html#download" class="btn btn-primary btn-block">Get Pro in the app →</a>
+        <div class="app-store-note">Subscriptions are managed in the Rizzr app, Apple ID settings, or Google Play subscriptions.<br>You'll never be charged from this website.</div>
+      </div>
+    </div>
+
+    <!-- PREFERENCES (on-device) -->
+    <div class="glass-card settings-section">
+      <div class="settings-title">⚙️ Preferences</div>
+      <div class="settings-hint">These live on this device, so they apply instantly — no login needed.</div>
+      <div class="pref-row">
+        <span class="pref-label">
+          <span class="pref-name">Relaxed tone by default</span>
+          <span class="pref-desc">Lean replies toward casual and warm.</span>
+        </span>
+        <button class="settings-badge settings-badge--on" type="button" data-toggle aria-pressed="true">On</button>
+      </div>
+      <div class="pref-row">
+        <span class="pref-label">
+          <span class="pref-name">Keep a friendly emoji</span>
+          <span class="pref-desc">Add a light touch of warmth, not overkill.</span>
+        </span>
+        <button class="settings-badge settings-badge--on" type="button" data-toggle aria-pressed="true">On</button>
+      </div>
+      <div class="pref-row">
+        <span class="pref-label">
+          <span class="pref-name">Copy reply automatically</span>
+          <span class="pref-desc">Jump straight to your messenger after choosing.</span>
+        </span>
+        <button class="settings-badge" type="button" data-toggle aria-pressed="false">Off</button>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="glass-card settings-section">
+      <div class="settings-title">ℹ️ About</div>
+      <div class="settings-row">
+        <span>Version</span>
+        <span class="settings-value">1.0.0</span>
+      </div>
+      <div class="settings-row">
+        <a href="privacy.html" class="settings-link">Privacy Policy</a>
+        <span class="settings-value">→</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__links">
+      <a href="index.html" class="footer__link">Home</a>
+      <a href="pricing.html" class="footer__link">Pricing</a>
+      <a href="settings.html" class="footer__link">Settings</a>
+      <a href="privacy.html" class="footer__link">Privacy</a>
+    </div>
+    <p>Rizzr — AI voice-note reply coach. Made with care</p>
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
+    // ---- Mobile hamburger nav toggle ----
+    (function() {
+      var toggle = document.getElementById('navToggle');
+      var links = document.getElementById('navLinks');
+      if (!toggle || !links) return;
+      function closeNav() {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      toggle.addEventListener('click', function() {
+        var open = links.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      // close when clicking anywhere outside the nav
+      document.addEventListener('click', function(e) {
+        if (!links.classList.contains('open')) return;
+        if (links.contains(e.target) || toggle.contains(e.target)) return;
+        closeNav();
+      });
+      // close when a link is chosen
+      Array.prototype.slice.call(links.querySelectorAll('a')).forEach(function(a) {
+        a.addEventListener('click', closeNav);
+      });
+    })();
+
+    // ---- Settings: on-device prefs toggles + free usage count ----
+    (function() {
+      // Toggle buttons (On/Off)
+      Array.prototype.slice.call(document.querySelectorAll('[data-toggle]')).forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var on = btn.getAttribute('aria-pressed') === 'true';
+          btn.setAttribute('aria-pressed', on ? 'false' : 'true');
+          btn.textContent = on ? 'Off' : 'On';
+          btn.classList.toggle('settings-badge--on', !on);
+        });
+      });
+      // Free usage count (client-side demo value — real count lives in the app)
+      var fc = document.querySelector('[data-free-count]');
+      if (fc) {
+        var used = parseInt(localStorage.getItem('rizzr_free_used') || '0', 10);
+        fc.textContent = used + ' / 3';
+      }
+    })();
+  </script>
+</body>
+</html>
