@@ -34,7 +34,7 @@ struct RecorderPreviewCard: View {
             progressViz
                 .padding(.top, 18)
 
-            HStack(spacing: 12) {
+            HStack(spacing: 16) {
                 Button { showAudioImporter = true } label: {
                     Label("Upload audio", systemImage: "square.and.arrow.up")
                 }
@@ -45,16 +45,16 @@ struct RecorderPreviewCard: View {
                 }
                 .buttonStyle(RizzrOutlineActionStyle())
             }
-            .font(.custom("Outfit", fixedSize: 15).weight(.bold))
+            .font(.custom("Outfit", fixedSize: 16.5).weight(.heavy))
             .foregroundStyle(.white)
-            .padding(.top, 64)
+            .padding(.top, 62)
             .disabled(isBusy || viewModel.state == .recording)
             .opacity(shouldShowImportAction ? 1 : 0.45)
 
             Rectangle()
-                .fill(Color.white.opacity(0.16))
+                .fill(Color(hex: 0x2A2B33).opacity(0.95))
                 .frame(height: 1)
-                .padding(.top, 28)
+                .padding(.top, 31)
 
             FeatureBadgeRow()
                 .padding(.top, 31)
@@ -127,7 +127,7 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 192, height: 192)
+                    .frame(width: 214, height: 214)
                     .overlay(
                         Circle()
                             .stroke(
@@ -139,8 +139,8 @@ struct RecorderPreviewCard: View {
                                 lineWidth: 1.2
                             )
                     )
-                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.78), radius: 34, x: -12, y: -8)
-                    .shadow(color: Color(hex: 0x5316FF).opacity(0.82), radius: 54, x: 18, y: 24)
+                    .shadow(color: Color(hex: 0xFF2F8F).opacity(0.60), radius: 30, x: -10, y: -6)
+                    .shadow(color: Color(hex: 0x7B18FF).opacity(0.76), radius: 50, x: 16, y: 24)
                     .shadow(color: Color(hex: 0xFF0A78).opacity(0.18), radius: 8, x: 0, y: 2)
 
                 Circle()
@@ -152,11 +152,11 @@ struct RecorderPreviewCard: View {
                             endRadius: 118
                         )
                     )
-                    .frame(width: 192, height: 192)
+                    .frame(width: 214, height: 214)
                     .blendMode(.screen)
 
-                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 68, weight: .black))
+                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
+                    .font(.system(size: viewModel.state == .recording ? 70 : 82, weight: .black))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
             }
@@ -289,7 +289,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF006E), Color(hex: 0xC100FF), Color(hex: 0x4A00FF)],
+            colors: [Color(hex: 0xFF2F8F), Color(hex: 0xD318D9), Color(hex: 0x8418FF)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -299,8 +299,8 @@ private enum RizzrReferenceGradient {
 private struct FeatureBadgeRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            FeatureBadge(icon: "lock.fill", title: "No Signup")
-            FeatureBadge(icon: "bolt.fill", title: "~7s Results")
+            FeatureBadge(icon: "lock", title: "No Signup")
+            FeatureBadge(icon: "bolt", title: "~7s Results")
             FeatureBadge(icon: "globe", title: "Any Language")
         }
     }
@@ -313,12 +313,13 @@ private struct FeatureBadge: View {
     var body: some View {
         VStack(spacing: 9) {
             Image(systemName: icon)
-                .font(.system(size: 19, weight: .bold))
-                .foregroundStyle(.white)
-                .frame(height: 22)
+                .font(.system(size: 24, weight: .semibold))
+                .symbolRenderingMode(.monochrome)
+                .foregroundStyle(Color(hex: 0xA5A2AE))
+                .frame(height: 27)
             Text(title)
-                .font(.custom("Outfit", fixedSize: 13).weight(.bold))
-                .foregroundStyle(Color(hex: 0xEEEEF4))
+                .font(.custom("Outfit", fixedSize: 13.5).weight(.heavy))
+                .foregroundStyle(Color(hex: 0xA5A2AE))
                 .lineLimit(1)
                 .minimumScaleFactor(0.82)
         }
@@ -341,10 +342,10 @@ private struct RizzrGradientActionStyle: ButtonStyle {
             .lineLimit(1)
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 56)
-            .background(RizzrReferenceGradient.gradient, in: RoundedRectangle(cornerRadius: 17, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 17, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
-            .shadow(color: Color(hex: 0xFF0A78).opacity(configuration.isPressed ? 0.22 : 0.38), radius: 18, x: 0, y: 10)
+            .frame(height: 66)
+            .background(RizzrReferenceGradient.gradient, in: Capsule())
+            .overlay(Capsule().stroke(Color.white.opacity(0.12), lineWidth: 1))
+            .shadow(color: Color(hex: 0xFF2F8F).opacity(configuration.isPressed ? 0.20 : 0.34), radius: 18, x: 0, y: 10)
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
@@ -357,9 +358,9 @@ private struct RizzrOutlineActionStyle: ButtonStyle {
             .lineLimit(1)
             .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .frame(height: 56)
-            .background(Color(hex: 0x06060A).opacity(configuration.isPressed ? 1 : 0.94), in: RoundedRectangle(cornerRadius: 17, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 17, style: .continuous).stroke(Color.white.opacity(0.30), lineWidth: 1.15))
+            .frame(height: 66)
+            .background(Color(hex: 0x0B0C12).opacity(configuration.isPressed ? 1 : 0.96), in: Capsule())
+            .overlay(Capsule().stroke(Color(hex: 0x343640), lineWidth: 1.4))
             .scaleEffect(configuration.isPressed ? 0.965 : 1)
             .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
