@@ -28,7 +28,7 @@
     <string>Rizzr needs microphone access so you can record a voice note and generate reply suggestions.</string>
     <key>UIAppFonts</key>
     <array>
-        <string>Fonts/Outfit.ttf</string>
+        <string>Outfit.ttf</string>
     </array>
     <key>RizzrAPIBaseURL</key>
     <string>$(RIZZR_API_BASE_URL)</string>
