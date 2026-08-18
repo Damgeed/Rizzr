@@ -65,14 +65,17 @@ struct HomeView: View {
             Image("BrandMark")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 56, height: 56)
+                .frame(width: 52, height: 52)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .shadow(color: RizzrColor.orbCoral.opacity(0.22), radius: 18, x: 0, y: 10)
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text("Rizzr")
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
+                    .font(RizzrTypography.title)
+                    .foregroundStyle(
+                        LinearGradient(colors: [.white, RizzrColor.textMuted], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
 
                 Text("Voice replies, built for quick taps.")
                     .font(RizzrTypography.body)
@@ -81,6 +84,11 @@ struct HomeView: View {
 
             Spacer(minLength: 0)
         }
+        .padding(.horizontal, RizzrSpacing.md)
+        .padding(.vertical, RizzrSpacing.sm)
+        .background(.ultraThinMaterial, in: Capsule())
+        .background(RizzrColor.navGlass, in: Capsule())
+        .overlay(Capsule().stroke(Color.white.opacity(0.06), lineWidth: 1))
     }
 }
 

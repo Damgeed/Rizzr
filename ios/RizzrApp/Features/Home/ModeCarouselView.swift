@@ -12,13 +12,32 @@ struct ModeCarouselView: View {
                 .textCase(.uppercase)
                 .tracking(1.5)
 
-            Picker("Mode", selection: $selectedMode) {
+            HStack(spacing: RizzrSpacing.xs) {
                 ForEach(RizzrMode.allCases) { mode in
-                    Text(mode.title).tag(mode)
+                    Button {
+                        selectedMode = mode
+                    } label: {
+                        Text(mode.title)
+                            .font(RizzrTypography.caption)
+                            .foregroundStyle(selectedMode == mode ? .white : RizzrColor.textMuted)
+                            .padding(.horizontal, RizzrSpacing.sm)
+                            .padding(.vertical, RizzrSpacing.xs)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                selectedMode == mode ? RizzrColor.glassFill : Color.clear,
+                                in: Capsule()
+                            )
+                            .overlay(
+                                Capsule().stroke(selectedMode == mode ? RizzrColor.glassBorder : Color.clear, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
                 }
             }
-            .pickerStyle(.segmented)
-            .tint(RizzrColor.orbCoral)
+            .padding(4)
+            .background(.ultraThinMaterial, in: Capsule())
+            .background(RizzrColor.glassFill, in: Capsule())
+            .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
 
             ModeCard(
                 mode: selectedMode,

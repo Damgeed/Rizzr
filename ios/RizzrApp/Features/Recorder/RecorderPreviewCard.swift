@@ -79,7 +79,8 @@ struct RecorderPreviewCard: View {
                 Circle()
                     .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 92, height: 92)
-                    .shadow(color: RizzrColor.orbCoral.opacity(0.35), radius: 24)
+                    .overlay(Circle().stroke(Color.white.opacity(0.12), lineWidth: 1))
+                    .shadow(color: RizzrColor.orbCoral.opacity(0.42), radius: 30, x: 0, y: 12)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
                     .font(.system(size: 30, weight: .bold))
@@ -99,6 +100,7 @@ struct RecorderPreviewCard: View {
                 .foregroundStyle(RizzrColor.textPrimary)
                 .padding(.horizontal, RizzrSpacing.md)
                 .padding(.vertical, RizzrSpacing.xs)
+                .background(.ultraThinMaterial, in: Capsule())
                 .background(RizzrColor.glassFill, in: Capsule())
                 .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
         }
@@ -334,6 +336,7 @@ private struct ReplyCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(RizzrSpacing.md)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous))
         .background(RizzrColor.glassFill, in: RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: RizzrRadius.small, style: .continuous)

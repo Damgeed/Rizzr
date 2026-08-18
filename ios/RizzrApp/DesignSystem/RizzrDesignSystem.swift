@@ -7,8 +7,10 @@ enum RizzrColor {
     static let orbCyan = Color(hex: 0x00D4FF)
     static let textPrimary = Color.white
     static let textMuted = Color(hex: 0xA1A1AA)
-    static let glassFill = Color.white.opacity(0.035)
-    static let glassBorder = Color.white.opacity(0.09)
+    static let glassFill = Color.white.opacity(0.03)
+    static let glassHover = Color.white.opacity(0.08)
+    static let glassBorder = Color.white.opacity(0.08)
+    static let navGlass = Color(hex: 0x08080E).opacity(0.34)
 }
 
 enum RizzrRadius {
@@ -29,11 +31,15 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
-    static let display = Font.system(size: 32, weight: .bold, design: .rounded)
-    static let title = Font.system(size: 24, weight: .bold, design: .rounded)
-    static let body = Font.system(size: 16, weight: .regular, design: .rounded)
-    static let bodyStrong = Font.system(size: 16, weight: .semibold, design: .rounded)
-    static let caption = Font.system(size: 12, weight: .semibold, design: .rounded)
+    static let display = outfit(size: 32, weight: .bold)
+    static let title = outfit(size: 24, weight: .bold)
+    static let body = outfit(size: 16, weight: .regular)
+    static let bodyStrong = outfit(size: 16, weight: .semibold)
+    static let caption = outfit(size: 12, weight: .semibold)
+
+    static func outfit(size: CGFloat, weight: Font.Weight) -> Font {
+        .custom("Outfit-Thin", size: size).weight(weight)
+    }
 }
 
 extension Color {
