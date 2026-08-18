@@ -38,9 +38,9 @@ struct ModeCarouselView: View {
                         RizzrHaptics.selection()
                     } label: {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 18).weight(.heavy))
-                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF0A78) : Color(hex: 0x74747F))
-                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF0A78).opacity(0.36) : .clear, radius: 12, x: 0, y: 6)
+                            .font(.custom("Outfit", fixedSize: 18).weight(selection.wrappedValue == mode ? .black : .heavy))
+                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF006E) : Color(hex: 0x83838D))
+                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF006E).opacity(0.44) : .clear, radius: 12, x: 0, y: 6)
                             .frame(maxWidth: .infinity)
                             .frame(height: 39)
                             .contentShape(Rectangle())
@@ -54,17 +54,18 @@ struct ModeCarouselView: View {
                 let tabWidth = proxy.size.width / CGFloat(RizzrMode.allCases.count)
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .fill(Color.white.opacity(0.20))
+                        .fill(Color.white.opacity(0.22))
                         .frame(height: 1)
 
-                    Rectangle()
-                        .fill(Color(hex: 0xFF0A78))
-                        .frame(width: tabWidth, height: 3)
+                    Capsule()
+                        .fill(Color(hex: 0xFF006E))
+                        .frame(width: tabWidth, height: 3.5)
                         .offset(x: tabWidth * CGFloat(selection.wrappedValue.index))
+                        .shadow(color: Color(hex: 0xFF006E).opacity(0.48), radius: 8, x: 0, y: -1)
                         .animation(.snappy(duration: 0.26), value: selection.wrappedValue)
                 }
             }
-            .frame(height: 2)
+            .frame(height: 3.5)
             .padding(.horizontal, 21)
         }
     }

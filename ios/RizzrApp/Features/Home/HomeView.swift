@@ -34,28 +34,30 @@ struct HomeView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("Rizzr")
-                .font(.custom("Outfit", fixedSize: 43).weight(.black))
+                .font(.custom("Outfit", fixedSize: 44).weight(.black))
                 .foregroundStyle(.white)
-                .tracking(-1.45)
-                .shadow(color: Color(hex: 0xFF1F79).opacity(0.24), radius: 18, x: 0, y: 8)
+                .tracking(-1.65)
+                .shadow(color: Color(hex: 0xFF006E).opacity(0.30), radius: 20, x: 0, y: 8)
 
             Spacer()
 
             HStack(spacing: 19) {
                 Button { showSavedReplies = true } label: {
                     Image(systemName: "clock")
-                        .font(.system(size: 25, weight: .black))
+                        .font(.system(size: 26, weight: .heavy))
+                        .symbolRenderingMode(.monochrome)
                         .foregroundStyle(.white)
-                        .frame(width: 30, height: 34)
+                        .frame(width: 31, height: 34)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Open history")
 
                 Button { showSettings = true } label: {
                     Image(systemName: "gearshape")
-                        .font(.system(size: 25, weight: .black))
+                        .font(.system(size: 26, weight: .heavy))
+                        .symbolRenderingMode(.monochrome)
                         .foregroundStyle(.white)
-                        .frame(width: 30, height: 34)
+                        .frame(width: 31, height: 34)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Open settings")

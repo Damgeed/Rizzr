@@ -22,11 +22,11 @@ struct RecorderPreviewCard: View {
             recordButton
 
             Text(labelText)
-                .font(.custom("Outfit", fixedSize: 13).weight(.heavy))
-                .tracking(2.35)
-                .foregroundStyle(Color(hex: 0xA7A7B5))
+                .font(.custom("Outfit", fixedSize: 13).weight(.black))
+                .tracking(2.65)
+                .foregroundStyle(Color(hex: 0xB7B7C6))
                 .shadow(color: .black.opacity(0.8), radius: 12, x: 0, y: 6)
-                .padding(.top, 30)
+                .padding(.top, 31)
 
             readyAction
                 .padding(.top, 22)
@@ -47,7 +47,7 @@ struct RecorderPreviewCard: View {
             }
             .font(.custom("Outfit", fixedSize: 15).weight(.bold))
             .foregroundStyle(.white)
-            .padding(.top, 82)
+            .padding(.top, 64)
             .disabled(isBusy || viewModel.state == .recording)
             .opacity(shouldShowImportAction ? 1 : 0.45)
 
@@ -127,10 +127,21 @@ struct RecorderPreviewCard: View {
             ZStack {
                 Circle()
                     .fill(RizzrReferenceGradient.gradient)
-                    .frame(width: 188, height: 188)
-                    .overlay(Circle().stroke(Color.white.opacity(0.12), lineWidth: 1))
-                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.64), radius: 30, x: -10, y: -7)
-                    .shadow(color: Color(hex: 0x5316FF).opacity(0.68), radius: 46, x: 15, y: 22)
+                    .frame(width: 192, height: 192)
+                    .overlay(
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.34), .white.opacity(0.06)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1.2
+                            )
+                    )
+                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.78), radius: 34, x: -12, y: -8)
+                    .shadow(color: Color(hex: 0x5316FF).opacity(0.82), radius: 54, x: 18, y: 24)
+                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.18), radius: 8, x: 0, y: 2)
 
                 Circle()
                     .fill(
@@ -141,13 +152,13 @@ struct RecorderPreviewCard: View {
                             endRadius: 118
                         )
                     )
-                    .frame(width: 188, height: 188)
+                    .frame(width: 192, height: 192)
                     .blendMode(.screen)
 
                 Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
-                    .font(.system(size: 64, weight: .black))
+                    .font(.system(size: 68, weight: .black))
                     .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.18), radius: 6, x: 0, y: 3)
+                    .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
             }
         }
         .buttonStyle(RecordButtonStyle())
@@ -278,7 +289,7 @@ struct RecorderPreviewCard: View {
 private enum RizzrReferenceGradient {
     static var gradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: 0xFF0A78), Color(hex: 0xB018FF), Color(hex: 0x4414FF)],
+            colors: [Color(hex: 0xFF006E), Color(hex: 0xC100FF), Color(hex: 0x4A00FF)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
