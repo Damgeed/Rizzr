@@ -326,7 +326,7 @@ private struct ReplyCard: View {
                 .foregroundStyle(RizzrColor.textPrimary)
                 .textSelection(.enabled)
 
-            if previewingReplyText == reply.text {
+            if isPreviewing {
                 Text("Playing")
                     .font(RizzrTypography.caption)
                     .foregroundStyle(RizzrColor.orbCyan)
