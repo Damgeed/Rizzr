@@ -22,6 +22,7 @@ struct SettingsView: View {
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .background(RizzrBackground())
+            .toolbarBackground(.hidden, for: .navigationBar)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showSavedReplies) {

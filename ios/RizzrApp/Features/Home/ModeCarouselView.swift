@@ -24,19 +24,23 @@ struct ModeCarouselView: View {
                             .padding(.vertical, RizzrSpacing.xs)
                             .frame(maxWidth: .infinity)
                             .background(
-                                selectedMode == mode ? RizzrColor.glassFill : Color.clear,
+                                selectedMode == mode ? RizzrColor.orbCoral.opacity(0.18) : Color.clear,
                                 in: Capsule()
                             )
                             .overlay(
-                                Capsule().stroke(selectedMode == mode ? RizzrColor.glassBorder : Color.clear, lineWidth: 1)
+                                Capsule().stroke(
+                                    selectedMode == mode ? RizzrColor.orbCoral.opacity(0.42) : Color.clear,
+                                    lineWidth: 1
+                                )
                             )
+                            .contentShape(Capsule())
                     }
                     .buttonStyle(.plain)
                 }
             }
             .padding(4)
-            .background(.ultraThinMaterial, in: Capsule())
-            .background(RizzrColor.glassFill, in: Capsule())
+            .background(.thinMaterial, in: Capsule())
+            .background(Color.black.opacity(0.16), in: Capsule())
             .overlay(Capsule().stroke(RizzrColor.glassBorder, lineWidth: 1))
 
             ModeCard(

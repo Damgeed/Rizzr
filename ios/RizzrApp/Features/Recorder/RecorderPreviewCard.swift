@@ -6,6 +6,7 @@ import UIKit
 #endif
 
 struct RecorderPreviewCard: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @ObservedObject var savedRepliesStore: SavedRepliesStore
     @State private var copiedReplyID: String?
@@ -14,6 +15,7 @@ struct RecorderPreviewCard: View {
     @State private var previewError: String?
     @State private var previewingReplyText: String?
     @State private var showAudioImporter = false
+    @State private var isBreathing = false
 
     var body: some View {
         GlassCard {
@@ -46,6 +48,7 @@ struct RecorderPreviewCard: View {
                 previewError = error.localizedDescription
             }
         }
+        .onAppear { isBreathing = !reduceMotion }
     }
 
     private var header: some View {
@@ -77,6 +80,17 @@ struct RecorderPreviewCard: View {
         } label: {
             ZStack {
                 Circle()
+                    .stroke(RizzrColor.orbCoral.opacity(0.24), lineWidth: 1)
+                    .frame(width: 116, height: 116)
+                    .scaleEffect(isBreathing && viewModel.state == .idle ? 1.14 : 0.92)
+                    .opacity(isBreathing && viewModel.state == .idle ? 0 : 0.8)
+
+                Circle()
+                    .fill(RizzrColor.orbCoral.opacity(0.13))
+                    .frame(width: 104, height: 104)
+                    .blur(radius: 16)
+
+                Circle()
                     .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 92, height: 92)
                     .overlay(Circle().stroke(Color.white.opacity(0.12), lineWidth: 1))
@@ -87,6 +101,11 @@ struct RecorderPreviewCard: View {
                     .foregroundStyle(.white)
             }
         }
+        .animation(
+            reduceMotion ? nil : .easeOut(duration: 2.4).repeatForever(autoreverses: false),
+            value: isBreathing
+        )
+        .buttonStyle(RecordButtonStyle())
         .disabled(isBusy)
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
     }
@@ -266,6 +285,14 @@ struct RecorderPreviewCard: View {
                 }
             }
         }
+    }
+}
+
+private struct RecordButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.94 : 1)
+            .animation(.spring(response: 0.28, dampingFraction: 0.68), value: configuration.isPressed)
     }
 }
 

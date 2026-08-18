@@ -16,6 +16,7 @@ enum RizzrColor {
 enum RizzrRadius {
     static let small: CGFloat = 12
     static let medium: CGFloat = 20
+    static let large: CGFloat = 28
     static let phone: CGFloat = 46
     static let pill: CGFloat = 999
 }
@@ -31,6 +32,7 @@ enum RizzrSpacing {
 }
 
 enum RizzrTypography {
+    static let hero = outfit(size: 36, weight: .bold)
     static let display = outfit(size: 32, weight: .bold)
     static let title = outfit(size: 24, weight: .bold)
     static let body = outfit(size: 16, weight: .regular)
