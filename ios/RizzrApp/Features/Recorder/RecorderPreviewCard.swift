@@ -6,7 +6,6 @@ import UIKit
 #endif
 
 struct RecorderPreviewCard: View {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject var viewModel: VoiceRecorderViewModel
     @ObservedObject var savedRepliesStore: SavedRepliesStore
     @State private var copiedReplyID: String?
@@ -17,27 +16,58 @@ struct RecorderPreviewCard: View {
     @State private var showAudioImporter = false
     @State private var showTextInput = false
     @State private var typedText = ""
-    @State private var isBreathing = false
 
     var body: some View {
         VStack(spacing: 0) {
             recordButton
-            statusCopy
-                .padding(.top, 22)
-            progressViz
+
+            Text(labelText)
+                .font(.custom("Outfit", fixedSize: 14).weight(.bold))
+                .tracking(1.6)
+                .foregroundStyle(Color(hex: 0x8F8F99))
+                .shadow(color: .black.opacity(0.75), radius: 10, x: 0, y: 5)
+                .padding(.top, 26)
+
             readyAction
-                .padding(.top, 20)
-            finesseDivider
-                .padding(.top, 60)
-                .padding(.bottom, 30)
-            inputActions
+                .padding(.top, 22)
+
+            progressViz
+                .padding(.top, 18)
+
+            HStack(spacing: 12) {
+                Button { showAudioImporter = true } label: {
+                    Label("Upload audio", systemImage: "square.and.arrow.up")
+                }
+                .buttonStyle(RizzrGradientActionStyle())
+
+                Button { showTextInput = true } label: {
+                    Label("Type text", systemImage: "keyboard")
+                }
+                .buttonStyle(RizzrOutlineActionStyle())
+            }
+            .font(.custom("Outfit", fixedSize: 15).weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.top, 82)
+            .disabled(isBusy || viewModel.state == .recording)
+            .opacity(shouldShowImportAction ? 1 : 0.45)
+
+            Rectangle()
+                .fill(Color.white.opacity(0.12))
+                .frame(height: 1)
+                .padding(.top, 28)
+
+            FeatureBadgeRow()
+                .padding(.top, 31)
+
             repliesList
                 .padding(.top, 24)
+
             if let previewError {
                 Text(previewError)
                     .font(RizzrTypography.caption)
                     .foregroundStyle(RizzrColor.textMuted)
                     .multilineTextAlignment(.center)
+                    .padding(.top, 12)
             }
         }
         .frame(maxWidth: .infinity)
@@ -66,23 +96,23 @@ struct RecorderPreviewCard: View {
                         showTextInput = false
                         Task { await viewModel.generateReplies(from: typedText) }
                     }
-                    .font(RizzrTypography.bodyStrong).foregroundStyle(.white)
-                    .frame(maxWidth: .infinity).padding(.vertical, RizzrSpacing.md)
-                    .background(RizzrColor.orbCoral, in: Capsule())
+                    .font(RizzrTypography.bodyStrong)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, RizzrSpacing.md)
+                    .background(RizzrReferenceGradient.gradient, in: Capsule())
                     .disabled(typedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
                 .padding(RizzrSpacing.lg)
                 .background(RizzrBackground())
-                .navigationTitle("Type the message")
+                .navigationTitle("Type text")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { showTextInput = false } } }
             }
             .presentationDetents([.medium, .large])
         }
-        .onAppear { isBreathing = !reduceMotion }
     }
 
-    @ViewBuilder
     private var recordButton: some View {
         Button {
             Task {
@@ -96,52 +126,31 @@ struct RecorderPreviewCard: View {
         } label: {
             ZStack {
                 Circle()
-                    .stroke(RizzrColor.orbCoral.opacity(0.24), lineWidth: 1)
-                    .frame(width: 194, height: 194)
-                    .scaleEffect(isBreathing && viewModel.state == .idle ? 1.14 : 0.92)
-                    .opacity(isBreathing && viewModel.state == .idle ? 0 : 0.8)
+                    .fill(RizzrReferenceGradient.gradient)
+                    .frame(width: 159, height: 159)
+                    .shadow(color: Color(hex: 0xFF3366).opacity(0.26), radius: 18, x: -8, y: -5)
+                    .shadow(color: Color(hex: 0x7000FF).opacity(0.30), radius: 28, x: 12, y: 15)
 
                 Circle()
-                    .fill(Color.black.opacity(0.16))
-                    .frame(width: 164, height: 164)
-                    .overlay(Circle().stroke(Color.white.opacity(0.46), lineWidth: 1))
-
-                Circle()
-                    .trim(from: 0.06, to: 0.94)
-                    .stroke(
-                        AngularGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet, RizzrColor.orbCoral], center: .center),
-                        style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [2, 7])
+                    .fill(
+                        RadialGradient(
+                            colors: [.white.opacity(0.18), .clear],
+                            center: .topLeading,
+                            startRadius: 4,
+                            endRadius: 118
+                        )
                     )
-                    .frame(width: 194, height: 194)
+                    .frame(width: 159, height: 159)
+                    .blendMode(.screen)
 
-                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
-                    .font(.system(size: 48, weight: .medium))
-                    .foregroundStyle(RizzrColor.orbCoral)
+                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic.fill")
+                    .font(.system(size: 53, weight: .regular))
+                    .foregroundStyle(.white)
             }
         }
-        .animation(
-            reduceMotion ? nil : .easeOut(duration: 2.4).repeatForever(autoreverses: false),
-            value: isBreathing
-        )
         .buttonStyle(RecordButtonStyle())
         .disabled(isBusy)
         .accessibilityLabel(viewModel.state == .recording ? "Stop recording" : "Start recording")
-    }
-
-    private var inputActions: some View {
-        HStack(spacing: RizzrSpacing.sm) {
-            Button { showAudioImporter = true } label: {
-                Label("Upload audio", systemImage: "square.and.arrow.up")
-            }
-            Button { showTextInput = true } label: {
-                Label("Type text", systemImage: "text.alignleft")
-            }
-        }
-        .font(RizzrTypography.bodyStrong)
-        .foregroundStyle(RizzrColor.textPrimary)
-        .buttonStyle(FinesseSecondaryButtonStyle())
-        .disabled(isBusy || viewModel.state == .recording)
-        .opacity(shouldShowImportAction ? 1 : 0)
     }
 
     @ViewBuilder
@@ -150,26 +159,13 @@ struct RecorderPreviewCard: View {
             Button {
                 Task { await viewModel.generateReplies() }
             } label: {
-                Label("Get replies", systemImage: "sparkles").frame(maxWidth: .infinity)
+                Label("Get replies", systemImage: "sparkles")
+                    .frame(maxWidth: .infinity)
             }
-            .font(RizzrTypography.bodyStrong).foregroundStyle(.white)
-            .padding(.vertical, RizzrSpacing.md)
-            .background(RizzrColor.orbCoral.opacity(0.78), in: Capsule())
-        }
-    }
-
-    private var statusCopy: some View {
-        Text(labelText)
-            .font(RizzrTypography.body)
-            .foregroundStyle(Color.white.opacity(0.66))
-            .multilineTextAlignment(.center)
-    }
-
-    private var finesseDivider: some View {
-        HStack(spacing: 16) {
-            Rectangle().fill(Color.white.opacity(0.13)).frame(height: 1)
-            Text("OR").font(RizzrTypography.caption).foregroundStyle(Color.white.opacity(0.55))
-            Rectangle().fill(Color.white.opacity(0.13)).frame(height: 1)
+            .font(.custom("Outfit", fixedSize: 15).weight(.semibold))
+            .foregroundStyle(.white)
+            .frame(height: 54)
+            .background(RizzrReferenceGradient.gradient, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
     }
 
@@ -180,13 +176,11 @@ struct RecorderPreviewCard: View {
             HStack(spacing: 5) {
                 ForEach(0..<7, id: \.self) { index in
                     Capsule()
-                        .fill(LinearGradient(colors: [RizzrColor.orbCoral, RizzrColor.orbViolet], startPoint: .bottom, endPoint: .top))
+                        .fill(RizzrReferenceGradient.gradient)
                         .frame(width: 5, height: [18, 34, 58, 28, 44, 24, 50][index])
                 }
             }
             .padding(.vertical, RizzrSpacing.xs)
-        case .complete:
-            EmptyView()
         default:
             EmptyView()
         }
@@ -211,48 +205,16 @@ struct RecorderPreviewCard: View {
         }
     }
 
-    private var cardTitle: String {
-        switch viewModel.state {
-        case .idle, .recording, .ready, .processing, .transcribing, .generating:
-            "Quick reply"
-        case .complete:
-            "Replies ready"
-        case .failed:
-            "Try again"
-        }
-    }
-
     private var labelText: String {
         switch viewModel.state {
-        case .idle: "Tap to record"
-        case .recording: "Listening…"
-        case .ready: "Voice note ready"
-        case .processing: "Preparing recording…"
-        case .transcribing: "Transcribing voice note…"
-        case .generating: "Writing replies…"
-        case .complete: "Replies ready"
-        case .failed: "Something went wrong"
-        }
-    }
-
-    private var helperCopy: String {
-        switch viewModel.state {
-        case .idle:
-            "Record a short voice note. Finesse turns it into flirty, witty, and sweet replies."
-        case .recording:
-            "Keep it natural. Short voice notes work best."
-        case .ready(let recording):
-            "Ready to process: \(recording.duration.formatted(.number.precision(.fractionLength(1))))s captured."
-        case .processing:
-            "Cleaning up the recording before reply generation."
-        case .transcribing:
-            "Turning the voice note into text."
-        case .generating(let transcript):
-            "Generating from: “\(transcript.prefix(80))”"
-        case .complete:
-            "Copy or preview audio when ready."
-        case .failed(let message):
-            message
+        case .idle: "TAP TO RECORD"
+        case .recording: "LISTENING…"
+        case .ready: "VOICE NOTE READY"
+        case .processing: "PREPARING…"
+        case .transcribing: "TRANSCRIBING…"
+        case .generating: "WRITING REPLIES…"
+        case .complete: "REPLIES READY"
+        case .failed: "TRY AGAIN"
         }
     }
 
@@ -298,12 +260,8 @@ struct RecorderPreviewCard: View {
                 let duration = max(player.duration, 0.5)
                 try await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
                 await MainActor.run {
-                    if previewReplyID == reply.id {
-                        previewReplyID = nil
-                    }
-                    if previewingReplyText == reply.text {
-                        previewingReplyText = nil
-                    }
+                    if previewReplyID == reply.id { previewReplyID = nil }
+                    if previewingReplyText == reply.text { previewingReplyText = nil }
                 }
             } catch {
                 await MainActor.run {
@@ -315,6 +273,46 @@ struct RecorderPreviewCard: View {
     }
 }
 
+private enum RizzrReferenceGradient {
+    static var gradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: 0xFF3366), Color(hex: 0x7E1BFF), Color(hex: 0x3428D8)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+}
+
+private struct FeatureBadgeRow: View {
+    var body: some View {
+        HStack(alignment: .top, spacing: 0) {
+            FeatureBadge(icon: "lock.fill", title: "No Signup")
+            FeatureBadge(icon: "bolt.fill", title: "~7s Results")
+            FeatureBadge(icon: "globe", title: "Any Language")
+        }
+    }
+}
+
+private struct FeatureBadge: View {
+    let icon: String
+    let title: String
+
+    var body: some View {
+        VStack(spacing: 9) {
+            Image(systemName: icon)
+                .font(.system(size: 19, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(height: 22)
+            Text(title)
+                .font(.custom("Outfit", fixedSize: 13).weight(.semibold))
+                .foregroundStyle(Color(hex: 0xE8E8EE))
+                .lineLimit(1)
+                .minimumScaleFactor(0.82)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
 private struct RecordButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -323,13 +321,33 @@ private struct RecordButtonStyle: ButtonStyle {
     }
 }
 
-private struct FinesseSecondaryButtonStyle: ButtonStyle {
+private struct RizzrGradientActionStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .labelStyle(.titleAndIcon)
+            .lineLimit(1)
+            .minimumScaleFactor(0.82)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, RizzrSpacing.sm)
-            .background(Color.black.opacity(configuration.isPressed ? 0.30 : 0.16), in: Capsule())
-            .overlay(Capsule().stroke(RizzrColor.glassBorder))
+            .frame(height: 56)
+            .background(RizzrReferenceGradient.gradient, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .shadow(color: Color(hex: 0xFF3366).opacity(configuration.isPressed ? 0.18 : 0.26), radius: 15, x: 0, y: 8)
+            .scaleEffect(configuration.isPressed ? 0.965 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
+    }
+}
+
+private struct RizzrOutlineActionStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .labelStyle(.titleAndIcon)
+            .lineLimit(1)
+            .minimumScaleFactor(0.82)
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .background(Color(hex: 0x101014).opacity(configuration.isPressed ? 0.92 : 0.76), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.white.opacity(0.18), lineWidth: 1))
+            .scaleEffect(configuration.isPressed ? 0.965 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.72), value: configuration.isPressed)
     }
 }
 
