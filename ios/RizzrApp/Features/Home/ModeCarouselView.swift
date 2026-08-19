@@ -30,43 +30,53 @@ struct ModeCarouselView: View {
     }
 
     private var modeStrip: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                ForEach(RizzrMode.allCases) { mode in
-                    Button {
-                        withAnimation(.snappy(duration: 0.26)) { selection.wrappedValue = mode }
-                        RizzrHaptics.selection()
-                    } label: {
+        HStack(spacing: 0) {
+            ForEach(RizzrMode.allCases) { mode in
+                Button {
+                    withAnimation(.snappy(duration: 0.26)) { selection.wrappedValue = mode }
+                    RizzrHaptics.selection()
+                } label: {
+                    VStack(spacing: 9) {
                         Text(mode.title)
-                            .font(.custom("Outfit", fixedSize: 20).weight(selection.wrappedValue == mode ? .black : .heavy))
-                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF006E) : Color(hex: 0x83838D))
-                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF006E).opacity(0.44) : .clear, radius: 12, x: 0, y: 6)
+                            .font(.custom("Outfit", fixedSize: selection.wrappedValue == mode ? 21 : 19).weight(selection.wrappedValue == mode ? .black : .heavy))
+                            .foregroundStyle(selection.wrappedValue == mode ? Color(hex: 0xFF006E) : Color(hex: 0x7C7C86))
+                            .tracking(selection.wrappedValue == mode ? -0.28 : -0.08)
+                            .shadow(color: selection.wrappedValue == mode ? Color(hex: 0xFF006E).opacity(0.52) : .clear, radius: 13, x: 0, y: 6)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 43)
-                            .contentShape(Rectangle())
+
+                        ZStack {
+                            Capsule()
+                                .fill(Color.clear)
+                                .frame(width: 58, height: 3.5)
+
+                            if selection.wrappedValue == mode {
+                                Capsule()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color(hex: 0xFF2A93), Color(hex: 0xFF006E)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .frame(width: 58, height: 3.5)
+                                    .shadow(color: Color(hex: 0xFF006E).opacity(0.72), radius: 8, x: 0, y: -1)
+                                    .transition(.opacity.combined(with: .scale(scale: 0.92)))
+                            }
+                        }
                     }
-                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
             }
-            .padding(.horizontal, 21)
-
-            GeometryReader { proxy in
-                let tabWidth = proxy.size.width / CGFloat(RizzrMode.allCases.count)
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.22))
-                        .frame(height: 1)
-
-                    Capsule()
-                        .fill(Color(hex: 0xFF006E))
-                        .frame(width: tabWidth, height: 3.5)
-                        .offset(x: tabWidth * CGFloat(selection.wrappedValue.index))
-                        .shadow(color: Color(hex: 0xFF006E).opacity(0.48), radius: 8, x: 0, y: -1)
-                        .animation(.snappy(duration: 0.26), value: selection.wrappedValue)
-                }
-            }
-            .frame(height: 3.5)
-            .padding(.horizontal, 21)
+        }
+        .padding(.horizontal, 21)
+        .background(alignment: .bottom) {
+            Rectangle()
+                .fill(Color(hex: 0x30303A).opacity(0.95))
+                .frame(height: 1)
+                .padding(.horizontal, 21)
         }
     }
 }
