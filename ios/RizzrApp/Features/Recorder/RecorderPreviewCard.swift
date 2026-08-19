@@ -126,37 +126,76 @@ struct RecorderPreviewCard: View {
         } label: {
             ZStack {
                 Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [Color(hex: 0xFF006E).opacity(0.38), Color(hex: 0x6B00FF).opacity(0.20), .clear],
+                            center: .center,
+                            startRadius: 42,
+                            endRadius: 132
+                        )
+                    )
+                    .frame(width: 244, height: 244)
+                    .blur(radius: 18)
+
+                Circle()
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color(hex: 0xFF2A93).opacity(0.58), Color(hex: 0x8F00FF).opacity(0.38), .white.opacity(0.04)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.6
+                    )
+                    .frame(width: 216, height: 216)
+                    .blur(radius: 0.35)
+
+                Circle()
                     .fill(RizzrReferenceGradient.gradient)
                     .frame(width: 200, height: 200)
                     .overlay(
                         Circle()
                             .stroke(
                                 LinearGradient(
-                                    colors: [.white.opacity(0.34), .white.opacity(0.06)],
+                                    colors: [.white.opacity(0.42), .white.opacity(0.08), Color(hex: 0xFF006E).opacity(0.18)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
-                                lineWidth: 1.2
+                                lineWidth: 1.4
                             )
                     )
-                    .shadow(color: Color(hex: 0xFF006E).opacity(0.74), radius: 31, x: -11, y: -7)
-                    .shadow(color: Color(hex: 0x5B00FF).opacity(0.88), radius: 48, x: 16, y: 24)
-                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.24), radius: 10, x: 0, y: 2)
+                    .shadow(color: Color(hex: 0xFF006E).opacity(0.82), radius: 34, x: -12, y: -8)
+                    .shadow(color: Color(hex: 0x5B00FF).opacity(0.96), radius: 52, x: 18, y: 26)
+                    .shadow(color: Color(hex: 0xFF0A78).opacity(0.30), radius: 12, x: 0, y: 2)
 
                 Circle()
                     .fill(
                         RadialGradient(
-                            colors: [.white.opacity(0.18), .clear],
-                            center: .topLeading,
-                            startRadius: 4,
-                            endRadius: 112
+                            colors: [.white.opacity(0.24), .white.opacity(0.05), .clear],
+                            center: UnitPoint(x: 0.34, y: 0.24),
+                            startRadius: 2,
+                            endRadius: 120
                         )
                     )
-                    .frame(width: 200, height: 200)
+                    .frame(width: 194, height: 194)
+                    .offset(x: -6, y: -8)
                     .blendMode(.screen)
 
                 Circle()
-                    .stroke(Color.white.opacity(0.10), lineWidth: 8)
+                    .fill(
+                        LinearGradient(
+                            colors: [.white.opacity(0.12), .clear],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: 162, height: 72)
+                    .scaleEffect(x: 1.18, y: 0.62)
+                    .offset(y: -54)
+                    .blur(radius: 10)
+                    .blendMode(.screen)
+
+                Circle()
+                    .stroke(Color.white.opacity(0.13), lineWidth: 8)
                     .frame(width: 174, height: 174)
                     .blur(radius: 0.5)
 
