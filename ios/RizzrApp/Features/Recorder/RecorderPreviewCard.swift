@@ -199,10 +199,20 @@ struct RecorderPreviewCard: View {
                     .frame(width: 174, height: 174)
                     .blur(radius: 0.5)
 
-                Image(systemName: viewModel.state == .recording ? "stop.fill" : "mic")
-                    .font(.system(size: viewModel.state == .recording ? 62 : 72, weight: .black))
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
+                if viewModel.state == .recording {
+                    Image(systemName: "stop.fill")
+                        .font(.system(size: 62, weight: .black))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.26), radius: 8, x: 0, y: 4)
+                } else {
+                    RizzrMicGlyph()
+                        .stroke(
+                            .white,
+                            style: StrokeStyle(lineWidth: 6.2, lineCap: .round, lineJoin: .round)
+                        )
+                        .frame(width: 72, height: 88)
+                        .shadow(color: .black.opacity(0.28), radius: 8, x: 0, y: 4)
+                }
             }
         }
         .buttonStyle(RecordButtonStyle())
@@ -376,6 +386,31 @@ private struct RecordButtonStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.94 : 1)
             .animation(.spring(response: 0.28, dampingFraction: 0.68), value: configuration.isPressed)
+    }
+}
+
+private struct RizzrMicGlyph: Shape {
+    func path(in rect: CGRect) -> Path {
+        let scale = min(rect.width / 72, rect.height / 88)
+        let width = 72 * scale
+        let height = 88 * scale
+        let x = rect.midX - width / 2
+        let y = rect.midY - height / 2
+        func p(_ px: CGFloat, _ py: CGFloat) -> CGPoint { CGPoint(x: x + px * scale, y: y + py * scale) }
+        func r(_ rx: CGFloat, _ ry: CGFloat, _ rw: CGFloat, _ rh: CGFloat) -> CGRect {
+            CGRect(x: x + rx * scale, y: y + ry * scale, width: rw * scale, height: rh * scale)
+        }
+
+        var path = Path()
+        path.addRoundedRect(in: r(20, 3, 32, 51), cornerSize: CGSize(width: 16 * scale, height: 16 * scale))
+        path.move(to: p(8, 36))
+        path.addCurve(to: p(36, 66), control1: p(8, 54), control2: p(20, 66))
+        path.addCurve(to: p(64, 36), control1: p(52, 66), control2: p(64, 54))
+        path.move(to: p(36, 66))
+        path.addLine(to: p(36, 82))
+        path.move(to: p(22, 82))
+        path.addLine(to: p(50, 82))
+        return path
     }
 }
 
